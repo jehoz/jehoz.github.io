@@ -3,7 +3,7 @@
 module MarkdownParser where
 
 import Data.Char (isAlphaNum, isPrint, isSpace)
-import Data.Text (Text)
+import Data.Text.Lazy (Text)
 import Data.Void (Void)
 import Document
 import Text.Megaparsec
