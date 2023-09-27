@@ -14,7 +14,9 @@ common warnings
 executable jehoz-github-io
   import:           warnings
   main-is:          Main.hs
-  other-modules:    MarkdownParser
+  other-modules:    
+    , MarkdownParser
+    , Document
   build-depends:
     , base                  ^>=4.16.4.0
     , blaze-html

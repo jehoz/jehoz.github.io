@@ -5,22 +5,9 @@ module MarkdownParser where
 import Data.Char (isAlphaNum, isPrint, isSpace)
 import Data.Text (Text)
 import Data.Void (Void)
+import Document
 import Text.Megaparsec
 import Text.Megaparsec.Char
-
-newtype Document = Document [Block]
-
-data Block
-  = BParagraph Paragraph
-
-newtype Paragraph = Paragraph [Inline]
-
-data Inline
-  = Space
-  | LineBreak
-  | Plain Text
-  | Emphasis Text
-  | Strong Text
 
 type Parser = Parsec Void Text
 
