@@ -2,6 +2,7 @@
 
 module MarkdownParser where
 
+import Control.Monad (MonadPlus)
 import Data.Text.Lazy (Text, pack, singleton)
 import Data.Void (Void)
 import Document
@@ -47,18 +48,28 @@ pSpace = try $ hspace1 >> return Space
 
 pStrong :: Parser Inline
 pStrong =
-  let stars = try $ string "**" >> manyTill pInline (string "**")
-      unders = try $ string "__" >> manyTill pInline (string "__")
+  let stars = try $ string "**" `enclosingSome` pInline
+      unders = try $ string "__" `enclosingSome` pInline
    in Strong <$> (stars <|> unders)
 
 pEmphasis :: Parser Inline
 pEmphasis =
-  let stars = try $ string "*" >> manyTill pInline (string "*")
-      unders = try $ string "_" >> manyTill pInline (string "_")
+  let stars = try $ string "*" `enclosingSome` pInline
+      unders = try $ string "_" `enclosingSome` pInline
    in Emphasis <$> (stars <|> unders)
 
 pPlain :: Parser Inline
 pPlain =
   let alphaNum = try $ pack <$> some alphaNumChar
-      misc = try $ singleton <$> printChar
+      misc = try $ singleton <$> anySingle
    in Plain <$> (alphaNum <|> misc)
+
+-------------------
+-- Helper functions
+-------------------
+
+enclosingMany :: MonadPlus m => m end -> m a -> m [a]
+enclosingMany bound p = bound >> manyTill p bound
+
+enclosingSome :: MonadPlus m => m end -> m a -> m [a]
+enclosingSome bound p = bound >> someTill p bound
