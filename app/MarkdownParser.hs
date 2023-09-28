@@ -31,6 +31,7 @@ pInline =
       pSpace,
       pStrong,
       pEmphasis,
+      pCodeSpan,
       pPlain
     ]
 
@@ -58,10 +59,15 @@ pEmphasis =
       unders = try $ string "_" `enclosingSome` pInline
    in Emphasis <$> (stars <|> unders)
 
+pCodeSpan :: Parser Inline
+pCodeSpan = try $ do
+  backticks <- pack <$> some (char '`')
+  CodeSpan <$> manyTill (pSoftBreak <|> pSpace <|> pPlain) (string backticks)
+
 pPlain :: Parser Inline
 pPlain =
   let alphaNum = try $ pack <$> some alphaNumChar
-      misc = try $ singleton <$> anySingle
+      misc = try $ singleton <$> printChar
    in Plain <$> (alphaNum <|> misc)
 
 -------------------

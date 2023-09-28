@@ -17,6 +17,7 @@ data Inline
   | Plain Text
   | Emphasis [Inline]
   | Strong [Inline]
+  | CodeSpan [Inline]
 
 --------------------
 -- ToMarkup intances
@@ -36,3 +37,4 @@ instance ToMarkup Inline where
     Plain text -> toMarkup text
     Emphasis inlines -> Html.em $ mapM_ toMarkup inlines
     Strong inlines -> Html.strong $ mapM_ toMarkup inlines
+    CodeSpan inlines -> Html.code $ mapM_ toMarkup inlines
