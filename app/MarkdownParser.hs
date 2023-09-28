@@ -15,9 +15,9 @@ pDocument :: Parser Document
 pDocument = Document <$> some pBlock
 
 pBlock :: Parser Block
-pBlock = space >> choice [BParagraph <$> pParagraph]
+pBlock = space >> choice [pParagraph]
 
-pParagraph :: Parser Paragraph
+pParagraph :: Parser Block
 pParagraph = try $ do
   inlines <- some pInline
   _ <- eol >> hspace >> eol >> space

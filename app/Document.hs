@@ -10,9 +10,7 @@ import qualified Text.Blaze.Html5 as Html
 newtype Document = Document [Block]
 
 data Block
-  = BParagraph Paragraph
-
-newtype Paragraph = Paragraph [Inline]
+  = Paragraph [Inline]
 
 data Inline
   = Space
@@ -30,10 +28,7 @@ instance ToMarkup Document where
 
 instance ToMarkup Block where
   toMarkup block = case block of
-    BParagraph par -> toMarkup par
-
-instance ToMarkup Paragraph where
-  toMarkup (Paragraph inlines) = Html.p $ forM_ inlines toMarkup
+    Paragraph inlines -> Html.p $ forM_ inlines toMarkup
 
 instance ToMarkup Inline where
   toMarkup inline = case inline of
