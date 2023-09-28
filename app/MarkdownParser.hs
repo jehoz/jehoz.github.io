@@ -2,8 +2,7 @@
 
 module MarkdownParser where
 
-import Data.Char (isAlphaNum, isPrint, isSpace)
-import Data.Text.Lazy (Text)
+import Data.Text.Lazy (Text, pack, singleton)
 import Data.Void (Void)
 import Document
 import Text.Megaparsec
@@ -29,6 +28,8 @@ pInline =
     [ pLineBreak,
       pSoftBreak,
       pSpace,
+      pStrong,
+      pEmphasis,
       pPlain
     ]
 
@@ -44,5 +45,20 @@ pSoftBreak = try $ hspace >> eol >> hspace >> notFollowedBy eol >> return Space
 pSpace :: Parser Inline
 pSpace = try $ hspace1 >> return Space
 
+pStrong :: Parser Inline
+pStrong =
+  let stars = try $ string "**" >> manyTill pInline (string "**")
+      unders = try $ string "__" >> manyTill pInline (string "__")
+   in Strong <$> (stars <|> unders)
+
+pEmphasis :: Parser Inline
+pEmphasis =
+  let stars = try $ string "*" >> manyTill pInline (string "*")
+      unders = try $ string "_" >> manyTill pInline (string "_")
+   in Emphasis <$> (stars <|> unders)
+
 pPlain :: Parser Inline
-pPlain = Plain <$> takeWhile1P (Just "alphanumeric") (\c -> isPrint c && not (isSpace c))
+pPlain =
+  let alphaNum = try $ pack <$> some alphaNumChar
+      misc = try $ singleton <$> printChar
+   in Plain <$> (alphaNum <|> misc)
