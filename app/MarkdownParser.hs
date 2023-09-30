@@ -31,6 +31,8 @@ pInline =
       pSpace,
       pStrong,
       pEmphasis,
+      pInlineLink,
+      pAutoLink,
       pCodeSpan,
       pPlain
     ]
@@ -59,6 +61,27 @@ pEmphasis =
       unders = try $ string "_" `enclosingSome` pInline
    in Emphasis <$> (stars <|> unders)
 
+pUri :: Parser Uri
+pUri =
+  let uriChar =
+        choice
+          [ alphaNumChar,
+            oneOf (";,/?:@&=+$-_.!~*'#" :: [Char]),
+            char '\\' >> oneOf ("()" :: [Char])
+          ]
+   in try $ some uriChar
+
+pInlineLink :: Parser Inline
+pInlineLink = try $ do
+  let simpleInline = choice [pLineBreak, pSoftBreak, pSpace, pStrong, pEmphasis, pCodeSpan, pPlain]
+  display <- someBetween (char '[') (char ']') simpleInline
+  uri <- between (char '(') (char ')') pUri
+  title <- optional $ someBetween (char '"') (char '"') printChar
+  return $ InlineLink display uri title
+
+pAutoLink :: Parser Inline
+pAutoLink = AutoLink <$> someBetween (char '<') (char '>') printChar
+
 pCodeSpan :: Parser Inline
 pCodeSpan = try $ do
   backticks <- pack <$> some (char '`')
@@ -74,8 +97,14 @@ pPlain =
 -- Helper functions
 -------------------
 
+manyBetween :: MonadPlus m => m start -> m end -> m a -> m [a]
+manyBetween start end p = start >> manyTill p end
+
+someBetween :: MonadPlus m => m start -> m end -> m a -> m [a]
+someBetween start end p = start >> someTill p end
+
 enclosingMany :: MonadPlus m => m end -> m a -> m [a]
-enclosingMany bound p = bound >> manyTill p bound
+enclosingMany bound = manyBetween bound bound
 
 enclosingSome :: MonadPlus m => m end -> m a -> m [a]
-enclosingSome bound p = bound >> someTill p bound
+enclosingSome bound = someBetween bound bound

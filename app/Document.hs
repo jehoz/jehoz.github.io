@@ -3,13 +3,16 @@
 module Document where
 
 import Data.Text.Lazy (Text)
-import Text.Blaze.Html5 (ToMarkup (..), docTypeHtml)
+import Text.Blaze.Html5 (ToMarkup (..), docTypeHtml, (!))
 import qualified Text.Blaze.Html5 as Html
+import qualified Text.Blaze.Html5.Attributes as Attr
 
 newtype Document = Document [Block]
 
 data Block
   = Paragraph [Inline]
+
+type Uri = String
 
 data Inline
   = Space
@@ -18,6 +21,8 @@ data Inline
   | Emphasis [Inline]
   | Strong [Inline]
   | CodeSpan [Inline]
+  | InlineLink [Inline] Uri (Maybe String)
+  | AutoLink Uri
 
 --------------------
 -- ToMarkup intances
@@ -38,3 +43,10 @@ instance ToMarkup Inline where
     Emphasis inlines -> Html.em $ mapM_ toMarkup inlines
     Strong inlines -> Html.strong $ mapM_ toMarkup inlines
     CodeSpan inlines -> Html.code $ mapM_ toMarkup inlines
+    InlineLink text uri title ->
+      let uri' = Html.stringValue uri
+          title' = Html.stringValue <$> title
+       in case title' of
+            Just t -> Html.a ! Attr.href uri' ! Attr.title t $ mapM_ toMarkup text
+            Nothing -> Html.a ! Attr.href uri' $ mapM_ toMarkup text
+    AutoLink uri -> Html.a ! Attr.href (Html.stringValue uri) $ toMarkup uri
