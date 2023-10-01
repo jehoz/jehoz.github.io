@@ -16,8 +16,6 @@ executable jehoz-github-io
   main-is:          Main.hs
   other-modules:    
     , MarkdownNode
-    , MarkdownParser
-    , Document
   build-depends:
     , base                  ^>=4.16.4.0
     , blaze-html
