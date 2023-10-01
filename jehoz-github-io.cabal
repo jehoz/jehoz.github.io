@@ -22,7 +22,6 @@ executable jehoz-github-io
     , cmark
     , directory
     , filepath
-    , megaparsec
     , optparse-applicative
     , text
 
