@@ -6,6 +6,7 @@ import Control.Monad (filterM, zipWithM_)
 import Data.List (nub, partition)
 import qualified Data.Text.IO as T
 import Data.Text.Lazy (toStrict)
+import FileUtils (getRelativePathsInside)
 import MarkdownNode
 import Options.Applicative
 import System.Directory (copyFile, createDirectoryIfMissing, doesDirectoryExist, doesFileExist, listDirectory)
@@ -41,19 +42,6 @@ options =
 
 optInfo :: ParserInfo Options
 optInfo = info (helper <*> options) fullDesc
-
--- | Get a list of relative paths to all files (not directories) inside the
--- given directory and all subdirectories.
-getRelativePathsInside :: FilePath -> IO [FilePath]
-getRelativePathsInside parent = do
-  names <- listDirectory parent
-  files <- filterM (doesFileExist . (parent </>)) names
-  dirs <- filterM (doesDirectoryExist . (parent </>)) names
-  (files ++) . concat <$> mapM recur dirs
-  where
-    recur subd = do
-      ps <- getRelativePathsInside (parent </> subd)
-      return $ (subd </>) <$> ps
 
 -- | Parse a given Markdown file at first path.  Use it to generate an HTML
 -- file saved to second path.

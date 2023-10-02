@@ -15,6 +15,7 @@ executable jehoz-github-io
   import:           warnings
   main-is:          Main.hs
   other-modules:    
+    , FileUtils
     , MarkdownNode
   build-depends:
     , base                  ^>=4.16.4.0
