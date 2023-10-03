@@ -2,14 +2,14 @@
 
 module Main where
 
-import Control.Monad (filterM, zipWithM_)
+import Control.Monad (zipWithM_)
 import Data.List (nub, partition)
 import qualified Data.Text.IO as T
 import Data.Text.Lazy (toStrict)
 import FileUtils (getRelativePathsInside)
 import MarkdownNode
 import Options.Applicative
-import System.Directory (copyFile, createDirectoryIfMissing, doesDirectoryExist, doesFileExist, listDirectory)
+import System.Directory (copyFile, createDirectoryIfMissing)
 import System.FilePath (isExtensionOf, takeDirectory, (-<.>), (</>))
 import Text.Blaze.Html.Renderer.Text (renderHtml)
 import Text.Blaze.Html5 (toHtml)
