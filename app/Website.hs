@@ -4,7 +4,7 @@
 module Website where
 
 import CMark (commonmarkToNode)
-import Control.Monad (forM)
+import Control.Monad (forM, forM_)
 import Data.Bifunctor (Bifunctor (..))
 import Data.List (partition)
 import Data.Maybe (fromMaybe)
@@ -17,8 +17,11 @@ import Data.Time (Day, defaultTimeLocale, parseTimeM)
 import Data.YAML
 import FileUtils (getRelativePathsInside)
 import MarkdownNode
+import System.Directory (copyFile, createDirectoryIfMissing)
 import System.Exit (die)
-import System.FilePath (isExtensionOf, (</>))
+import System.FilePath (isExtensionOf, takeDirectory, (</>), (-<.>))
+import Text.Blaze.Html.Renderer.Text (renderHtml)
+import Text.Blaze.Html5 (toHtml)
 
 data Website = Website
   { websiteRootDir :: FilePath,
@@ -50,8 +53,8 @@ instance FromYAML Day where
       Just day -> return day
       Nothing -> fail "Malformed date value, should be YYYY-MM-DD"
 
-loadConent :: FilePath -> IO Website
-loadConent contentDir = do
+readContent :: FilePath -> IO Website
+readContent contentDir = do
   relPaths <- getRelativePathsInside contentDir
 
   let (mdFiles, otherFiles) = partition (".md" `isExtensionOf`) relPaths
@@ -59,7 +62,7 @@ loadConent contentDir = do
   articles <- forM mdFiles $ \rpath -> do
     mdText <- TIO.readFile (contentDir </> rpath)
     case parseArticle mdText of
-      Left err -> die (T.unpack err)
+      Left err -> die ("Error parsing " <> rpath <> "\n" <> T.unpack err)
       Right (Article props nodes) ->
         return $ Article (props {articlePath = rpath}) nodes
 
@@ -72,11 +75,31 @@ parseArticle text = do
     (l : ls) -> Right (l, ls)
 
   (frontMatter, markdown) <- case T.strip firstLine of
-    "___" -> Right $ bimap T.unlines (T.unlines . tail) $ span ((/= "---") . T.strip) restLines
+    "---" ->
+      Right $
+        bimap T.unlines (T.unlines . tail) $
+          span ((/= "---") . T.strip) restLines
     _ -> Left $ "Expected front matter, found \"" <> firstLine <> "\" instead"
 
-  props <- case decode1 (TE.encodeUtf8 (TL.fromStrict frontMatter)) of
-    Left (_, e) -> Left (T.pack e)
-    Right p -> Right p
+  let encodedText = TE.encodeUtf8 (TL.fromStrict frontMatter)
+  props <- case decode1 encodedText of
+    Left (pos, e) -> Left . T.pack $ prettyPosWithSource pos encodedText " error" <> e
+    Right prop -> Right prop
 
   Right $ Article props (MarkdownNode $ commonmarkToNode [] markdown)
+
+buildWebsite :: Website -> FilePath -> IO ()
+buildWebsite (Website sourceDir articles staticFiles) outputDir = do
+  -- render html pages for articles
+  forM_ articles $ \(Article props node) -> do
+    let writePath = outputDir </> articlePath props -<.> "html"
+        htmlText = renderHtml (toHtml node)
+    createDirectoryIfMissing True (takeDirectory writePath)
+    TIO.writeFile writePath (TL.toStrict htmlText)
+
+  -- copy static files
+  forM_ staticFiles $ \rpath -> do
+    let fromPath = sourceDir </> rpath
+        toPath = outputDir </> rpath
+    createDirectoryIfMissing True (takeDirectory toPath)
+    copyFile fromPath toPath
