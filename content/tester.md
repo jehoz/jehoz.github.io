@@ -1,3 +1,8 @@
+---
+title: Markdown test page
+date: 2023-10-1
+---
+
 # Markdown tester page
 
 ## Headers
