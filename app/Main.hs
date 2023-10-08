@@ -2,17 +2,7 @@
 
 module Main where
 
-import Control.Monad (zipWithM_)
-import Data.List (nub, partition)
-import qualified Data.Text.IO as T
-import Data.Text.Lazy (toStrict)
-import FileUtils (getRelativePathsInside)
-import MarkdownNode
 import Options.Applicative
-import System.Directory (copyFile, createDirectoryIfMissing)
-import System.FilePath (isExtensionOf, takeDirectory, (-<.>), (</>))
-import Text.Blaze.Html.Renderer.Text (renderHtml)
-import Text.Blaze.Html5 (toHtml)
 import Website (buildWebsite, readContent)
 
 data Options = Options
@@ -52,7 +42,7 @@ main = do
       outputDir = optOutputDir opts
 
   putStrLn "Reading website content..."
-  site <- readContent contentDir 
+  site <- readContent contentDir
 
   putStrLn "Building website..."
   buildWebsite site outputDir

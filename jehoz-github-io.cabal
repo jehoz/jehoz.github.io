@@ -1,23 +1,22 @@
-cabal-version:   3.0
-name:            jehoz-github-io
-version:         0.1.0.0
-license:         GPL-3.0-only
-license-file:    LICENSE
-author:          jehoz
-maintainer:      jesseholzman96@gmail.com
-build-type:      Simple
-extra-doc-files: README.md
+cabal-version: 3.0
+name:          website
+version:       0.1.0.0
+license:       GPL-3.0-only
+license-file:  LICENSE
+author:        jehoz
+build-type:    Simple
 
 common warnings
   ghc-options: -Wall
 
-executable jehoz-github-io
+library
   import:           warnings
-  main-is:          Main.hs
-  other-modules:    
-    , FileUtils
-    , MarkdownNode
-    , Website
+  exposed-modules:
+    Website
+    Website.IO
+    Website.Parsers
+    Website.Types
+
   build-depends:
     , base                  ^>=4.16.4.0
     , blaze-html
@@ -25,9 +24,19 @@ executable jehoz-github-io
     , directory
     , filepath
     , HsYAML
-    , optparse-applicative
     , text
     , time
+
+  hs-source-dirs:   src
+  default-language: Haskell2010
+
+executable jehoz-github-io
+  import:           warnings
+  main-is:          Main.hs
+  build-depends:
+    , base             ^>=4.16.4.0
+    , optparse-applicative
+    , website
 
   hs-source-dirs:   app
   default-language: Haskell2010

@@ -1,17 +1,48 @@
 {-# LANGUAGE OverloadedStrings #-}
 
-module MarkdownNode where
+module Website.Types where
 
-import CMark (ListAttributes (..), ListType (..), Node (..), NodeType (..), commonmarkToNode)
+import CMark (ListType (..), Node (Node), NodeType (..), ListAttributes (..))
 import Data.Text (Text)
-import Text.Blaze.Html5 (ToMarkup (..), ToValue (toValue), textValue, (!))
+import qualified Data.Text as T
+import Data.Time (Day, parseTimeM, defaultTimeLocale)
+import Data.YAML (FromYAML (parseYAML), withMap, (.:), (.:?), withStr)
+import Text.Blaze.Html5 (ToMarkup (toMarkup), textValue, (!), ToValue (..))
 import qualified Text.Blaze.Html5 as Html
 import qualified Text.Blaze.Html5.Attributes as Attr
+import Data.Maybe (fromMaybe)
+
+data Website = Website
+  { websiteRootDir :: FilePath,
+    websiteArticles :: [Article],
+    websiteStaticFiles :: [FilePath]
+  }
+
+data Article = Article ArticleProps MarkdownNode
+
+data ArticleProps = ArticleProps
+  { articlePath :: FilePath,
+    articleTitle :: Text,
+    articleDate :: Day,
+    articleTags :: [Tag]
+  }
+
+type Tag = Text
+
+instance FromYAML ArticleProps where
+  parseYAML = withMap "Article" $ \m -> do
+    title <- m .: "title"
+    date <- m .: "date"
+    tags <- fromMaybe [] <$> m .:? "tags"
+    return $ ArticleProps "" title date tags
+
+instance FromYAML Day where
+  parseYAML = withStr "Day" $ \s ->
+    case parseTimeM True defaultTimeLocale "%Y-%-m-%-d" (T.unpack s) of
+      Just day -> return day
+      Nothing -> fail "Malformed date value, should be YYYY-MM-DD"
 
 newtype MarkdownNode = MarkdownNode {getNode :: Node}
-
-parseMarkdownNode :: Text -> MarkdownNode
-parseMarkdownNode = MarkdownNode . commonmarkToNode []
 
 instance ToMarkup MarkdownNode where
   toMarkup (MarkdownNode (Node _ nodeType children)) =
