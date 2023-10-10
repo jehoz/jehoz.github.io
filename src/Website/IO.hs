@@ -1,3 +1,6 @@
+-- | Module: Website.IO
+--
+-- Functions for reading and writing website content from/to the filesystem.
 module Website.IO where
 
 import Control.Monad (filterM, forM, forM_)
@@ -13,6 +16,9 @@ import Text.Blaze.Html.Renderer.Text (renderHtml)
 import Website.Parsers
 import Website.Types
 
+-- | Traverse through a directory, parse all @.md@ files as `Article`s and
+-- treat the rest as static files.
+-- Use all of this to populate a `Website`
 readContent :: FilePath -> IO Website
 readContent contentDir = do
   relPaths <- getRelativePathsInside contentDir
@@ -28,6 +34,10 @@ readContent contentDir = do
 
   return $ Website contentDir articles otherFiles
 
+-- | Generate all of the files for a static site in the given directory.
+-- This involves rendering each article as an html page, and simply copying
+-- the static files from the content directory (keeping the original directory
+-- structure)
 buildWebsite :: Website -> FilePath -> IO ()
 buildWebsite (Website sourceDir articles staticFiles) outputDir = do
   -- render html pages for articles
