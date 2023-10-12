@@ -19,18 +19,23 @@ import qualified Text.Blaze.Html5.Attributes as Attr
 data Website = Website
   { -- | Directory containing all website content
     websiteRootDir :: FilePath,
-    -- | List of pages parsed from markdown files found in root oirectory
+    -- | List of pages parsed from markdown files found in root directory
     websitePages :: [Page],
     -- | Relative paths to all non-markdown files found in root directory
     websiteStaticFiles :: [FilePath]
   }
 
+-- | A page of content on the website
 data Page = Page
-  { pageSourcePath :: FilePath,
+  { -- | Path to the original markdown file
+    pageSourcePath :: FilePath,
+    -- | Map of attributes taken from front matter
     pageAttrs :: Map Text PageAttr,
+    -- | Markdown AST parsed from source file
     pageContent :: MarkdownNode
   }
 
+-- | Supported types of attributes defined in a page's front matter
 data PageAttr
   = PABool Bool
   | PAInt Integer

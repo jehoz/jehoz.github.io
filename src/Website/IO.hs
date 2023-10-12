@@ -16,31 +16,30 @@ import Text.Blaze.Html.Renderer.Text (renderHtml)
 import Website.Parsers
 import Website.Types
 
--- | Traverse through a directory, parse all @.md@ files as `Article`s and
--- treat the rest as static files.
--- Use all of this to populate a `Website`
+-- | Traverse through a directory, parse all @.md@ files as `Page`s and treat
+-- the rest as static files.  Use all of this to populate a `Website`
 readContent :: FilePath -> IO Website
 readContent contentDir = do
   relPaths <- getRelativePathsInside contentDir
 
   let (mdFiles, otherFiles) = partition (".md" `isExtensionOf`) relPaths
 
-  articles <- forM mdFiles $ \rpath -> do
+  pages <- forM mdFiles $ \rpath -> do
     mdText <- TIO.readFile (contentDir </> rpath)
     case parsePage mdText of
       Left err -> die ("Error parsing " <> rpath <> "\n" <> T.unpack err)
       Right page ->
         return $ page {pageSourcePath = rpath}
 
-  return $ Website contentDir articles otherFiles
+  return $ Website contentDir pages otherFiles
 
 -- | Generate all of the files for a static site in the given directory.
--- This involves rendering each article as an html page, and simply copying
--- the static files from the content directory (keeping the original directory
+-- This involves rendering each page as an html file, and simply copying the
+-- static files from the content directory (keeping the original directory
 -- structure)
 buildWebsite :: Website -> FilePath -> IO ()
 buildWebsite (Website sourceDir pages staticFiles) outputDir = do
-  -- render html pages for articles
+  -- render html pages
   forM_ pages $ \p -> do
     let writePath = outputDir </> pageSourcePath p -<.> "html"
         htmlText = renderHtml (toHtml $ pageContent p)

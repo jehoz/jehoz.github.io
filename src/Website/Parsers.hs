@@ -14,7 +14,7 @@ import qualified Data.Text.Lazy.Encoding as TE
 import Data.YAML (decode1, prettyPosWithSource)
 import Website.Types
 
--- | Attempt to parse the content of a markdown file into an `Article`.
+-- | Attempt to parse the content of a markdown file into an `Page`.
 -- Expects the file to begin with font-matter like so:
 --
 -- > ---
@@ -25,9 +25,8 @@ import Website.Types
 -- > ...
 --
 -- Where everything between the @---@ lines is parsed as a YAML defining some
--- metadata values (title and date which are mandatory, along with an optional
--- list of tags).  Everything underneath the front matter is treated as the
--- markdown-formatted content of the article.
+-- metadata values.  Everything underneath the front matter is treated as the
+-- markdown-formatted content of the page.
 parsePage :: Text -> Either Text Page
 parsePage text = do
   (firstLine, restLines) <- case T.lines text of
