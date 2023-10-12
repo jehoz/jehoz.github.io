@@ -1,5 +1,4 @@
 {-# LANGUAGE OverloadedStrings #-}
-{-# OPTIONS_GHC -Wno-orphans #-}
 
 -- | Module: Types
 --
@@ -8,58 +7,48 @@
 module Website.Types where
 
 import CMark (ListAttributes (..), ListType (..), Node (Node), NodeType (..))
-import Data.Maybe (fromMaybe)
+import Control.Applicative (asum)
+import Data.Map (Map)
 import Data.Text (Text)
-import qualified Data.Text as T
-import Data.Time (Day, defaultTimeLocale, parseTimeM)
-import Data.YAML (FromYAML (parseYAML), withMap, withStr, (.:), (.:?))
+import Data.YAML (FromYAML (parseYAML))
 import Text.Blaze.Html5 (ToMarkup (toMarkup), ToValue (..), textValue, (!))
 import qualified Text.Blaze.Html5 as Html
 import qualified Text.Blaze.Html5.Attributes as Attr
 
 -- | The encapsulation of all of the content within a website
 data Website = Website
-  { -- | Directory containing all website content (.md articles and static files)
+  { -- | Directory containing all website content
     websiteRootDir :: FilePath,
-    -- | List of articles parsed from markdown files found in root oirectory
-    websiteArticles :: [Article],
+    -- | List of pages parsed from markdown files found in root oirectory
+    websitePages :: [Page],
     -- | Relative paths to all non-markdown files found in root directory
     websiteStaticFiles :: [FilePath]
   }
 
--- | An article on the website.  Contains some metadata and the markdown node
--- tree parsed from the source .md file.
--- (See the documentation for `parseArticle` for the expected format of the
--- input file).
-data Article = Article ArticleProps MarkdownNode
-
--- | All of the metadata for a particular article (mostly taken from the
--- article's front-matter)
-data ArticleProps = ArticleProps
-  { -- | Path to original markdown file
-    articlePath :: FilePath,
-    -- | Title of article taken from front-matter
-    articleTitle :: Text,
-    -- | Date of article taken from front-matter
-    articleDate :: Day,
-    -- | Optional list of tags taken from front-matter
-    articleTags :: [Tag]
+data Page = Page
+  { pageSourcePath :: FilePath,
+    pageAttrs :: Map Text PageAttr,
+    pageContent :: MarkdownNode
   }
 
-type Tag = Text
+data PageAttr
+  = PABool Bool
+  | PAInt Integer
+  | PAText Text
+  | PAList [PageAttr]
+  | PAMap (Map Text PageAttr)
 
-instance FromYAML ArticleProps where
-  parseYAML = withMap "Article" $ \m -> do
-    title <- m .: "title"
-    date <- m .: "date"
-    tags <- fromMaybe [] <$> m .:? "tags"
-    return $ ArticleProps "" title date tags
-
-instance FromYAML Day where
-  parseYAML = withStr "Day" $ \s ->
-    case parseTimeM True defaultTimeLocale "%Y-%-m-%-d" (T.unpack s) of
-      Just day -> return day
-      Nothing -> fail "Malformed date value, should be YYYY-MM-DD"
+instance FromYAML PageAttr where
+  parseYAML y =
+    asum
+      [ parseAs PABool y,
+        parseAs PAInt y,
+        parseAs PAText y,
+        parseAs PAList y,
+        parseAs PAMap y
+      ]
+    where
+      parseAs f x = f <$> parseYAML x
 
 -- | Just a wrapper around the `Node` type from the `cmark` library.
 newtype MarkdownNode = MarkdownNode {getNode :: Node}

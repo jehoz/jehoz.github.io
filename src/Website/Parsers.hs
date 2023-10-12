@@ -28,25 +28,30 @@ import Website.Types
 -- metadata values (title and date which are mandatory, along with an optional
 -- list of tags).  Everything underneath the front matter is treated as the
 -- markdown-formatted content of the article.
-parseArticle :: Text -> Either Text Article
-parseArticle text = do
+parsePage :: Text -> Either Text Page
+parsePage text = do
   (firstLine, restLines) <- case T.lines text of
-    [] -> Left "Cannot parse empty file"
+    [] -> Left "Cannot parse empty file (this error should never happen)"
     (l : ls) -> Right (l, ls)
 
-  (frontMatter, markdown) <- case T.strip firstLine of
-    "---" ->
-      Right $
-        bimap T.unlines (T.unlines . tail) $
-          span ((/= "---") . T.strip) restLines
-    _ -> Left $ "Expected front matter, found \"" <> firstLine <> "\" instead"
+  let (frontMatter, markdown) =
+        case T.strip firstLine of
+          "---" ->
+            bimap T.unlines (T.unlines . tail) $
+              span ((/= "---") . T.strip) restLines
+          _ -> ("", T.unlines $ firstLine : restLines)
 
-  let encodedText = TE.encodeUtf8 (TL.fromStrict frontMatter)
-  props <- case decode1 encodedText of
-    Left (pos, e) -> Left . T.pack $ prettyPosWithSource pos encodedText " error" <> e
-    Right prop -> Right prop
+  let frontMatter' = TE.encodeUtf8 (TL.fromStrict frontMatter)
+  attrs <- case decode1 frontMatter' of
+    Left (pos, e) -> Left . T.pack $ prettyPosWithSource pos frontMatter' " error" <> e
+    Right a -> Right a
 
-  Right $ Article props (MarkdownNode $ commonmarkToNode [] markdown)
+  Right $
+    Page
+      { pageSourcePath = "",
+        pageAttrs = attrs,
+        pageContent = MarkdownNode (commonmarkToNode [] markdown)
+      }
 
 -- | A simple wrapper around `commonmarkToNode` that returns the `Node` wrapped
 -- in the `MarkdownNode` newtype.

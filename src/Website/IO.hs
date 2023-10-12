@@ -27,10 +27,10 @@ readContent contentDir = do
 
   articles <- forM mdFiles $ \rpath -> do
     mdText <- TIO.readFile (contentDir </> rpath)
-    case parseArticle mdText of
+    case parsePage mdText of
       Left err -> die ("Error parsing " <> rpath <> "\n" <> T.unpack err)
-      Right (Article props nodes) ->
-        return $ Article (props {articlePath = rpath}) nodes
+      Right page ->
+        return $ page {pageSourcePath = rpath}
 
   return $ Website contentDir articles otherFiles
 
@@ -39,11 +39,11 @@ readContent contentDir = do
 -- the static files from the content directory (keeping the original directory
 -- structure)
 buildWebsite :: Website -> FilePath -> IO ()
-buildWebsite (Website sourceDir articles staticFiles) outputDir = do
+buildWebsite (Website sourceDir pages staticFiles) outputDir = do
   -- render html pages for articles
-  forM_ articles $ \(Article props node) -> do
-    let writePath = outputDir </> articlePath props -<.> "html"
-        htmlText = renderHtml (toHtml node)
+  forM_ pages $ \p -> do
+    let writePath = outputDir </> pageSourcePath p -<.> "html"
+        htmlText = renderHtml (toHtml $ pageContent p)
     createDirectoryIfMissing True (takeDirectory writePath)
     TIO.writeFile writePath (TL.toStrict htmlText)
 
