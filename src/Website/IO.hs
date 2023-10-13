@@ -1,3 +1,5 @@
+{-# LANGUAGE OverloadedStrings #-}
+
 -- | Module: Website.IO
 --
 -- Functions for reading and writing website content from/to the filesystem.
@@ -5,6 +7,8 @@ module Website.IO where
 
 import Control.Monad (filterM, forM, forM_)
 import Data.List (partition)
+import qualified Data.Map as M
+import Data.Maybe (catMaybes, fromMaybe)
 import qualified Data.Text as T
 import qualified Data.Text.IO as TIO
 import qualified Data.Text.Lazy as TL
@@ -13,16 +17,17 @@ import System.Exit (die)
 import System.FilePath (isExtensionOf, takeDirectory, (-<.>), (</>))
 import Text.Blaze.Html (toHtml)
 import Text.Blaze.Html.Renderer.Text (renderHtml)
+import Text.Mustache (Template (name), automaticCompile, substitute)
 import Website.Parsers
 import Website.Types
 
 -- | Traverse through a directory, parse all @.md@ files as `Page`s and treat
 -- the rest as static files.  Use all of this to populate a `Website`
-readContent :: FilePath -> IO Website
-readContent contentDir = do
-  relPaths <- getRelativePathsInside contentDir
-
-  let (mdFiles, otherFiles) = partition (".md" `isExtensionOf`) relPaths
+loadFrom :: FilePath -> FilePath -> IO Website
+loadFrom contentDir templatesDir = do
+  -- load pages and static content
+  contentPaths <- listAllFilesRelative contentDir
+  let (mdFiles, otherFiles) = partition (".md" `isExtensionOf`) contentPaths
 
   pages <- forM mdFiles $ \rpath -> do
     mdText <- TIO.readFile (contentDir </> rpath)
@@ -31,20 +36,40 @@ readContent contentDir = do
       Right page ->
         return $ page {pageSourcePath = rpath}
 
-  return $ Website contentDir pages otherFiles
+  -- load html page templates
+  templatePaths <- filter (".html" `isExtensionOf`) <$> listAllFilesRelative templatesDir
+
+  templates <-
+    catMaybes
+      <$> forM
+        templatePaths
+        ( \path -> do
+            res <- automaticCompile [templatesDir] path
+            case res of
+              Left err -> print err >> return Nothing
+              Right thing -> return (Just thing)
+        )
+  let kvPairs = (\t -> (T.pack $ name t, t)) <$> templates
+
+  return $
+    Website
+      { websiteRootDir = contentDir,
+        websitePages = pages,
+        websiteStaticFiles = otherFiles,
+        websiteTemplates = M.fromList kvPairs
+      }
 
 -- | Generate all of the files for a static site in the given directory.
 -- This involves rendering each page as an html file, and simply copying the
 -- static files from the content directory (keeping the original directory
 -- structure)
-buildWebsite :: Website -> FilePath -> IO ()
-buildWebsite (Website sourceDir pages staticFiles) outputDir = do
+renderTo :: FilePath -> Website -> IO ()
+renderTo outputDir (Website sourceDir pages staticFiles templates) = do
   -- render html pages
   forM_ pages $ \p -> do
     let writePath = outputDir </> pageSourcePath p -<.> "html"
-        htmlText = renderHtml (toHtml $ pageContent p)
     createDirectoryIfMissing True (takeDirectory writePath)
-    TIO.writeFile writePath (TL.toStrict htmlText)
+    TIO.writeFile writePath (renderPage p)
 
   -- copy static files
   forM_ staticFiles $ \rpath -> do
@@ -52,16 +77,31 @@ buildWebsite (Website sourceDir pages staticFiles) outputDir = do
         toPath = outputDir </> rpath
     createDirectoryIfMissing True (takeDirectory toPath)
     copyFile fromPath toPath
+  where
+    renderContent = TL.toStrict . renderHtml . toHtml . pageContent
+
+    renderPage p = fromMaybe (renderContent p) $ do
+      (PAText n) <- M.lookup "template" (pageAttrs p)
+      template <- M.lookup n templates
+      let attrs = M.insert "body" (PAText $ renderContent p) (pageAttrs p)
+      return (substitute template attrs)
+
+-- | Get a list of absolute paths to all files (not directories) inside the
+-- given directory and all subdirectories.
+listAllFiles :: FilePath -> IO [FilePath]
+listAllFiles dir = do
+  fs <- listAllFilesRelative dir
+  return $ (dir </>) <$> fs
 
 -- | Get a list of relative paths to all files (not directories) inside the
 -- given directory and all subdirectories.
-getRelativePathsInside :: FilePath -> IO [FilePath]
-getRelativePathsInside parent = do
+listAllFilesRelative :: FilePath -> IO [FilePath]
+listAllFilesRelative parent = do
   names <- listDirectory parent
   files <- filterM (doesFileExist . (parent </>)) names
   dirs <- filterM (doesDirectoryExist . (parent </>)) names
   (files ++) . concat <$> mapM recur dirs
   where
     recur subd = do
-      ps <- getRelativePathsInside (parent </> subd)
+      ps <- listAllFilesRelative (parent </> subd)
       return $ (subd </>) <$> ps

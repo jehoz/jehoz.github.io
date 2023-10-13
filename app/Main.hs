@@ -3,10 +3,11 @@
 module Main where
 
 import Options.Applicative
-import Website (buildWebsite, readContent)
+import Website (loadFrom, renderTo)
 
 data Options = Options
   { optContentDir :: FilePath,
+    optTemplatesDir :: FilePath,
     optOutputDir :: FilePath
   }
 
@@ -24,6 +25,13 @@ options =
             )
       )
     <*> strOption
+      ( long "templates-dir"
+          <> short 't'
+          <> metavar "DIR"
+          <> value "templates"
+          <> help "directory to parse "
+      )
+    <*> strOption
       ( long "output-dir"
           <> short 'o'
           <> metavar "DIR"
@@ -36,13 +44,6 @@ optInfo = info (helper <*> options) fullDesc
 
 main :: IO ()
 main = do
-  opts <- execParser optInfo
+  Options contentDir templatesDir outputDir <- execParser optInfo
 
-  let contentDir = optContentDir opts
-      outputDir = optOutputDir opts
-
-  putStrLn "Reading website content..."
-  site <- readContent contentDir
-
-  putStrLn "Building website..."
-  buildWebsite site outputDir
+  loadFrom contentDir templatesDir >>= renderTo outputDir

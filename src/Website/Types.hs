@@ -14,6 +14,7 @@ import Data.YAML (FromYAML (parseYAML))
 import Text.Blaze.Html5 (ToMarkup (toMarkup), ToValue (..), textValue, (!))
 import qualified Text.Blaze.Html5 as Html
 import qualified Text.Blaze.Html5.Attributes as Attr
+import Text.Mustache (Template, ToMustache (toMustache))
 
 -- | The encapsulation of all of the content within a website
 data Website = Website
@@ -22,7 +23,9 @@ data Website = Website
     -- | List of pages parsed from markdown files found in root directory
     websitePages :: [Page],
     -- | Relative paths to all non-markdown files found in root directory
-    websiteStaticFiles :: [FilePath]
+    websiteStaticFiles :: [FilePath],
+    -- | Map of compiled Mustache templates found in templates directory
+    websiteTemplates :: Map Text Template
   }
 
 -- | A page of content on the website
@@ -54,6 +57,13 @@ instance FromYAML PageAttr where
       ]
     where
       parseAs f x = f <$> parseYAML x
+
+instance ToMustache PageAttr where
+  toMustache (PABool b) = toMustache b
+  toMustache (PAInt i) = toMustache i
+  toMustache (PAText t) = toMustache t
+  toMustache (PAList l) = toMustache l
+  toMustache (PAMap m) = toMustache m
 
 -- | Just a wrapper around the `Node` type from the `cmark` library.
 newtype MarkdownNode = MarkdownNode {getNode :: Node}
