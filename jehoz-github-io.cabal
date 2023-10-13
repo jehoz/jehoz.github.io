@@ -25,6 +25,7 @@ library
     , directory
     , filepath
     , HsYAML
+    , mustache
     , text
     , time
 
