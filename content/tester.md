@@ -1,6 +1,7 @@
 ---
 title: Markdown test page
 date: 2023-10-1
+template: article.html
 ---
 
 # Markdown tester page
