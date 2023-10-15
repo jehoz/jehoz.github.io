@@ -3,7 +3,7 @@
 module Main where
 
 import Options.Applicative
-import Website (loadFrom, renderTo)
+import Website
 
 data Options = Options
   { optContentDir :: FilePath,
@@ -19,24 +19,21 @@ options =
           <> short 'c'
           <> metavar "DIR"
           <> value "content"
-          <> help
-            ( "Uses everything under this directory to generate the website. "
-                <> "All markdown files converted to HTML.  Everything else copied as a static asset."
-            )
+          <> help "Directory containing Markdown pages and other static assets"
       )
     <*> strOption
       ( long "templates-dir"
           <> short 't'
           <> metavar "DIR"
           <> value "templates"
-          <> help "directory to parse "
+          <> help "Directory containing HTML templates"
       )
     <*> strOption
       ( long "output-dir"
           <> short 'o'
           <> metavar "DIR"
           <> value "output"
-          <> help "All site assets and generated HTML pages are placed in DIR"
+          <> help "Directory into which all the final static site is written"
       )
 
 optInfo :: ParserInfo Options
@@ -46,4 +43,7 @@ main :: IO ()
 main = do
   Options contentDir templatesDir outputDir <- execParser optInfo
 
-  loadFrom contentDir templatesDir >>= renderTo outputDir
+  generateStaticSite $ do
+    loadContent contentDir
+    loadTemplates templatesDir
+    renderTo outputDir

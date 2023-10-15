@@ -38,21 +38,21 @@ parsePage text = do
           "---" ->
             bimap T.unlines (T.unlines . tail) $
               span ((/= "---") . T.strip) restLines
-          _ -> ("", T.unlines $ firstLine : restLines)
+          _ -> ("", text)
 
   let frontMatter' = TE.encodeUtf8 (TL.fromStrict frontMatter)
-  attrs <- case decode1 frontMatter' of
+  attrMap <- case decode1 frontMatter' of
     Left (pos, e) -> Left . T.pack $ prettyPosWithSource pos frontMatter' " error" <> e
     Right a -> Right a
 
   Right $
     Page
-      { pageSourcePath = "",
-        pageAttrs = attrs,
-        pageContent = MarkdownNode (commonmarkToNode [] markdown)
+      { sourcePath = ("", ""),
+        attrs = attrMap,
+        content = Markdown (commonmarkToNode [] markdown)
       }
 
 -- | A simple wrapper around `commonmarkToNode` that returns the `Node` wrapped
--- in the `MarkdownNode` newtype.
-parseMarkdownNode :: Text -> MarkdownNode
-parseMarkdownNode = MarkdownNode . commonmarkToNode []
+-- in the `Markdown` newtype.
+parseMarkdownNode :: Text -> Markdown
+parseMarkdownNode = Markdown . commonmarkToNode []

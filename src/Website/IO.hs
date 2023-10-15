@@ -1,14 +1,19 @@
+{-# LANGUAGE OverloadedRecordDot #-}
 {-# LANGUAGE OverloadedStrings #-}
+{-# LANGUAGE TupleSections #-}
 
 -- | Module: Website.IO
 --
 -- Functions for reading and writing website content from/to the filesystem.
 module Website.IO where
 
+import CMark (NodeType (CUSTOM_BLOCK, DOCUMENT))
 import Control.Monad (filterM, forM, forM_)
+import Control.Monad.Writer (WriterT, liftIO, runWriterT, tell)
+import Data.Foldable (fold)
 import Data.List (partition)
 import qualified Data.Map as M
-import Data.Maybe (catMaybes, fromMaybe)
+import Data.Maybe (fromMaybe)
 import qualified Data.Text as T
 import qualified Data.Text.IO as TIO
 import qualified Data.Text.Lazy as TL
@@ -21,87 +26,107 @@ import Text.Mustache (Template (name), automaticCompile, substitute)
 import Website.Parsers
 import Website.Types
 
+-- | Monad for configuring the website generator
+type Generator = WriterT Website IO
+
 -- | Traverse through a directory, parse all @.md@ files as `Page`s and treat
--- the rest as static files.  Use all of this to populate a `Website`
-loadFrom :: FilePath -> FilePath -> IO Website
-loadFrom contentDir templatesDir = do
-  -- load pages and static content
-  contentPaths <- listAllFilesRelative contentDir
-  let (mdFiles, otherFiles) = partition (".md" `isExtensionOf`) contentPaths
+-- the rest as static files.
+loadContent :: FilePath -> Generator ()
+loadContent dir = do
+  contentPaths <- liftIO $ listSplitPaths dir
+  let (mdFiles, otherFiles) = partition (isExtensionOf ".md" . relativePath) contentPaths
+  pages' <- liftIO $ mapM loadPage mdFiles
+  tell mempty {pages = pages', staticFiles = otherFiles}
+  where
+    loadPage spath = do
+      mdText <- TIO.readFile (fullPath spath)
+      case parsePage mdText of
+        Left err -> die ("Error parsing " <> fullPath spath <> "\n" <> T.unpack err)
+        Right page ->
+          return $ page {sourcePath = spath}
 
-  pages <- forM mdFiles $ \rpath -> do
-    mdText <- TIO.readFile (contentDir </> rpath)
-    case parsePage mdText of
-      Left err -> die ("Error parsing " <> rpath <> "\n" <> T.unpack err)
-      Right page ->
-        return $ page {pageSourcePath = rpath}
+-- | Traverse through a directory, attempt to parse every file found as a
+-- Mustache `Template`.
+loadTemplates :: FilePath -> Generator ()
+loadTemplates dir = do
+  templatePaths <- liftIO $ listSplitPaths dir
+  templates <- liftIO $ mapM loadTemplate templatePaths
+  tell mempty {templateMap = M.fromList $ (\t -> (T.pack $ name t, t)) <$> templates}
+  where
+    loadTemplate spath = do
+      res <- automaticCompile [parentDirectory spath] (relativePath spath)
+      case res of
+        Left err -> die (show err)
+        Right template -> return template
 
-  -- load html page templates
-  templatePaths <- filter (".html" `isExtensionOf`) <$> listAllFilesRelative templatesDir
-
-  templates <-
-    catMaybes
-      <$> forM
-        templatePaths
-        ( \path -> do
-            res <- automaticCompile [templatesDir] path
-            case res of
-              Left err -> print err >> return Nothing
-              Right thing -> return (Just thing)
-        )
-  let kvPairs = (\t -> (T.pack $ name t, t)) <$> templates
-
-  return $
-    Website
-      { websiteRootDir = contentDir,
-        websitePages = pages,
-        websiteStaticFiles = otherFiles,
-        websiteTemplates = M.fromList kvPairs
-      }
+-- | Set a directory as an output location where the generated website will be
+-- written
+renderTo :: FilePath -> Generator ()
+renderTo dir = tell mempty {outputDirectories = [dir]}
 
 -- | Generate all of the files for a static site in the given directory.
 -- This involves rendering each page as an html file, and simply copying the
 -- static files from the content directory (keeping the original directory
 -- structure)
-renderTo :: FilePath -> Website -> IO ()
-renderTo outputDir (Website sourceDir pages staticFiles templates) = do
+generateStaticSite :: Generator a -> IO ()
+generateStaticSite generator = do
+  (_, website) <- runWriterT generator
+
   -- render html pages
-  forM_ pages $ \p -> do
-    let writePath = outputDir </> pageSourcePath p -<.> "html"
-    createDirectoryIfMissing True (takeDirectory writePath)
-    TIO.writeFile writePath (renderPage p)
+  putStrLn "Generating HTML pages"
+  forM_ website.pages $ \p -> do
+    let pageHtml = renderPage website.templateMap p
+    forM_ website.outputDirectories $ \odir -> do
+      let writePath = odir </> relativePath (p.sourcePath) -<.> "html"
+      createDirectoryIfMissing True (takeDirectory writePath)
+      putStrLn ("\t" <> writePath)
+      TIO.writeFile writePath pageHtml
+
+  -- make index page(s)
+  let indexAttrs =
+        PAMap $
+          M.fromList [("pages", PAList (PAMap . attrs <$> website.pages))]
+      indexHtml = case M.lookup "index.html" website.templateMap of
+        Just t -> substitute t indexAttrs
+        Nothing -> ""
+  forM_ website.outputDirectories $ \odir -> do
+    let writePath = odir </> "index.html"
+    putStrLn ("Generating index page " <> writePath)
+    TIO.writeFile writePath indexHtml
 
   -- copy static files
-  forM_ staticFiles $ \rpath -> do
-    let fromPath = sourceDir </> rpath
-        toPath = outputDir </> rpath
-    createDirectoryIfMissing True (takeDirectory toPath)
-    copyFile fromPath toPath
+  putStrLn "Copying static files"
+  forM_ website.staticFiles $ \spath -> do
+    forM_ website.outputDirectories $ \odir -> do
+      let toPath = odir </> relativePath spath
+      createDirectoryIfMissing True (takeDirectory toPath)
+      putStrLn ("\t" <> toPath)
+      copyFile (fullPath spath) toPath
   where
-    renderContent = TL.toStrict . renderHtml . toHtml . pageContent
+    renderDoc = TL.toStrict . renderHtml . toHtml . content
+    renderNoDoc = TL.toStrict . renderHtml . toHtml . stripDocTag . content
+    stripDocTag n = replaceNode n DOCUMENT (CUSTOM_BLOCK "" "")
 
-    renderPage p = fromMaybe (renderContent p) $ do
-      (PAText n) <- M.lookup "template" (pageAttrs p)
-      template <- M.lookup n templates
-      let attrs = M.insert "body" (PAText $ renderContent p) (pageAttrs p)
-      return (substitute template attrs)
+    renderPage templates p = fromMaybe (renderDoc p) $ do
+      tname <- case M.lookup "template" p.attrs of
+        Just (PAText n) -> Just n
+        _ -> Nothing
+      template <- M.lookup tname templates
+      let attrs' = M.insert "body" (PAText $ renderNoDoc p) p.attrs
+      return (substitute template attrs')
 
--- | Get a list of absolute paths to all files (not directories) inside the
--- given directory and all subdirectories.
-listAllFiles :: FilePath -> IO [FilePath]
-listAllFiles dir = do
-  fs <- listAllFilesRelative dir
-  return $ (dir </>) <$> fs
-
--- | Get a list of relative paths to all files (not directories) inside the
--- given directory and all subdirectories.
-listAllFilesRelative :: FilePath -> IO [FilePath]
-listAllFilesRelative parent = do
-  names <- listDirectory parent
-  files <- filterM (doesFileExist . (parent </>)) names
-  dirs <- filterM (doesDirectoryExist . (parent </>)) names
-  (files ++) . concat <$> mapM recur dirs
+-- | Recursively get all files in the given directory as `SplitPath`s (where
+-- the given directory is the parent).
+listSplitPaths :: FilePath -> IO [SplitPath]
+listSplitPaths parent = do
+  rpaths <- listRelative parent
+  return $ (parent,) <$> rpaths
   where
-    recur subd = do
-      ps <- listAllFilesRelative (parent </> subd)
-      return $ (subd </>) <$> ps
+    listRelative dir = do
+      paths <- listDirectory dir
+      files <- filterM (doesFileExist . (dir </>)) paths
+      dirs <- filterM (doesDirectoryExist . (dir </>)) paths
+      rest <- forM dirs $ \d -> do
+        rpaths <- listRelative (dir </> d)
+        return $ (d </>) <$> rpaths
+      return (files <> fold rest)

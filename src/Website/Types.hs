@@ -1,3 +1,4 @@
+{-# LANGUAGE OverloadedRecordDot #-}
 {-# LANGUAGE OverloadedStrings #-}
 
 -- | Module: Types
@@ -11,6 +12,7 @@ import Control.Applicative (asum)
 import Data.Map (Map)
 import Data.Text (Text)
 import Data.YAML (FromYAML (parseYAML))
+import System.FilePath ((</>))
 import Text.Blaze.Html5 (ToMarkup (toMarkup), ToValue (..), textValue, (!))
 import qualified Text.Blaze.Html5 as Html
 import qualified Text.Blaze.Html5.Attributes as Attr
@@ -18,27 +20,38 @@ import Text.Mustache (Template, ToMustache (toMustache))
 
 -- | The encapsulation of all of the content within a website
 data Website = Website
-  { -- | Directory containing all website content
-    websiteRootDir :: FilePath,
-    -- | List of pages parsed from markdown files found in root directory
-    websitePages :: [Page],
+  { -- | List of pages parsed from markdown files found in root directory
+    pages :: [Page],
     -- | Relative paths to all non-markdown files found in root directory
-    websiteStaticFiles :: [FilePath],
+    staticFiles :: [SplitPath],
     -- | Map of compiled Mustache templates found in templates directory
-    websiteTemplates :: Map Text Template
+    templateMap :: Map Text Template,
+    -- | List of directories where static site files will be written
+    outputDirectories :: [FilePath]
   }
+
+instance Semigroup Website where
+  x <> y =
+    Website
+      (x.pages <> y.pages)
+      (x.staticFiles <> y.staticFiles)
+      (x.templateMap <> y.templateMap)
+      (x.outputDirectories <> y.outputDirectories)
+
+instance Monoid Website where
+  mempty = Website mempty mempty mempty mempty
 
 -- | A page of content on the website
 data Page = Page
   { -- | Path to the original markdown file
-    pageSourcePath :: FilePath,
+    sourcePath :: SplitPath,
     -- | Map of attributes taken from front matter
-    pageAttrs :: Map Text PageAttr,
+    attrs :: Map Text PageAttr,
     -- | Markdown AST parsed from source file
-    pageContent :: MarkdownNode
+    content :: Markdown
   }
 
--- | Supported types of attributes defined in a page's front matter
+-- | Supported types of attributes that can be defined in a page's front matter
 data PageAttr
   = PABool Bool
   | PAInt Integer
@@ -66,10 +79,17 @@ instance ToMustache PageAttr where
   toMustache (PAMap m) = toMustache m
 
 -- | Just a wrapper around the `Node` type from the `cmark` library.
-newtype MarkdownNode = MarkdownNode {getNode :: Node}
+newtype Markdown = Markdown {getNode :: Node}
 
-instance ToMarkup MarkdownNode where
-  toMarkup (MarkdownNode (Node _ nodeType children)) =
+replaceNode :: Markdown -> NodeType -> NodeType -> Markdown
+replaceNode (Markdown node) from to = Markdown (recur node)
+  where
+    recur (Node pos ntype children) =
+      let ntype' = if ntype == from then to else ntype
+       in Node pos ntype' (recur <$> children)
+
+instance ToMarkup Markdown where
+  toMarkup (Markdown (Node _ nodeType children)) =
     case nodeType of
       DOCUMENT ->
         Html.docTypeHtml $
@@ -131,12 +151,26 @@ instance ToMarkup MarkdownNode where
       IMAGE url title ->
         Html.img ! Attr.src (toValue url) ! Attr.title (toValue title)
     where
-      iter = mapM_ (toMarkup . MarkdownNode)
+      iter = mapM_ (toMarkup . Markdown)
 
       -- slightly lazy and hacky way to implement tight lists: just replace any
       -- paragraph in children with custom block without tags
-      tighten (Node pos nt ch) = case nt of
-        PARAGRAPH -> Node pos (CUSTOM_BLOCK "" "") (tighten <$> ch)
-        _ -> Node pos nt (tighten <$> ch)
+      tighten n =
+        let (Markdown n') = replaceNode (Markdown n) PARAGRAPH (CUSTOM_BLOCK "" "")
+         in n'
 
       getHeading i = [Html.h1, Html.h2, Html.h3, Html.h4, Html.h5, Html.h6] !! (i - 1)
+
+-- | The path to a file that is split somewhere in the middle denote a relative
+-- path within a parent directory.
+-- Useful for managing files from multiple content or templates directories
+type SplitPath = (FilePath, FilePath)
+
+fullPath :: SplitPath -> FilePath
+fullPath = uncurry (</>)
+
+parentDirectory :: SplitPath -> FilePath
+parentDirectory = fst
+
+relativePath :: SplitPath -> FilePath
+relativePath = snd
