@@ -1,0 +1,113 @@
+:root {
+    --osc-size: 60px;
+    --osc-period: 2s;
+}
+
+body {
+    margin: 0;
+}
+
+#outer-wrapper {
+    display: flex;
+    width: 100vw;
+    height: 100vh;
+}
+
+#bio-wrapper {
+    display: inline-block;
+    width: 50%;
+    height: 100%;
+    vertical-align: top;
+
+    background: black;
+    color: white;
+}
+
+#bio {
+    margin: 1em;
+    max-width: 8em;
+
+    font-family: Work Sans;
+    font-size: 48pt;
+    display: inline-block;
+    vertical-align: top;
+}
+
+#pages-list-wrapper {
+    display: inline-block;
+    font-family: Taviraj;
+    flex-grow: 1;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+
+.article-link {
+    text-decoration: none;
+    display: flex;
+
+    color: white;
+    padding: 15px 20px;
+    margin: 15px 15px;
+    
+    background: repeating-linear-gradient(#222, #000, #222);
+    background-size: 1px var(--osc-size);
+    animation: scroll-osc-y var(--osc-period) linear infinite;
+}
+
+.article-link:hover {
+    background: repeating-linear-gradient(#333, #111, #333);
+    background-size: 1px var(--osc-size);
+}
+
+.article-thumbnail {
+    height: 100px;
+    width: 100px;
+}
+
+.article-thumbnail img {
+    height: 100px;
+    width: 100px;
+    object-fit: scale-down;
+}
+
+.article-details {
+    margin: 10px 20px;
+}
+
+.article-date {
+    font-size: 12pt;
+}
+
+.article-title {
+    font-size: 16pt;
+}
+
+.arrows-wrapper {
+    height: 100%;
+    float: right;
+    margin: 0 50px;
+    display: grid;
+    align-content: space-around;
+}
+
+.arrow {
+    display: block;
+    width: 150px;
+    height: 150px;
+
+    background: repeating-linear-gradient(90deg, #fff, #bbb, #fff);
+    background-size: var(--osc-size) 150px;
+    animation: scroll-osc-x var(--osc-period) linear infinite;
+}
+
+@keyframes scroll-osc-x {
+    100% {
+        background-position-x: var(--osc-size);
+    }
+}
+
+@keyframes scroll-osc-y {
+    100% {
+        background-position-y: var(--osc-size);
+    }
+}
