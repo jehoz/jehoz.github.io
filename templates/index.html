@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="stylesheet" type="text/css" href="/static/index.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Taviraj&family=Work+Sans&display=swap" rel="stylesheet">
+    <link href="https://pvinis.github.io/iosevka-webfont/3.4.1/iosevka.css" rel="stylesheet" />
+</head>
+
+<body>
+    <div id="outer-wrapper">
+        <div id="bio-wrapper">
+            <div id="bio">
+                Hi my name is Jesse.
+                This is where I write about the stuff I'm working on.
+            </div>
+            <div class="arrows-wrapper">
+                <svg class="arrow">
+                    <image href="/static/img/arrow.svg" />
+                </svg>
+                <svg class="arrow">
+                    <image href="/static/img/arrow.svg" />
+                </svg>
+                <svg class="arrow">
+                    <image href="/static/img/arrow.svg" />
+                </svg>
+                <svg class="arrow">
+                    <image href="/static/img/arrow.svg" />
+                </svg>
+                <svg class="arrow">
+                    <image href="/static/img/arrow.svg" />
+                </svg>
+            </div>
+        </div>
+
+        <div id="pages-list-wrapper">
+            {{#pages}}
+            <a class="article-link" href="{{_url}}">
+                <div class="article-wrapper">
+                    <div class="article-date">{{date}}</div>
+                    <div class="article-title">{{title}}</div>
+                </div>
+            </a>
+            {{/pages}}
+</body>
+
+</html>

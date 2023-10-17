@@ -1,0 +1,93 @@
+:root {
+    --arrow-bg-size: 40px;
+}
+
+body {
+    margin: 0;
+}
+
+#outer-wrapper {
+    display: flex;
+    width: 100vw;
+    height: 100vh;
+}
+
+#bio-wrapper {
+    display: inline-block;
+    width: 50%;
+    height: 100%;
+    vertical-align: top;
+
+    background: black;
+    color: white;
+}
+
+#bio {
+    margin: 1em;
+    max-width: 8em;
+
+    font-family: Work Sans;
+    font-size: 48pt;
+    display: inline-block;
+    vertical-align: top;
+}
+
+#pages-list-wrapper {
+    display: inline-block;
+    font-family: Taviraj;
+    flex-grow: 1;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+
+.article-link {
+    text-decoration: none;
+    display: block;
+
+    background-color: black;
+    color: #fff;
+    padding: 15px 20px;
+    margin: 15px 15px;
+    border-image: repeating-linear-gradient(white, black, white 50%) 30;
+    border-image-width: 10px;
+    
+    transition: 0.2s;
+}
+
+.article-link:hover {
+    border-image-width: 5px;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.article-date {
+    font-size: 12pt;
+}
+
+.article-title {
+    font-size: 16pt;
+}
+
+.arrows-wrapper {
+    height: 100%;
+    float: right;
+    margin: 0 50px;
+    display: grid;
+    align-content: space-around;
+}
+
+.arrow {
+    display: block;
+    width: 150px;
+    height: 150px;
+
+    background: repeating-linear-gradient(90deg, white, black, white);
+    background-size: var(--arrow-bg-size) 150px;
+    animation: scroll-arrow-bg 1s linear infinite;
+}
+
+@keyframes scroll-arrow-bg {
+    100% {
+        background-position-x: var(--arrow-bg-size);
+    }
+}
