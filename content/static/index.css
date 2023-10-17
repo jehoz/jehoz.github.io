@@ -1,5 +1,6 @@
 :root {
-    --arrow-bg-size: 40px;
+    --osc-size: 60px;
+    --osc-period: 2s;
 }
 
 body {
@@ -42,22 +43,35 @@ body {
 
 .article-link {
     text-decoration: none;
-    display: block;
+    display: flex;
 
-    background-color: black;
-    color: #fff;
+    color: white;
     padding: 15px 20px;
     margin: 15px 15px;
-    border-image: repeating-linear-gradient(white, black, white 50%) 30;
-    border-image-width: 10px;
     
-    transition: 0.2s;
+    background: repeating-linear-gradient(#222, #000, #222);
+    background-size: 1px var(--osc-size);
+    animation: scroll-osc-y var(--osc-period) linear infinite;
 }
 
 .article-link:hover {
-    border-image-width: 5px;
-    margin-left: 10px;
-    margin-right: 10px;
+    background: repeating-linear-gradient(#333, #111, #333);
+    background-size: 1px var(--osc-size);
+}
+
+.article-thumbnail {
+    height: 100px;
+    width: 100px;
+}
+
+.article-thumbnail img {
+    height: 100px;
+    width: 100px;
+    object-fit: scale-down;
+}
+
+.article-details {
+    margin: 10px 20px;
 }
 
 .article-date {
@@ -81,13 +95,19 @@ body {
     width: 150px;
     height: 150px;
 
-    background: repeating-linear-gradient(90deg, white, black, white);
-    background-size: var(--arrow-bg-size) 150px;
-    animation: scroll-arrow-bg 1s linear infinite;
+    background: repeating-linear-gradient(90deg, #fff, #bbb, #fff);
+    background-size: var(--osc-size) 150px;
+    animation: scroll-osc-x var(--osc-period) linear infinite;
 }
 
-@keyframes scroll-arrow-bg {
+@keyframes scroll-osc-x {
     100% {
-        background-position-x: var(--arrow-bg-size);
+        background-position-x: var(--osc-size);
+    }
+}
+
+@keyframes scroll-osc-y {
+    100% {
+        background-position-y: var(--osc-size);
     }
 }

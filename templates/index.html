@@ -39,7 +39,10 @@
         <div id="pages-list-wrapper">
             {{#pages}}
             <a class="article-link" href="{{_url}}">
-                <div class="article-wrapper">
+                <div class="article-thumbnail">
+                    <img src="{{thumbnail}}" />
+                </div>
+                <div class="article-details">
                     <div class="article-date">{{date}}</div>
                     <div class="article-title">{{title}}</div>
                 </div>

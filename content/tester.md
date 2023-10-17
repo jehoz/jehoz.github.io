@@ -2,6 +2,7 @@
 title: Markdown test page
 date: 2023-10-1
 template: article.html
+thumbnail: /static/img/swag-cat.gif
 ---
 
 # Markdown tester page
