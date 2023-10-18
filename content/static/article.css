@@ -7,6 +7,8 @@
     --text-color: black;
     --heading-color: #3d4348;
     --border-color: #cdcdcd;
+    
+    --arrow-size: 20pt;
 }
 
 body {
@@ -68,43 +70,89 @@ pre code {
 }
 
 #banner {
-    height: 40px;
     width: 100%;
     margin: 0 auto;
 }
 
 #banner a {
+    display: inline-block;
     color: white;
     text-decoration: none;
     margin: 0 0.25em;
 
     font-size: 20pt;
-    font-family: var(--code-face);
+    font-family: var(--headline-face);
+    font-weight: bold;
+    vertical-align: middle;
 }
 
 #banner a:hover {
     animation: shimmer 0.25s linear infinite;
 }
 
+#banner a span {
+    vertical-align: middle;
+}
+
+.arrow {
+    transform: scaleX(-100%);
+    width: var(--arrow-size);
+    height: var(--arrow-size);
+    
+    margin: 8px 8px 8px 0px;
+    
+    background: white;
+    vertical-align: middle;
+}
+
+@supports (mask-image: url()) {
+    .arrow {
+        mask-image: url("/static/img/arrow.svg");
+    }
+    
+    .arrow image {
+        display: none;
+    }
+}
+
+@supports not (mask-image: url()) {
+    .arrow image {
+        width: var(--arrow-size);
+        height: var(--arrow-size);
+    }
+}
+
+a:hover .arrow {
+    animation: bg-shimmer 0.25s linear infinite;
+}
+
 @keyframes shimmer {
-    0%   { color: #FF99FF; }
-    20%  { color: #FF9999; }
-    40%  { color: #99FF99; }
-    60%  { color: #99FFFF; }
-    80%  { color: #9999FF; }
-    100% { color: #FF99FF; }
+    0%   { color: #bbf; }
+    20%  { color: #bfb; }
+    40%  { color: #bff; }
+    60%  { color: #fbb; }
+    80%  { color: #fbf; }
+    100% { color: #ffb; }
+}
+
+@keyframes bg-shimmer {
+    0%   { background-color: #bbf; }
+    20%  { background-color: #bfb; }
+    40%  { background-color: #bff; }
+    60%  { background-color: #fbb; }
+    80%  { background-color: #fbf; }
+    100% { background-color: #ffb; }
 }
 
 #article-body {
     display: block;
     max-width: 50em;
     width: 100%;
-    margin: 0.5em auto;
+    margin: 1.5em auto;
     padding: 0.5em 1.5em;
 
     background: var(--background-color);
-    border-radius: 4px;
-    box-shadow: #0000005A 0px 6px 6px 0px;
+    border: 3px ridge;
 }
 
 .marquee {
@@ -116,19 +164,22 @@ pre code {
 
     margin: 0;
     padding: 0.25em 0;
-
-    color: white;
+    
+    background: black;
+    border-top: 3px ridge;
 }
 
 .marquee div {
     display: block;
     width: 200%;
     height: 1.5em;
+    
+    color: white;
 
     position: absolute;
     overflow: hidden;
 
-    animation: marquee 20s linear infinite;
+    animation: marquee 8s linear infinite;
 }
 
 .marquee span {
@@ -139,7 +190,7 @@ pre code {
 }
 
 .marquee-item {
-    width: 6.25%;
+    width: 14em;
     height: 1.5em;
     line-height: 1.5em;
 
@@ -149,5 +200,5 @@ pre code {
 
 @keyframes marquee {
     0% { transform: translateX(0); }
-    100% { transform: translateX(-50%); }
+  100% { transform: translateX(-28em); }
 }

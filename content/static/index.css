@@ -2,6 +2,7 @@
     --arrow-size: 130px;
     --osc-size: 60px;
     --osc-period: 2s;
+    --thumbnail-size: 90px;
 }
 
 body {
@@ -20,7 +21,7 @@ body {
     height: 100%;
     vertical-align: top;
 
-    background: black;
+    background: url("/static/img/stars.gif");
     color: white;
 }
 
@@ -54,33 +55,31 @@ body {
     text-shadow: -1px -1px white, 1px -1px white, 1px 1px white, -1px 1px white;
     display: flex;
     
-    flex-grow: 1;
 
     color: black;
-    padding: 3px;
+    padding: 15px;
     margin: 15px 30px;
 
     background: white;
-    border-radius: 3px;
+    border: 3px ridge black;
 }
 
 .article-link:hover {
     background-image: url("/static/img/look.gif");
-    background-size: 100px 100px;
-/*     background-blend-mode: difference; */
-/*     mix-blend-mode: difference; */
+    background-size: 90px 90px;
+    background-position: center center;
 }
 
 .article-thumbnail {
-    height: 100px;
-    width: 100px;
+    height: var(--thumbnail-size);
+    width: var(--thumbnail-size);
     background: black;
-    border-radius: 3px;
+    border: 3px ridge;
 }
 
 .article-thumbnail img {
-    height: 100px;
-    width: 100px;
+    height: var(--thumbnail-size);
+    width: var(--thumbnail-size);
     object-fit: contain;
 }
 
@@ -96,6 +95,7 @@ body {
 
 .article-title {
     font-size: 18pt;
+    text-decoration: underline;
 }
 
 .arrows-wrapper {
@@ -106,19 +106,38 @@ body {
     align-content: space-around;
 }
 
-.arrow {
-    display: block;
-    width: var(--arrow-size);
-    height: var(--arrow-size);
+@supports (mask-image: url()) {
+    .arrow {
+        display: block;
+        width: var(--arrow-size);
+        height: var(--arrow-size);
 
-    background: repeating-linear-gradient(90deg, #fff, #222, #fff);
-    background-size: var(--osc-size) 150px;
-    animation: scroll-osc-x var(--osc-period) linear infinite;
+        background: repeating-linear-gradient(90deg, #fff, #222, #fff);
+        background-size: var(--osc-size) 150px;
+        animation: scroll-osc-x var(--osc-period) linear infinite;
+        mask-image: url("/static/img/arrow.svg");
+    }
+    
+    .arrow image {
+        display: none;
+    }
 }
 
-.arrow image {
-    width: var(--arrow-size);
-    height: var(--arrow-size);
+@supports not (mask-image: url()) {
+    .arrow {
+        display: block;
+        width: var(--arrow-size);
+        height: var(--arrow-size);
+
+        background: repeating-linear-gradient(90deg, #fff, #222, #fff);
+        background-size: var(--osc-size) 150px;
+        animation: scroll-osc-x var(--osc-period) linear infinite;
+    }
+    
+    .arrow image {
+        width: var(--arrow-size);
+        height: var(--arrow-size);
+    }
 }
 
 @keyframes scroll-osc-x {
