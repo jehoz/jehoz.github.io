@@ -1,4 +1,5 @@
 :root {
+    --arrow-size: 130px;
     --osc-size: 60px;
     --osc-period: 2s;
 }
@@ -35,51 +36,66 @@ body {
 
 #pages-list-wrapper {
     display: inline-block;
+    width: 50%;
+    
     font-family: Taviraj;
     flex-grow: 1;
     overflow-y: scroll;
     overflow-x: hidden;
+
+    background: repeating-linear-gradient(#000, #ddd, #000);
+    background-size: 1px var(--osc-size);
+    animation: scroll-osc-y 1s linear infinite;
+    
 }
 
 .article-link {
     text-decoration: none;
+    text-shadow: -1px -1px white, 1px -1px white, 1px 1px white, -1px 1px white;
     display: flex;
-
-    color: white;
-    padding: 15px 20px;
-    margin: 15px 15px;
     
-    background: repeating-linear-gradient(#222, #000, #222);
-    background-size: 1px var(--osc-size);
-    animation: scroll-osc-y var(--osc-period) linear infinite;
+    flex-grow: 1;
+
+    color: black;
+    padding: 3px;
+    margin: 15px 30px;
+
+    background: white;
+    border-radius: 3px;
 }
 
 .article-link:hover {
-    background: repeating-linear-gradient(#333, #111, #333);
-    background-size: 1px var(--osc-size);
+    background-image: url("/static/img/look.gif");
+    background-size: 100px 100px;
+/*     background-blend-mode: difference; */
+/*     mix-blend-mode: difference; */
 }
 
 .article-thumbnail {
     height: 100px;
     width: 100px;
+    background: black;
+    border-radius: 3px;
 }
 
 .article-thumbnail img {
     height: 100px;
     width: 100px;
-    object-fit: scale-down;
+    object-fit: contain;
 }
 
 .article-details {
     margin: 10px 20px;
+    line-height: 1.75em;
 }
 
 .article-date {
-    font-size: 12pt;
+    font-size: 10pt;
+    line-height: 1.25em;
 }
 
 .article-title {
-    font-size: 16pt;
+    font-size: 18pt;
 }
 
 .arrows-wrapper {
@@ -92,12 +108,17 @@ body {
 
 .arrow {
     display: block;
-    width: 150px;
-    height: 150px;
+    width: var(--arrow-size);
+    height: var(--arrow-size);
 
-    background: repeating-linear-gradient(90deg, #fff, #bbb, #fff);
+    background: repeating-linear-gradient(90deg, #fff, #222, #fff);
     background-size: var(--osc-size) 150px;
     animation: scroll-osc-x var(--osc-period) linear infinite;
+}
+
+.arrow image {
+    width: var(--arrow-size);
+    height: var(--arrow-size);
 }
 
 @keyframes scroll-osc-x {
