@@ -2,7 +2,7 @@
 title: Markdown test page
 date: 2023-10-1
 template: article.html
-thumbnail: /static/img/swag-cat.gif
+thumbnail: naenae-cat.gif
 ---
 
 # Markdown tester page
@@ -54,13 +54,9 @@ Welcome to the [DANGER ZONE](https://jehoz.github.io/).
 >
 >> Markdown is often used to format readme files, for writing messages in online discussion forums, and to create rich text using a plain text editor.
 
-## Tables
+## Unicode
 
-| Left columns  | Right columns |
-| ------------- |:-------------:|
-| left foo      | right foo     |
-| left bar      | right bar     |
-| left baz      | right baz     |
+日本語
 
 ## Blocks of code
 
