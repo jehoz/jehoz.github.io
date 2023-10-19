@@ -23,7 +23,7 @@ body {
     height: 100%;
     z-index: -1;
 
-    background-image: url(/static/img/stars.gif);
+    background-image: url(/static/img/templates/stars.gif);
     background-blend-mode: lighten;
 }
 
@@ -107,7 +107,7 @@ pre code {
 
 @supports (mask-image: url()) {
     .arrow {
-        mask-image: url("/static/img/arrow.svg");
+        mask-image: url("/static/img/templates/arrow.svg");
     }
     
     .arrow image {
