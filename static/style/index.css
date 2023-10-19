@@ -61,11 +61,11 @@ body {
     margin: 15px 30px;
 
     background: white;
-    border: 3px ridge black;
+    border: 3px ridge #888;
 }
 
 .article-link:hover {
-    background-image: url("/static/img/look.gif");
+    background-image: url("/static/img/templates/look.gif");
     background-size: 90px 90px;
     background-position: center center;
 }
@@ -74,7 +74,7 @@ body {
     height: var(--thumbnail-size);
     width: var(--thumbnail-size);
     background: black;
-    border: 3px ridge;
+    border: 3px ridge #888;
 }
 
 .article-thumbnail img {

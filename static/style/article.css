@@ -24,7 +24,6 @@ body {
     z-index: -1;
 
     background-image: url(/static/img/templates/stars.gif);
-    background-blend-mode: lighten;
 }
 
 #article-body h1, h2, h3, h4, h5, h6 {
@@ -152,7 +151,7 @@ a:hover .arrow {
     padding: 0.5em 1.5em;
 
     background: var(--background-color);
-    border: 3px ridge;
+    border: 3px ridge #888;
 }
 
 .marquee {
@@ -166,7 +165,7 @@ a:hover .arrow {
     padding: 0.25em 0;
     
     background: black;
-    border-top: 3px ridge;
+    border-top: 3px ridge #888;
 }
 
 .marquee div {
