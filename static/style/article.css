@@ -11,6 +11,10 @@
     --arrow-size: 20pt;
 }
 
+html, body {
+    height: 100%;
+}
+
 body {
     background: black;
     font-family: var(--body-face);
@@ -66,6 +70,12 @@ pre code {
     text-align: center;
 
     color: var(--heading-color);
+}
+
+#page-wrapper {
+    display: flex;
+    flex-direction: column;
+    min-height: 100%;
 }
 
 #banner {
@@ -152,6 +162,10 @@ a:hover .arrow {
 
     background: var(--background-color);
     border: 3px ridge #888;
+}
+
+#spacer {
+    flex: 1;
 }
 
 .marquee {
