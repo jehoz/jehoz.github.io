@@ -22,40 +22,43 @@
 
 <body>
     <div class="bg-image"></div>
-    <div id="banner">
-        <a href="/">
-            <svg class="arrow">
-                <image href="/static/img/templates/arrow_neg.svg" />
-            </svg>
-            <span>home</span>
-        </a>
-    </div>
-    <div id="article-body">
-        <div id="article-title">
-            {{ title }}
+    <div id="page-wrapper">
+        <div id="banner">
+            <a href="/">
+                <svg class="arrow">
+                    <image href="/static/img/templates/arrow_neg.svg" />
+                </svg>
+                <span>home</span>
+            </a>
         </div>
-        {{{ body }}}
-    </div>
-    <div class="marquee">
-        <div id="footer-inner">
-            <span class="marquee-item">
-                <span>
-                    thank you for reading
-                </span>
-                <img src="/static/img/templates/heart.gif"></img>
-            </span>
-            <span class="marquee-item">
-                <span>
-                    please come back soon
-                </span>
-                <img src="/static/img/templates/wave.gif"></img>
-            </span>
+        <div id="article-body">
+            <div id="article-title">
+                {{ title }}
+            </div>
+            {{{ body }}}
         </div>
-        <script type="text/javascript">
-            // duplicate the spans in the footer marquee 8 times
-            let footer = document.getElementById("footer-inner");
-            footer.innerHTML = footer.innerHTML.repeat(8);
-        </script>
+        <div id="spacer"></div>
+        <div class="marquee">
+            <div id="footer-inner">
+                <span class="marquee-item">
+                    <span>
+                        thank you for reading
+                    </span>
+                    <img src="/static/img/templates/heart.gif"></img>
+                </span>
+                <span class="marquee-item">
+                    <span>
+                        please come back soon
+                    </span>
+                    <img src="/static/img/templates/wave.gif"></img>
+                </span>
+            </div>
+            <script type="text/javascript">
+                // duplicate the spans in the footer marquee 8 times
+                let footer = document.getElementById("footer-inner");
+                footer.innerHTML = footer.innerHTML.repeat(8);
+            </script>
+        </div>
     </div>
 </body>
 
