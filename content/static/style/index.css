@@ -151,3 +151,35 @@ body {
         background-position-y: var(--osc-size);
     }
 }
+
+/**
+ *  Modify layout for portrait landscape phones
+ *  (using the max-width value that bootstrap uses)
+ */
+@media (max-width: 575.98px) {
+   #outer-wrapper {
+       flex-direction: column;
+   }
+
+   #bio-wrapper {
+       height: fit-content;
+       width: 100%;
+   }
+
+   #pages-list-wrapper {
+       width: 100%;
+   }
+
+   .arrows-wrapper {
+       display: flex;
+       width: 100%;
+       height: auto;
+       margin: auto;
+       margin-bottom: 2em;
+   }
+
+   .arrow {
+       rotate: 90deg;
+       margin: auto;
+   }
+}
