@@ -1,7 +1,8 @@
 ---
-title: Hydraulic Erosion on Virtual Terrain
+title: Hydraulic Erosion on Procedural Terrain
 date: 2023-12-01
 template: article.html
+thumbnail: erosion-terrain.png
 include-script:
   - https://notabug.org/Ash/highlightjs-zig/raw/85472160e62a0aa0a455a4f16853f0be993e2882/dist/zig.min.js
 ---
