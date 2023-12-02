@@ -1,0 +1,68 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>
+        And we&#39;re live
+    </title>
+    <link rel="stylesheet" type="text/css" href="/static/style/article.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Taviraj&family=Work+Sans&display=swap" rel="stylesheet">
+    <link href="https://pvinis.github.io/iosevka-webfont/3.4.1/iosevka.css" rel="stylesheet" />
+
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/base16/gigavolt.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+
+
+
+    <script type="text/javascript">
+        hljs.highlightAll();
+    </script>
+</head>
+
+<body>
+    <div class="bg-image"></div>
+    <div id="page-wrapper">
+        <div id="banner">
+            <a href="/">
+                <svg class="arrow">
+                    <image href="/static/img/templates/arrow_neg.svg" />
+                </svg>
+                <span>home</span>
+            </a>
+        </div>
+        <div id="article-body">
+            <div id="article-title">
+                And we&#39;re live
+            </div>
+            <p>Well I finally got my website all set up. I decided to roll my own SSG instead of using something like Jekyll (what any sensible person would do), so it took a bit longer than it should have, but I&#39;m decently happy with the result.</p><p>The plan is for this to be a place where I document and show off some personal projects.</p><p>Anyway that&#39;s about it.  I&#39;m only writing this as an inaugural first post. Expect everything that comes later to be slightly more interesting.</p>
+        </div>
+        <div id="spacer"></div>
+        <div class="marquee">
+            <div id="footer-inner">
+                <span class="marquee-item">
+                    <span>
+                        thank you for reading
+                    </span>
+                    <img src="/static/img/templates/heart.gif"></img>
+                </span>
+                <span class="marquee-item">
+                    <span>
+                        please come back soon
+                    </span>
+                    <img src="/static/img/templates/wave.gif"></img>
+                </span>
+            </div>
+            <script type="text/javascript">
+                // duplicate the spans in the footer marquee 8 times
+                let footer = document.getElementById("footer-inner");
+                footer.innerHTML = footer.innerHTML.repeat(8);
+            </script>
+        </div>
+    </div>
+</body>
+
+</html>

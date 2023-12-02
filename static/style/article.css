@@ -33,6 +33,7 @@ body {
 #article-body h1, h2, h3, h4, h5, h6 {
     font-family: var(--headline-face);
     color: var(--heading-color);
+    padding-top: 1em;
 }
 
 #article-body pre, code {
@@ -53,6 +54,13 @@ pre code {
     margin: 0;
     padding: 0;
 
+}
+
+#article-body img, video {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    border: 2px solid var(--border-color);
 }
 
 #article-body blockquote {
