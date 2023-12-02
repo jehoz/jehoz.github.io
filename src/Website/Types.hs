@@ -103,7 +103,7 @@ instance ToMarkup Markdown where
         Html.blockquote $
           iter children
       HTML_BLOCK text -> do
-        toMarkup text
+        Html.preEscapedText text
         iter children
       CUSTOM_BLOCK enter exit -> do
         toMarkup enter
@@ -130,7 +130,7 @@ instance ToMarkup Markdown where
       SOFTBREAK -> toMarkup (" " :: String)
       LINEBREAK -> Html.br
       HTML_INLINE text -> do
-        toMarkup text
+        Html.preEscapedText text
         iter children
       CUSTOM_INLINE enter exit -> do
         toMarkup enter
