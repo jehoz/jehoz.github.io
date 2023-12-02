@@ -51,23 +51,20 @@ body {
 }
 
 .article-link {
+    font-family: Work Sans;
     text-decoration: none;
-    text-shadow: -1px -1px white, 1px -1px white, 1px 1px white, -1px 1px white;
     display: flex;
-    
 
     color: black;
-    padding: 15px;
+    padding: 4px;
     margin: 15px 30px;
 
-    background: white;
+    background: #fffe;
     border: 3px ridge #888;
 }
 
 .article-link:hover {
-    background-image: url("/static/img/templates/look.gif");
-    background-size: 90px 90px;
-    background-position: center center;
+    background: #fff;
 }
 
 .article-thumbnail {
@@ -84,18 +81,18 @@ body {
 }
 
 .article-details {
-    margin: 10px 20px;
+    margin: 10px 15px;
     line-height: 1.75em;
 }
 
 .article-date {
-    font-size: 10pt;
+    font-size: 12pt;
     line-height: 1.25em;
+    color: #5b5b5b;
 }
 
 .article-title {
     font-size: 18pt;
-    text-decoration: underline;
 }
 
 .arrows-wrapper {
@@ -115,7 +112,7 @@ body {
         background: repeating-linear-gradient(90deg, #fff, #222, #fff);
         background-size: var(--osc-size) 150px;
         animation: scroll-osc-x var(--osc-period) linear infinite;
-        mask-image: url("/static/img/arrow.svg");
+        mask-image: url("/static/img/templates/arrow.svg");
     }
     
     .arrow image {
