@@ -37,6 +37,21 @@ body {
     padding-top: 1em;
 }
 
+h1::before {
+    content: "| ";
+    color: var(--border-color);
+}
+
+h2::before {
+    content: "|| ";
+    color: var(--border-color);
+}
+
+h3::before {
+    content: "||| ";
+    color: var(--border-color);
+}
+
 #article-body pre, code {
     font-family: var(--code-face);
 }
@@ -229,4 +244,55 @@ a:hover .arrow {
 @keyframes marquee {
     0% { transform: translateX(0); }
   100% { transform: translateX(-28em); }
+}
+
+/**
+ *  Modify layout for mobile
+ */
+@media only screen and (max-width: 992px) {
+    #banner a {
+        font-size: 5vmin;
+    }
+
+    .arrow {
+        width: 5vmin;
+        height: 5vmin;
+    }
+
+    #date {
+        font-size: 4vmin;
+    }
+
+    #article-body {
+        border: none;
+        margin: 0;
+        max-width: 90vw;
+        padding: 5vw;
+    }
+    
+    #article-title {
+        font-size: 8vmin;
+        font-weight: bold;
+    }
+    
+    #article-body img, video {
+        max-width: 90vw;
+        width: 100%;
+    }
+
+    #article-body p, pre, code {
+        font-size: 4vmin;
+    }
+
+    h1 {
+        font-size: 7vmin;
+    }
+
+    h2 {
+        font-size: 6vmin;
+    }
+
+    h3 {
+        font-size: 5vmin;
+    }
 }
