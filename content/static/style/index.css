@@ -1,12 +1,17 @@
 :root {
-    --arrow-size: 130px;
+    --arrow-size: 100px;
     --osc-size: 60px;
     --osc-period: 2s;
-    --thumbnail-size: 90px;
+    --thumbnail-size: 100px;
 }
 
 body {
     margin: 0;
+}
+
+hr {
+    border: none;
+    border-bottom: 1px solid #cdcdcd;
 }
 
 #outer-wrapper {
@@ -30,7 +35,7 @@ body {
     max-width: 8em;
 
     font-family: Work Sans;
-    font-size: 48pt;
+    font-size: 3vw;
     display: inline-block;
     vertical-align: top;
 }
@@ -56,10 +61,10 @@ body {
     display: flex;
 
     color: black;
-    padding: 4px;
-    margin: 15px 30px;
+    padding: 8px;
+    margin: 20px;
 
-    background: #fffe;
+    background: #fff;
     border: 3px ridge #888;
 }
 
@@ -70,8 +75,7 @@ body {
 .article-thumbnail {
     height: var(--thumbnail-size);
     width: var(--thumbnail-size);
-    background: black;
-    border: 3px ridge #888;
+    background: url("/static/img/templates/stars.gif");
 }
 
 .article-thumbnail img {
@@ -81,8 +85,8 @@ body {
 }
 
 .article-details {
-    margin: 10px 15px;
-    line-height: 1.75em;
+    margin: auto 10px;
+    width: 100%;
 }
 
 .article-date {
@@ -92,7 +96,9 @@ body {
 }
 
 .article-title {
-    font-size: 18pt;
+    font-size: 20pt;
+    font-weight: bold;
+    color: #3d4348;
 }
 
 .arrows-wrapper {
@@ -153,11 +159,15 @@ body {
  *  Modify layout for mobile
  */
 @media only screen and (max-width: 992px) {
-   #outer-wrapper {
-       flex-direction: column;
-       height: auto;
-       min-height: 100vh;
-   }
+    hr {
+        border: 0.25vmin solid #cdcdcd;
+    }
+
+    #outer-wrapper {
+        flex-direction: column;
+        height: auto;
+        min-height: 100vh;
+    }
 
    #bio-wrapper {
        height: auto;
@@ -180,9 +190,20 @@ body {
    .article-link {
        margin: 1vw;
    }
+    
+    .article-thumbnail {
+        width: fit-content;
+        height: fit-content;
+        flex: none;
+    }
+    
+    .article-thumbnail img {
+        width: 25vmin;
+        height: 25vmin;
+    }
    
    .article-date {
-       font-size: 3vmin;
+       font-size: 3.5vmin;
    }
    
    .article-title {
