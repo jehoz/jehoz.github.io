@@ -150,17 +150,23 @@ body {
 }
 
 /**
- *  Modify layout for portrait landscape phones
- *  (using the max-width value that bootstrap uses)
+ *  Modify layout for mobile
  */
-@media (max-width: 575.98px) {
+@media only screen and (max-width: 992px) {
    #outer-wrapper {
        flex-direction: column;
+       height: auto;
+       min-height: 100vh;
    }
 
    #bio-wrapper {
-       height: fit-content;
+       height: auto;
        width: 100%;
+   }
+
+   #bio {
+       font-size: 6vmin;
+       max-width: 90%;
    }
 
    #pages-list-wrapper {
@@ -168,15 +174,18 @@ body {
    }
 
    .arrows-wrapper {
-       display: flex;
-       width: 100%;
-       height: auto;
-       margin: auto;
-       margin-bottom: 2em;
+       display: none;
    }
 
-   .arrow {
-       rotate: 90deg;
-       margin: auto;
+   .article-link {
+       margin: 1vw;
+   }
+   
+   .article-date {
+       font-size: 3vmin;
+   }
+   
+   .article-title {
+       font-size: 5vmin;
    }
 }
