@@ -4,7 +4,7 @@ date: 2023-12-01
 template: article.html
 thumbnail: erosion-terrain.png
 include-script:
-  - https://notabug.org/Ash/highlightjs-zig/raw/85472160e62a0aa0a455a4f16853f0be993e2882/dist/zig.min.js
+  - /static/scripts/zig.min.js
 ---
 
 This is a neat little technique for procedural terrain that I had seen a few
