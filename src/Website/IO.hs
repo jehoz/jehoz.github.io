@@ -47,9 +47,12 @@ loadContent dir = do
           let attrs' =
                 M.insert
                   "_url"
-                  (PAText . T.pack $ "/" </> relativePath spath -<.> "html")
+                  (PAText . T.pack $ "/" </> pathToUrl (relativePath spath) -<.> "html")
                   page.attrs
            in return $ page {sourcePath = spath, attrs = attrs'}
+
+    -- replace backslash path separators with forward slashes in case the progream is run on Windows
+    pathToUrl = map (\c -> if c == '\\' then '/' else c)
 
 -- | Traverse through a directory, attempt to parse every file found as a
 -- Mustache `Template`.
