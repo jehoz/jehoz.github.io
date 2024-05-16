@@ -8,8 +8,46 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Taviraj&family=Work+Sans&display=swap" rel="stylesheet">
     <link href="https://pvinis.github.io/iosevka-webfont/3.4.1/iosevka.css" rel="stylesheet" />
-</head>
 
+
+    <script>
+        let articles = [
+            {{#pages}}
+            {
+                url: "{{_url}}",
+                title: "{{title}}",
+                thumbnail: "/static/img/thumbnails/{{thumbnail}}",
+                date: "{{date}}",
+                datePretty: "{{date-pretty}}",
+            },
+            {{/pages}}
+        ];
+
+        function populatePageList() {
+            articles.sort((a, b) => (b.date.localeCompare(a.date)));
+
+            let listWrapper = document.getElementById("pages-list-wrapper");
+            listWrapper.innerHTML = "";
+            for (const a of articles) {
+                let articleHTML = `
+                <a class="article-link" href="${a.url}">
+                    <div class="article-thumbnail">
+                        <img src="${a.thumbnail}" />
+                    </div>
+                    <div class="article-details">
+                        <div class="article-title">${a.title}</div>
+                        <hr>
+                        <div class="article-date">${a.datePretty}</div>
+                    </div>
+                </a>
+                `
+                listWrapper.innerHTML += articleHTML;
+            }
+        }
+
+        document.addEventListener("DOMContentLoaded", populatePageList);
+    </script>
+</head>
 <body>
     <div id="outer-wrapper">
         <div id="bio-wrapper">
@@ -37,18 +75,8 @@
         </div>
 
         <div id="pages-list-wrapper">
-            {{#pages}}
-            <a class="article-link" href="{{_url}}">
-                <div class="article-thumbnail">
-                    <img src="/static/img/thumbnails/{{thumbnail}}" />
-                </div>
-                <div class="article-details">
-                    <div class="article-title">{{title}}</div>
-                    <hr>
-                    <div class="article-date">{{date-pretty}}</div>
-                </div>
-            </a>
-            {{/pages}}
+            <!-- Article links are dynamically generated and put here -->
+        </div>
 </body>
 
 </html>
