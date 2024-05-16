@@ -8,8 +8,58 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Taviraj&family=Work+Sans&display=swap" rel="stylesheet">
     <link href="https://pvinis.github.io/iosevka-webfont/3.4.1/iosevka.css" rel="stylesheet" />
-</head>
 
+
+    <script>
+        let articles = [
+            {
+                url: "/articles/2023/12/01/hydraulic_erosion.html",
+                title: "Hydraulic Erosion on Procedural Terrain",
+                thumbnail: "/static/img/thumbnails/erosion-terrain.png",
+                date: "2023-12-01",
+                datePretty: "Dec 1, 2023",
+            },
+            {
+                url: "/articles/2023/10/20/and_were_live.html",
+                title: "And we&#39;re live",
+                thumbnail: "/static/img/thumbnails/naenae-cat.gif",
+                date: "2023-10-20",
+                datePretty: "Oct 20, 2023",
+            },
+            {
+                url: "/articles/2024/05/10/parametric_legs_and_gaits.html",
+                title: "Parametric Legs and Gaits",
+                thumbnail: "/static/img/thumbnails/creature-walk.gif",
+                date: "2024-05-10",
+                datePretty: "May 10, 2024",
+            },
+        ];
+
+        function populatePageList() {
+            articles.sort((a, b) => (b.date.localeCompare(a.date)));
+
+            let listWrapper = document.getElementById("pages-list-wrapper");
+            listWrapper.innerHTML = "";
+            for (const a of articles) {
+                let articleHTML = `
+                <a class="article-link" href="${a.url}">
+                    <div class="article-thumbnail">
+                        <img src="${a.thumbnail}" />
+                    </div>
+                    <div class="article-details">
+                        <div class="article-title">${a.title}</div>
+                        <hr>
+                        <div class="article-date">${a.datePretty}</div>
+                    </div>
+                </a>
+                `
+                listWrapper.innerHTML += articleHTML;
+            }
+        }
+
+        document.addEventListener("DOMContentLoaded", populatePageList);
+    </script>
+</head>
 <body>
     <div id="outer-wrapper">
         <div id="bio-wrapper">
@@ -37,36 +87,8 @@
         </div>
 
         <div id="pages-list-wrapper">
-            <a class="article-link" href="/articles/2023/10/20/and_were_live.html">
-                <div class="article-thumbnail">
-                    <img src="/static/img/thumbnails/naenae-cat.gif" />
-                </div>
-                <div class="article-details">
-                    <div class="article-title">And we&#39;re live</div>
-                    <hr>
-                    <div class="article-date">Oct 20, 2023</div>
-                </div>
-            </a>
-            <a class="article-link" href="/articles/2023/12/01/hydraulic_erosion.html">
-                <div class="article-thumbnail">
-                    <img src="/static/img/thumbnails/erosion-terrain.png" />
-                </div>
-                <div class="article-details">
-                    <div class="article-title">Hydraulic Erosion on Procedural Terrain</div>
-                    <hr>
-                    <div class="article-date">Dec 1, 2023</div>
-                </div>
-            </a>
-            <a class="article-link" href="/articles/2024/05/10/parametric_legs_and_gaits.html">
-                <div class="article-thumbnail">
-                    <img src="/static/img/thumbnails/creature-walk.gif" />
-                </div>
-                <div class="article-details">
-                    <div class="article-title">Parametric Legs and Gaits</div>
-                    <hr>
-                    <div class="article-date">May 10, 2024</div>
-                </div>
-            </a>
+            <!-- Article links are dynamically generated and put here -->
+        </div>
 </body>
 
 </html>
