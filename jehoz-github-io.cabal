@@ -18,7 +18,7 @@ library
     Website.Types
 
   build-depends:
-    , base                  ^>=4.16.4.0
+    , base                  >=4.16 && < 5
     , blaze-html
     , containers
     , cmark
@@ -37,7 +37,7 @@ executable jehoz-github-io
   import:           warnings
   main-is:          Main.hs
   build-depends:
-    , base             ^>=4.16.4.0
+    , base                  >=4.16 && < 5
     , optparse-applicative
     , website
 
