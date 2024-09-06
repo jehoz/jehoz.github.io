@@ -2,7 +2,7 @@
 title: Constraint-based PCG with propagator networks
 date: 2024-09-05
 template: article.html
-thumbnail: todo
+thumbnail: propnet-wfc.gif
 syntax: haskell
 ---
 
