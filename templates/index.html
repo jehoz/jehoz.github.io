@@ -16,6 +16,7 @@
             {
                 url: "{{_url}}",
                 title: "{{title}}",
+                blurb: "{{blurb}}",
                 thumbnail: "/static/img/thumbnails/{{thumbnail}}",
                 date: "{{date}}",
                 datePretty: "{{date-pretty}}",
@@ -36,8 +37,8 @@
                     </div>
                     <div class="article-details">
                         <div class="article-title">${a.title}</div>
-                        <hr>
                         <div class="article-date">${a.datePretty}</div>
+                        <div class="article-blurb">${a.blurb}</div>
                     </div>
                 </a>
                 `

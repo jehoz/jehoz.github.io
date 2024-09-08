@@ -1,5 +1,6 @@
 ---
-title: Constraint-based PCG with propagator networks
+title: Constraint propagation networks
+blurb: A computational model for constraint satisfaction problems and procedural generation.
 date: 2024-09-05
 template: article.html
 thumbnail: propnet-wfc.gif

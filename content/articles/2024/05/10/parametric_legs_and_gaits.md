@@ -1,5 +1,6 @@
 ---
 title: Parametric Legs and Gaits
+blurb: Making natural-looking walking animations with a bunch of trigonometry.
 date: 2024-05-10
 template: article.html
 thumbnail: creature-walk.gif
