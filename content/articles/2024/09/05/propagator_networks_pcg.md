@@ -1,5 +1,5 @@
 ---
-title: Constraint propagation networks
+title: Propagator networks
 blurb: A computational model for constraint satisfaction problems and procedural generation.
 date: 2024-09-05
 template: article.html
@@ -12,14 +12,12 @@ video](https://www.youtube.com/watch?v=s2dknG7KryQ) of Ed Kmett talking about
 something called propagators.  From there I found [the paper that originally
 introduced these
 things](https://dspace.mit.edu/bitstream/handle/1721.1/44215/MIT-CSAIL-TR-2009-002.pdf),
-co-written by Alexey Radul and the venerable Gerald Sussman, which I would
-highly recommend checking out.  Radul's [PhD dissertation from the same
+co-written by Alexey Radul and the venerable Gerald Sussman (which I would
+highly recommend checking out).  Radul's [PhD dissertation from the same
 year](https://dspace.mit.edu/bitstream/handle/1721.1/54635/603543210-MIT.pdf)
 is effectively a more thorough and unabridged version of the paper, and also
 worth reading through if you, like me, become seduced into implementing these
-yourself. I've been tinkering around with a library for building propagator
-networks, and it's in a decent enough state that I feel like I can write about
-it.
+yourself.
 
 ![](res/radul.png)
 
@@ -37,43 +35,86 @@ frame.  Instead of having one thing that transforms into another, what if we
 have a bunch of things that "non-linearly" relate or react to one another?
 
 Propagation networks are really great at expressing this latter type of
-problem. Networks are made up of a bunch of "cells" that hold information
-*about* a value (rather than a single defined value per se) and we interconnect
-these cells with reactive functions called *propagators*.  A propagator links
-one or more input cells to one or more output cells, and upon any change to an
-input cell, the propagator pulls in the partial information from all of its
-inputs, transforms them in some way, and pushes the result to the output cells.
-This structure turns out to be pretty flexible and opens up a new kind of
+problem. Networks are made up of a bunch of "cells" which accumulate
+information *about* a value (I know that's a bit abstract, but bear with me
+here) and we interconnect these cells with reactive functions called
+*propagators*. Propagators link some input cells to some output cells, and when
+any of the inputs are updated with new information, the propagator pulls in all
+of the inputs, processes that information in some way and propagates the result
+to all of the outputs.
+
+This architecture turns out to be pretty flexible and opens up a new kind of
 expressive power for us. By modelling the flow of information as a graph rather
 than a sequence or tree, we relax the linear structure of time in our approach
 to solving a problem.  We simply implement relationships or connections
 between values, and the order in which they are evaluated is determined at
 runtime.
 
-However, we now have some additional responsibility that comes along with this
-power.  Information will keep propagating around our network until the cells
-stop getting new information.  And since we would probably like our programs to
-terminate, we need to ensure that each update to a cell always brings it's
-contents closer to a single defined value. Ed Kmett makes this requirement a
-little more formal by saying that any partial information type we use should
-form a [join semilattice](https://en.wikipedia.org/wiki/Semilattice), and
-propagating info from one cell to another should be a [monotonic
-function](https://en.wikipedia.org/wiki/Monotonic_function).  This essentially
-means the partial information inside our cells needs to have a well-defined
-notion of one value having "more information" than another, and when when a
-cell incorporates some incoming partial information, one of three things can
-happen:
-1. No change — the incoming information contained nothing we didn't already
-   know
-2. Increase in information — the incoming information told us something new and
-   we are closer to a fully defined value (outgoing propagators are triggered
-   when this happens)
-3. Contradiction — the information we received is incompatible with the
-   information currently in the cell.  This immediately triggers a failure for
-   the entire network.
+However, we now have some new pitfalls to avoid. Unless cells have a way to
+determine whether incoming information is "new" or not, our network will just
+keep propagating stuff around forever. And since we would probably like our
+programs to terminate, we need to carefully define decide how to represent this
+information, and what it means for cells to "accumulate" it.
 
-I know a lot of this has been pretty abstract so far, so let's get to an actual
-application.
+## Time for some math
+
+Before we come up with a concrete implementation for our "partial information",
+we need to decide what kind of laws it should follow. When a cell gets some new
+information, we intuitively expect the result to be a logical combination of
+the information coming in and the information that was already in the cell. And
+if the incoming information isn't just redundant, we want that combination to
+    be "greater than" either of the inputs on their own, in the sense that it
+    holds more information.
+
+Whenever we need a way to talk about a class of things that follow some abstract 
+rules, it's a safe bet that
+mathematicians already have an entire field dedicated to what we're looking for.
+And, lo and behold, this is the case for us here.
+A set where we can compare elements using the `<=` relation is called a 
+[partial order](https://en.wikipedia.org/wiki/Partially_ordered_set).
+And better yet, there's a special type of partial order called a 
+[semilattice](https://en.wikipedia.org/wiki/Semilattice) 
+which includes an operation we can use to combine elements.
+
+Before I start throwing more jargon around let's get a little example going.
+Say we have a network where we want each cell to settle on one of three values:
+`A`, `B`, or `C`. The information inside a cell in this case is simple: at any
+point in time, a cell stores the set of values it *could* be. We'll initialize
+the cells with the universal set `{A,B,C}` and the idea is that some of these
+elements will get discarded over time until we're down to a singleton, which we
+can interpret as the final value for the cell. There's a neat little thing
+called a [Hasse diagram](https://en.wikipedia.org/wiki/Hasse_diagram) which
+lets us visually represent partial orders.  Let's make one for the information
+in our cells.
+
+![](res/hasse.png)
+
+The arrows between elements in the Hasse diagram indicate the ordering between
+elements. We can say that `x <= y` if there is a direct path from `x` to `y` in
+the diagram (or they are the same). Note that it doesn't really make sense to
+ask whether `{A, B}` or `{A, C}` is "greater" than the other, which is why our
+information is a *partial order* not a *total order*! You should be able to see
+how the elements contain more information (or less entropy, if that makes more
+sense to you) as we move up the graph.
+
+The semilattice operation I mentioned that let's us combine elements is 
+called "join" (since we are specifically dealing with join-semilattices; there's
+a dual operation called "meet" for, you guessed it, meet-semilattices).
+What join actually does is gives us the "least upper bound" for two elements of 
+the semilattice, which is the least element that is greater than both of the 
+operands.  For example, the least upper bound of `{A,B}` and `{B,C}` in the diagram above
+is `{C}` so `{A,B} ∧ {B,C} == {C}`.
+
+You might have noticed by now that the top of the Hasse diagram has an empty
+set element `{}`, which doesn't really correspond to a value.  In practice, if
+our cell holds the empty set, it means there are no possible values that the
+cell could be, and that our problem is unsolvable! In other words, moving above
+the row of singletons means that we've encountered some kind of contradiction,
+in which case we immediately stop propagating and indicate that our computation
+has failed.
+
+Ok that was a lot of explaining, but now we get to actually put all of this
+into practice!
 
 # Constraint satisfaction problems
 
@@ -84,29 +125,26 @@ constraint satisfaction problems.
 
 In a CSP, you have a bunch of variables and some rules for how those variables
 relate to each other (called constraints), and the goal is to assign a value to
-each variable such that all of your constraints are satisfied. If you have a
-decent grasp of everything we've talked about so far, you might already have
-some intuition for how we can map a CSP onto a propagator network.  We'll
-create a cell for each variable, which will store information about what the
-variable could be (i.e. a set of possible values).  Between these cells we
-install propagators which enforce the relations by translating between sets of
-possibilities.  Each cell is then able to refine its possibility-space by
-taking the intersection of the incoming sets, ideally culminating in a single
-value.
+each variable such that all of your constraints are satisfied. This obviously
+maps super nicely onto propagator networks.  We'll create a cell for each
+variable, which will store information about what the variable could be (i.e. a
+set of possible values).  Between these cells we install propagators which
+enforce the relations by translating between sets of possibilities.  Each cell
+is then able to refine its possibility-space by taking the intersection of the
+incoming sets, ideally culminating in a single value.
 
 ## Vertex coloring
 
-Let's look at an example CSP and how we would solve it with a propagator
+Let's look at a nice simple CSP and how we would solve it with a propagator
 network. A sudoku puzzle is the typical example of a CSP that most people are
 familiar with. But I want to draw everything out visually, and with a sudoku
 puzzle there are just so many nodes and connections that it becomes kind of a
 mess to look at, so instead I'm going to walk through an example using [vertex
-coloring](https://en.wikipedia.org/wiki/Graph_coloring).  Sudoku is actually a
-specific case of vertex coloring using 9 "colors" on a graph that looks
-something like
-[this](https://networkx.org/nx-guides/_images/ffec44e14f6473fdb7c06e16d06202d99b4228ede0669f72fb707ce7ba0c481f.png). 
+coloring](https://en.wikipedia.org/wiki/Graph_coloring) (sudoku is actually a
+specific case of vertex coloring using 9 "colors" on a big graph with 81
+vertices and 810 edges).
 
-Instead we'll be finding a 3-coloring of a Petersen graph, which looks like this:
+We'll be finding a 3-coloring of a Petersen graph, which looks like this:
 
 ![](res/vertcolor-00.png)
 
@@ -148,21 +186,25 @@ each vertex or `Nothing` if no solution was found.
 
 To implement this, we first we create 10 empty cells which represent the
 vertices of our graph. The value inside each of these cells is of type `OneOf
-Color`, which is our "possibility set" type.  Then, for each connected pair of
-vertices, we enforce a binary relation `neqR` which says that those two cells
-may not contain the same value (pardon the clunky naming).
+Color`, which is our "possibility set" type and implements all of the
+join-semilattice behavior we talked about above.  Then, for each connected pair
+of vertices, we enforce a binary relation `neqR` (pardon the clunky naming)
+which says that those two cells may not contain the same value.
+Behind the scenes, relations are just propagators whose input and output cells 
+are the same, so that the same rule is enforced in all directions.
 
 Then, we `search` for a solution.  A solution in this case being a value for
 each cell which satisfies the relations we enforced.  I neglected to mention
 the "searching" part of solving CSPs up until now so let's take a minute to
-look at how that works.
+talk about how that works.
 
 ## Guessing and backtracking
 
 Only the most trivial CSPs can be solved through propagation alone. What makes
-CSPs difficult to solve is that you typically have to search through many
-combinations of values for all of your variables until you find a good one, and
-that search space explodes in scale as the problem becomes more complex.
+CSPs notoriously difficult to solve is that you typically have to search
+through many combinations of values for all of your variables until you find a
+good one, and that search space explodes in scale as the problem becomes more
+complex.
 
 Since we are only dealing with discrete finite domains, we can imagine a search
 tree for our CSP where each undetermined variable creates a branching point
@@ -199,16 +241,16 @@ Ok, that's enough coping from me.  Let's get back to the example.
 ## Back to the example
 
 In the first step you can see that there is nothing to propagate, so we just
-pick an arbitrary vertex and give it a color.  No starting point is really
-better than any other here.
+pick any vertex and give it a random color.  No starting point is really better
+than any other here.
 
 ![](res/vertcolor-01.png)
 
-Then, we always want to pick our next branch point by finding a cell with the
-fewest number of remaining possibilities.  Obviously this would be one of the
-vertices connected to the red one, because we know that they cannot be red (two
-possibilities instead of three).  We pick one to branch on and color it blue,
-and then we do the same for another one (these choices are effectively random).
+We always pick the next branch point by finding a cell with the fewest number
+of remaining possibilities.  Clearly this would be any of the vertices
+connected to the red one, since we can factor red out of their possibility
+sets. We randomly pick one to branch on and color it blue, and then we do the
+same for another one.
 
 ![](res/vertcolor-02.png)
 ![](res/vertcolor-03.png)
@@ -224,15 +266,15 @@ the rest by propagation alone.
 
 ![](res/vertcolor-05.png)
 
-Cool! If you've ever solved a sudoku puzzle this should be extremely boring and
-obvious for you, but I wanted to step through an easy example before we move on
-to the next part.
+Cool! If you've ever solved a sudoku puzzle this will have been extremely
+boring and obvious for you, but I wanted to step through an easy example before
+doing the next part.
 
 # Procedural generation
 
 Now let's take this same concept and repurpose it slightly. If we allow for a
 larger set of possibilities and/or use weaker constraints, we shift from
-finding a unique solution to a problem into generating a random output that
+finding a unique solution to a problem into producing a random output that
 follows some guidelines, which you could start to call "procedural content
 generation". Indeed there is a PCG technique that got very trendy a few years
 ago called [wave function
@@ -243,8 +285,8 @@ much just constraint propagation with a cool new outfit on.  WFC randomly
 generates a composite image (or 3D model) using a limited tileset, while
 enforcing constraints about which tiles can be adjacent to which other tiles.
 This should sound pretty familiar to you, because it's not all that different
-from what we just did to color the graph!  Let's build a propagator network to 
-do this.
+from what we just did to color the graph!  Let's build out own version of this 
+using propagators.
 
 Simply out of laziness, I'm not going to make an actual image (but you could if
 you wanted to).  Instead we'll take a shortcut by drawing "graphics" to the
@@ -254,13 +296,14 @@ terminal, using these Unicode pipe characters as our tileset:
 ═ ║ ╔ ╗ ╚ ╝ ╠ ╣ ╦ ╩ ╬
 ```
 
-We want all of our pipes to be "connected" in our final image, so we need to
-set up constraints that enforce some kind of rule that says: for any two
-neighboring tiles `x` and `y`, `x` should have a connection facing `y` **if and
-only if**  `y` has a connection facing `x`. There are a few different ways we
-could approach this, but I decided to create a type representing a connection
-on one of the four cardinal directions, so that we can encode each tile as a
-combination of these connections.
+We want to fill out a big grid where each position has one of these pipe
+characters, or an empty space, while making sure that all of our pipes are
+"connected". We'll need to set up constraints to enforce a rule that says: for
+any pair of neighboring tiles `(x, y)`, `x` should have a connection facing `y`
+*if and only if*  `y` has a connection facing `x`. There are a few different
+ways we could approach this, but I decided to create a type representing a
+connection on one of the four cardinal directions, so that we can encode each
+tile as a combination of these connections.
 
 ```haskell
 data Connection = N | S | W | E deriving (Bounded, Enum)
@@ -287,13 +330,13 @@ showTile x = case C.toList x of
 A `Combination` is a set with some special typeclass instances that let us
 enumerate each unique combination of elements, meaning we can create a cell of
 type `OneOf (Combination a)` which converges to a specific *combination* of
-values, rather than one single value.
+values, rather than just one value.
 
-Now we have to think of how to implement our constraints.  In the previous
-example we used the `neqR` relation which is pretty basic (`x` and `y` are not
-equal) and built into the library.  This time around we'll implement a custom
-relation.  But before we do that, let's look at what relations are actually
-doing.  Binary relations have the following type:
+Now we have to think of how to implement our constraint.  In the previous
+example we used the `neqR` relation which is pretty basic and built into the
+library.  This time around we'll be implementing one from scratch.  But first
+we need to know what relations are actually doing.  Binary relations have the
+following type:
 
 ```haskell
 type BinaryR a b = (a, b) -> (a, b)
@@ -316,14 +359,13 @@ neqR (x, y) =
 Since *"not equal"* is a symmetric relation, we can make one helper function
 and apply it to both elements in the tuple.  The helper function `f` says that
 if the cell on the other side of the relation has a single defined value,
-    remove that value from this cell's set of possibilities.  Hopefully you can
-    see how this properly enforces the "not equal" relation for two cells.
+    remove that value from this cell's set of possibilities.
 
 Now let's think about how we can design a relation that keeps all of our tiles
 connected. Say we have two cells that are horizontally adjacent, if the one on
 the left has an `E` connection, then the one on the right *must* have a `W`
 connection, and vice versa.  And vertically adjacent cells need to follow a
-similar rule. So lets make a rule that we can parameterize with the particular
+similar rule. Lets make a rule that we can parameterize with the particular
 `Connection` values we want to match.  When one of the cells has a single
 defined value, we'll filter the possibilities of the other depending on whether
 the specified `Connection` is present.
@@ -343,8 +385,8 @@ connect ex ey (x, y) = (x', y')
           else OneOf.filter (C.notMember e1) c1
 ```
 
-There might be a more elegant way of implementing this, but this is fine for
-now.  Now let's make our propagator network and put this to use.
+There might be a more elegant way of implementing this, but this gets the job
+done for us.  Now let's make our propagator network and put this to use.
 
 ```haskell
 -- the dimensions of the output "image"
@@ -380,7 +422,7 @@ vertically and horizontally.
 
 <script src="https://asciinema.org/a/beztE6BGRI3DyQ46WtqN5eveT.js" id="asciicast-beztE6BGRI3DyQ46WtqN5eveT" async="true"></script>
 
-Wow it works.  Even though this is kind of a silly example, it's pretty fun to
+Wow it works!  Even though this is kind of a silly example, it's pretty fun to
 watch.  We can also restrict the subset of tiles that get used and generate a
 neat variety of patterns.
 
@@ -390,6 +432,5 @@ Anyway, that's about all I wanted to show off at this point.  The full source
 code for this example is also [on
 Github](https://github.com/jehoz/propnet/blob/master/examples/Tiles.hs). If any
 of this seemed cool to you, you can download the library and play around with
-it yourself.  I've tried to document everything inside the library source code
-as well, so you can get a better understanding of how everything works under
-the hood.
+it yourself.  I've tried to document everything inside the library source code, 
+but feel free to get in touch and chastise me if anything doesn't make sense.
