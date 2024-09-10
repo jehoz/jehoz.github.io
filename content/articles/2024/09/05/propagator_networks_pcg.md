@@ -19,7 +19,7 @@ is effectively a more thorough and unabridged version of the paper, and also
 worth reading through if you, like me, become seduced into implementing these
 yourself.
 
-![](res/radul.png)
+![](res/propagators.png)
 
 # Propagator networks?
 
