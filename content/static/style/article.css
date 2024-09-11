@@ -5,11 +5,10 @@
 
     --background-color: white;
     --text-color: black;
+    --accent-color: #c59cff;
     --heading-color: #3d4348;
     --border-color: #cdcdcd;
     --date-color: #808080;
-    
-    --arrow-size: 20pt;
 }
 
 html, body {
@@ -19,6 +18,7 @@ html, body {
 body {
     background: black;
     font-family: var(--body-face);
+    font-size: 1rem;
     margin: 0;
 }
 
@@ -37,18 +37,10 @@ body {
     padding-top: 1em;
 }
 
-h1::before {
-    content: "| ";
-    color: var(--border-color);
-}
-
-h2::before {
-    content: "|| ";
-    color: var(--border-color);
-}
-
+h1::before, 
+h2::before, 
 h3::before {
-    content: "||| ";
+    content: "§";
     color: var(--border-color);
 }
 
@@ -58,13 +50,13 @@ h3::before {
 
 code {
     padding: 0.2em 0.4em;
-    font-size: 85%;
+    font-size: 0.85rem;
     background-color: var(--border-color);
     border-radius: 3px;
 }
 
 pre code {
-    font-size: 100%;
+    font-size: 1rem;
 
     display: inline;
     margin: 0;
@@ -94,7 +86,7 @@ pre code {
 
 #article-title {
     font-family: var(--headline-face);
-    font-size: 36pt;
+    font-size: 3rem;
     width: fit-content;
     margin: 0.5em auto;
     text-align: center;
@@ -109,19 +101,16 @@ pre code {
 }
 
 #banner {
-    width: 100%;
     margin: 0 auto;
 }
 
 #banner a {
-    display: inline-block;
-    color: white;
-    text-decoration: none;
+    color: var(--accent-color);
+
     margin: 0 0.25em;
 
-    font-size: 20pt;
+    font-size: 1.25rem;
     font-family: var(--headline-face);
-    font-weight: bold;
     vertical-align: middle;
 }
 
@@ -131,34 +120,6 @@ pre code {
 
 #banner a span {
     vertical-align: middle;
-}
-
-.arrow {
-    transform: scaleX(-100%);
-    width: var(--arrow-size);
-    height: var(--arrow-size);
-    
-    margin: 8px 8px 8px 0px;
-    
-    background: white;
-    vertical-align: middle;
-}
-
-@supports (mask-image: url()) {
-    .arrow {
-        mask-image: url("/static/img/templates/arrow.svg");
-    }
-    
-    .arrow image {
-        display: none;
-    }
-}
-
-@supports not (mask-image: url()) {
-    .arrow image {
-        width: var(--arrow-size);
-        height: var(--arrow-size);
-    }
 }
 
 a:hover .arrow {
@@ -244,60 +205,4 @@ a:hover .arrow {
 @keyframes marquee {
     0% { transform: translateX(0); }
   100% { transform: translateX(-28em); }
-}
-
-/**
- *  Modify layout for mobile
- */
-@media only screen and (max-width: 992px) {
-    #banner a {
-        font-size: 5vmin;
-    }
-
-    .arrow {
-        width: 5vmin;
-        height: 5vmin;
-    }
-
-    .arrow image {
-        width: 5vmin;
-        height: 5vmin;
-    }
-
-    #date {
-        font-size: 4vmin;
-    }
-
-    #article-body {
-        border: none;
-        margin: 0;
-        max-width: 90vw;
-        padding: 5vw;
-    }
-    
-    #article-title {
-        font-size: 8vmin;
-        font-weight: bold;
-    }
-    
-    #article-body img, video {
-        max-width: 90vw;
-        width: 100%;
-    }
-
-    #article-body p, pre, code {
-        font-size: 4vmin;
-    }
-
-    h1 {
-        font-size: 7vmin;
-    }
-
-    h2 {
-        font-size: 6vmin;
-    }
-
-    h3 {
-        font-size: 5vmin;
-    }
 }
