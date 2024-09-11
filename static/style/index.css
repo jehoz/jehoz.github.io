@@ -2,11 +2,20 @@
     --arrow-size: 100px;
     --osc-size: 60px;
     --osc-period: 2s;
-    --thumbnail-size: 100px;
+    --thumbnail-size: 72px;
+
+    --accent-color: #c59cff;
+}
+
+html {
+    background: url("/static/img/templates/stars.gif");
+
+    color: white;
 }
 
 body {
-    margin: 0;
+    margin: 0 auto;
+    max-width: 600px;
 }
 
 hr {
@@ -14,69 +23,42 @@ hr {
     border-bottom: 1px solid #cdcdcd;
 }
 
-#outer-wrapper {
-    display: flex;
-    width: 100vw;
-    height: 100vh;
-}
-
-#bio-wrapper {
-    display: inline-block;
-    width: 50%;
-    height: 100%;
-    vertical-align: top;
-
-    background: url("/static/img/templates/stars.gif");
-    color: white;
-}
-
 #bio {
     margin: 1em;
-    max-width: 8em;
 
     font-family: Work Sans;
-    font-size: 3vw;
-    display: inline-block;
-    vertical-align: top;
+    font-size: 2rem;
 }
 
 #pages-list-wrapper {
     display: inline-block;
-    width: 50%;
-    
     font-family: Taviraj;
-    flex-grow: 1;
-    overflow-y: scroll;
-    overflow-x: hidden;
-
-    background: repeating-linear-gradient(#000, #ddd, #000);
-    background-size: 1px var(--osc-size);
-    animation: scroll-osc-y 1s linear infinite;
-    
 }
 
 .article-link {
-    font-family: Work Sans;
     text-decoration: none;
     display: flex;
 
-    color: black;
     padding: 8px;
     margin: 20px;
 
-    background: #fff;
-    border: 3px ridge #888;
+    color: #fff;
+    border: 3px ridge transparent;
+
+    font-family: Work Sans;
 }
 
 .article-link:hover {
-    background: #fff;
+    border-color: #aaa;
 }
 
+/*
 .article-thumbnail {
     height: var(--thumbnail-size);
     width: var(--thumbnail-size);
     background: url("/static/img/templates/stars.gif");
 }
+*/
 
 .article-thumbnail img {
     height: var(--thumbnail-size);
@@ -89,70 +71,23 @@ hr {
     width: 100%;
 }
 
-.article-date {
-    font-size: 12pt;
-    line-height: 1.25em;
-    color: #5b5b5b;
-
-    border-bottom: 1px solid #ccc;
-    padding-bottom: 0.25rem;
-    margin-bottom: 0.35rem;
-}
-
-.article-blurb {
-    font-size: 12pt;
-    line-height: 1.25em;
-    color: #5b5b5b;
-}
-
 .article-title {
-    font-size: 16pt;
-    font-weight: bold;
-    color: #3d4348;
+    font-size: 1.25rem;
+    color: var(--accent-color);
 
     margin-bottom: 0.25rem;
 }
 
-.arrows-wrapper {
-    height: 100%;
-    float: right;
-    margin: 0 50px;
-    display: grid;
-    align-content: space-around;
+.article-date {
+    font-size: 1rem;
+    line-height: 1.25em;
+    margin-bottom: 0.25rem;
+
 }
 
-@supports (mask-image: url()) {
-    .arrow {
-        display: block;
-        width: var(--arrow-size);
-        height: var(--arrow-size);
-
-        background: repeating-linear-gradient(90deg, #fff, #222, #fff);
-        background-size: var(--osc-size) 150px;
-        animation: scroll-osc-x var(--osc-period) linear infinite;
-        mask-image: url("/static/img/templates/arrow.svg");
-    }
-    
-    .arrow image {
-        display: none;
-    }
-}
-
-@supports not (mask-image: url()) {
-    .arrow {
-        display: block;
-        width: var(--arrow-size);
-        height: var(--arrow-size);
-
-        background: repeating-linear-gradient(90deg, #fff, #222, #fff);
-        background-size: var(--osc-size) 150px;
-        animation: scroll-osc-x var(--osc-period) linear infinite;
-    }
-    
-    .arrow image {
-        width: var(--arrow-size);
-        height: var(--arrow-size);
-    }
+.article-blurb {
+    font-size: 1rem;
+    line-height: 1.25em;
 }
 
 @keyframes scroll-osc-x {
@@ -165,60 +100,4 @@ hr {
     100% {
         background-position-y: var(--osc-size);
     }
-}
-
-/**
- *  Modify layout for mobile
- */
-@media only screen and (max-width: 992px) {
-    hr {
-        border: 0.25vmin solid #cdcdcd;
-    }
-
-    #outer-wrapper {
-        flex-direction: column;
-        height: auto;
-        min-height: 100vh;
-    }
-
-   #bio-wrapper {
-       height: auto;
-       width: 100%;
-   }
-
-   #bio {
-       font-size: 6vmin;
-       max-width: 90%;
-   }
-
-   #pages-list-wrapper {
-       width: 100%;
-   }
-
-   .arrows-wrapper {
-       display: none;
-   }
-
-   .article-link {
-       margin: 1vw;
-   }
-    
-    .article-thumbnail {
-        width: fit-content;
-        height: fit-content;
-        flex: none;
-    }
-    
-    .article-thumbnail img {
-        width: 25vmin;
-        height: 25vmin;
-    }
-   
-   .article-date {
-       font-size: 3.5vmin;
-   }
-   
-   .article-title {
-       font-size: 5vmin;
-   }
 }
