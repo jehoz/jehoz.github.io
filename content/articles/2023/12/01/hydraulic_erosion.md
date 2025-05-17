@@ -28,7 +28,7 @@ is what I will be using to implement the project.  Don't worry if you're not
 familiar with Zig, all of the code snippets should still be readable, and I've
 quarantined my thoughts about the language to a brief section at the end.
 
-A lot of the code in this write-up has been pared down for readability, If 
+A lot of the code in this write-up has been pared down for readability, but if 
 you want to read through the full source code, it's available on my GitHub 
 [here](https://github.com/jehoz/TerrainGen).
 
@@ -164,8 +164,8 @@ loop.
 
 ## Movement
 
-First thing we do every step is compute the particle's movement with some
-extremely bastardized kinematics. 
+The first thing we do at every time-step is compute the particle's movement
+using some extremely bastardized kinematics. 
 
 ```zig
 const grav_force = self.elevation.gradient(drop.position).scale(opts.gravity);
@@ -348,8 +348,8 @@ implement some kind of fluid dynamics, but instead we're going to cheat (kind
 of) and pretend that any part of the ground above a certain moisture threshold
 "is" water and we'll color it blue.
 
-I'm also coloring the wet parts of the rock slightly darker so that the grooves
-have a bit more contrast.
+I'm also coloring the wet parts of the rock slightly darker to give the grooves
+a bit more contrast.
 
 <video controls>
     <source src="res/04.webm" type="video/webm">

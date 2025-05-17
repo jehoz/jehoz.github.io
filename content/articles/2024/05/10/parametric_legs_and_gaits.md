@@ -6,21 +6,21 @@ template: article.html
 thumbnail: creature-walk.gif
 ---
 
-This is in service of a larger project that may or may not pan out, but for now
-I'm tinkering around with a kind of "creature generator".  This write-up is
-(hopefully) the first of several to come where I model and implement some part
-of a creature. Today we're getting into legs and the way they move. 
+Today we're going to look at legs and the way that they move.
+This is in service of a larger "creature generator" project that may or may not
+pan out, so (hopefully) this write-up will be the first of more to come where I
+model and implement some anatomical system.
 
 # What is a leg even really?
 
 Long ago the only things that had bones were fish.  And then some of those fish
 got nuts and decided to get out of the water.  One thing led to another and now
-all sorts of bony leg-havers dominate the earth, and we call these things
-*tetrapods*.  There are also *arthropods* which have a different kind of
+all sorts of bony leg-having creatures dominate the earth, and we call these
+things *tetrapods*.  There are also *arthropods* which have a different kind of
 bone-less leg, but we're going to ignore them for now.
 
 Tetrapods are cool because if you compare the limb bones across different
-species, you will find that they are structurally very similar because they all
+species, you will find that they are structurally very similar since they all
 descend from the same nubby proto-legs that those ancient fish developed.
 
 ![](res/tetrapod_homology.png)
@@ -35,9 +35,9 @@ These legs generally fall into three categories:
 
 ![](res/leg_types.png)
 
-Naturally, since these three types of leg are made of the same parts and sort
-of blend into one another, I wanted to flesh out one parametric "leg" with a
-continuous state-space that encompassed all three.
+Since these three types of leg are made from the same parts and sort of blend
+into one another, I wanted to develop one single parametric "meta-leg" which
+could be configured to represent each of these.
 
 To accomplish this, our creature's legs will have four bones/segments: femur,
 tibia, metatarsus, and toe (for simplicity I'm going to use these names for
