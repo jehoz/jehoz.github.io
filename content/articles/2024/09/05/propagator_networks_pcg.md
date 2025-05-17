@@ -9,15 +9,21 @@ syntax: haskell
 
 A little while ago I came across [this
 video](https://www.youtube.com/watch?v=s2dknG7KryQ) of Ed Kmett talking about
-something called propagators.  From there I found [the paper that originally
-introduced these
+something called propagators, and after a bit of digging I found [the paper
+that introduced these
 things](https://dspace.mit.edu/bitstream/handle/1721.1/44215/MIT-CSAIL-TR-2009-002.pdf),
-co-written by Alexey Radul and the venerable Gerald Sussman (which I would
-highly recommend checking out).  Radul's [PhD dissertation from the same
+(which I would highly recommend checking out) written by Alexey Radul and the
+venerable Gerald Sussman. It's an extremely well-written paper and Radul's [PhD
+dissertation from the same
 year](https://dspace.mit.edu/bitstream/handle/1721.1/54635/603543210-MIT.pdf)
-is effectively a more thorough and unabridged version of the paper, and also
-worth reading through if you, like me, become seduced into implementing these
-yourself.
+is effectively an extended version which explores the concept much more
+thoroughly. 
+
+Despite the fact that these are both really well-written papers and propagators
+are neat and seemingly useful, they've only really stuck around as a niche thing
+that [guys who are into functional
+programming](https://www.youtube.com/watch?v=nY1BCv3xn24) keep rediscovering.
+And guess what — now it's my turn to be one of those guys.
 
 ![](res/propagators.png)
 
@@ -25,46 +31,45 @@ yourself.
 
 I think the best way to describe propagator networks (or *propagation* networks
 — both get used interchangeably) is that they are a model for building
-computations, somewhere between a design pattern and a programming paradigm.
+computations, somewhere in-between a design pattern and a programming paradigm.
 The standard approach to computing has us build a program as a sequential
 evaluation of expressions, each of which transforms our data or produces some
 side effects. This obviously works pretty well, but it encourages us to
 approach problem-solving as a kind of one-way mapping from a known input to an
 unknown output, and we sometimes have problems that don't fit nicely into this
-frame.  Instead of having one thing that transforms into another, what if we
-have a bunch of things that "non-linearly" relate or react to one another?
+frame.  What if it makes more sense to model our problem with a set of
+variables whose values all depend on each other in a kind of non-linear way?
 
 Propagation networks are really great at expressing this latter type of
-problem. Networks are made up of a bunch of "cells" which accumulate
-information *about* a value (I know that's a bit abstract, but bear with me
-here) and we interconnect these cells with reactive functions called
-*propagators*. Propagators link some input cells to some output cells, and when
-any of the inputs are updated with new information, the propagator pulls in all
-of the inputs, processes that information in some way and propagates the result
-to all of the outputs.
+problem. A network is composed of "cells" which accumulate information *about*
+a value (I know that's a bit abstract, but bear with me here) and we
+wire these cells together with reactive functions called *propagators*.
+A propagator links some input cells to some output cells, and when any of the
+input cells are updated with new information, the propagator pulls in all of the
+inputs, processes that information in some way and propagates the result to all
+of the outputs.
 
-This architecture turns out to be pretty flexible and opens up a new kind of
-expressive power for us. By modelling the flow of information as a graph rather
-than a sequence or tree, we relax the linear structure of time in our approach
-to solving a problem.  We simply implement relationships or connections
-between values, and the order in which they are evaluated is determined at
-runtime.
+This architecture turns out to be pretty flexible and provides us with a new
+kind of expressive power. By modelling the flow of information as a graph
+rather than a sequence or tree, we relax the linear structure of time in our
+approach to solving a problem.  We simply define some *relationships* between
+values, and the order in which they are evaluated is determined at runtime.
 
 However, we now have some new pitfalls to avoid. Unless cells have a way to
 determine whether incoming information is "new" or not, our network will just
-keep propagating stuff around forever. And since we would probably like our
-programs to terminate, we need to carefully define decide how to represent this
-information, and what it means for cells to "accumulate" it.
+keep propagating stuff around forever. And since we'd probably like our
+programs to terminate, we need to carefully decide how to represent this
+"information", and what it means for cells to accumulate it.
 
 ## Time for some math
 
 Before we come up with a concrete implementation for our "partial information",
 we need to decide what kind of laws it should follow. When a cell gets some new
 information, we intuitively expect the result to be a logical combination of
-the information coming in and the information that was already in the cell. And
-if the incoming information isn't just redundant, we want that combination to
-    be "greater than" either of the inputs on their own, in the sense that it
-    holds more information.
+the information coming in and whatever the cell already knew.  And if the
+incoming information isn't just redundant, we want that combination to be
+"greater than" either of the inputs on their own, in the sense that it holds
+*more information*.
 
 Whenever we need a way to talk about a class of things that follow some abstract 
 rules, it's a safe bet that
@@ -82,10 +87,10 @@ Say we have a network where we want each cell to settle on one of three values:
 point in time, a cell stores the set of values it *could* be. We'll initialize
 the cells with the universal set `{A,B,C}` and the idea is that some of these
 elements will get discarded over time until we're down to a singleton, which we
-can interpret as the final value for the cell. There's a neat little thing
-called a [Hasse diagram](https://en.wikipedia.org/wiki/Hasse_diagram) which
-lets us visually represent partial orders.  Let's make one for the information
-in our cells.
+can interpret as the final definite value for the cell. There's a neat little
+thing called a [Hasse diagram](https://en.wikipedia.org/wiki/Hasse_diagram)
+which lets us visually represent partial orders.  Let's make one for the
+information in our cells.
 
 ![](res/hasse.png)
 
@@ -93,25 +98,26 @@ The arrows between elements in the Hasse diagram indicate the ordering between
 elements. We can say that `x <= y` if there is a direct path from `x` to `y` in
 the diagram (or they are the same). Note that it doesn't really make sense to
 ask whether `{A, B}` or `{A, C}` is "greater" than the other, which is why our
-information is a *partial order* not a *total order*! You should be able to see
-how the elements contain more information (or less entropy, if that makes more
-sense to you) as we move up the graph.
+information is a *partial order* not a [*total
+order*](https://en.wikipedia.org/wiki/Total_order)! If you know your Shannon
+information theory, you should be able to see how the elements contain more
+information (i.e. less entropy) as we move up the graph.
 
-The semilattice operation I mentioned that let's us combine elements is 
-called "join" (since we are specifically dealing with join-semilattices; there's
-a dual operation called "meet" for, you guessed it, meet-semilattices).
-What join actually does is gives us the "least upper bound" for two elements of 
-the semilattice, which is the least element that is greater than both of the 
-operands.  For example, the least upper bound of `{A,B}` and `{B,C}` in the diagram above
-is `{C}` so `{A,B} ∧ {B,C} == {C}`.
+The semilattice operation I mentioned that lets us combine elements is called
+"join" (here we are specifically dealing with join-semilattices; there's a dual
+operation called "meet" for, you guessed it, meet-semilattices). What join
+actually does is gives us the "least upper bound" for two elements of the
+semilattice, which is the lowest element on the Hasse diagram that is greater
+than or equal to both of the operands.  For example, the least upper bound of
+`{A,B}` and `{B,C}` in the diagram above is `{B}` so `{A,B} ∧ {B,C} == {B}`.
 
 You might have noticed by now that the top of the Hasse diagram has an empty
 set element `{}`, which doesn't really correspond to a value.  In practice, if
 our cell holds the empty set, it means there are no possible values that the
 cell could be, and that our problem is unsolvable! In other words, moving above
 the row of singletons means that we've encountered some kind of contradiction,
-in which case we immediately stop propagating and indicate that our computation
-has failed.
+in which case we immediately stop propagating and declare that our computation
+is impossible.
 
 Ok that was a lot of explaining, but now we get to actually put all of this
 into practice!
@@ -119,27 +125,29 @@ into practice!
 # Constraint satisfaction problems
 
 Radul picks out a few different subdisciplines which all share a kind of
-non-linear approach to computing, and thus generalize very nicely to
+non-linear approach to computing, and are thus very elegant use-cases for
 propagation networks, but the one I'm the most drawn to at the moment is
 constraint satisfaction problems.
 
 In a CSP, you have a bunch of variables and some rules for how those variables
 relate to each other (called constraints), and the goal is to assign a value to
-each variable such that all of your constraints are satisfied. This obviously
-maps super nicely onto propagator networks.  We'll create a cell for each
-variable, which will store information about what the variable could be (i.e. a
-set of possible values).  Between these cells we install propagators which
-enforce the relations by translating between sets of possibilities.  Each cell
-is then able to refine its possibility-space by taking the intersection of the
-incoming sets, ideally culminating in a single value.
+each variable such that all of your constraints are satisfied. It shouldn't be
+too tricky to figure out how we're going to apply propagator networks to this
+type of problem. First we'll create a cell for each variable, which will store
+information about what the variable could be (i.e. a set of possible values).
+Between these cells we install propagators which enforce the relations by
+translating between sets of possibilities.  Each cell is then able to refine
+its possibility-space by taking the intersection of the incoming sets, ideally
+culminating in a single value.
 
 ## Vertex coloring
 
 Let's look at a nice simple CSP and how we would solve it with a propagator
 network. A sudoku puzzle is the typical example of a CSP that most people are
-familiar with. But I want to draw everything out visually, and with a sudoku
-puzzle there are just so many nodes and connections that it becomes kind of a
-mess to look at, so instead I'm going to walk through an example using [vertex
+familiar with. I want a visual representation of our network as we go along,
+though, and with a sudoku puzzle there are just so many nodes and connections
+that it becomes kind of a mess to look at, so instead I'm going to walk through
+an example using [vertex
 coloring](https://en.wikipedia.org/wiki/Graph_coloring) (sudoku is actually a
 specific case of vertex coloring using 9 "colors" on a big graph with 81
 vertices and 810 edges).
@@ -148,7 +156,7 @@ We'll be finding a 3-coloring of a Petersen graph, which looks like this:
 
 ![](res/vertcolor-00.png)
 
-And here is the code that will solve our constraint problem:
+Let's write some code to implement our solution:
 
 ```haskell
 data Color = Red | Green | Blue deriving (Bounded, Enum)
@@ -208,12 +216,11 @@ complex.
 
 Since we are only dealing with discrete finite domains, we can imagine a search
 tree for our CSP where each undetermined variable creates a branching point
-such that each branch is one of the possible values we could assign to it.
-When we traverse down one of these branches, we are making a guess about the
-value of this variable, and we propagate this guess to the rest of the network
-to see if it's valid.  Sometimes after we propagate a guess, we discover a
-contradiction, and when that happens we have to backtrack and try another
-branch instead.
+where each branch is one of the possible values we could assign to it. When we
+traverse down one of these branches, we are making a guess about the value of
+this variable, and we propagate this guess to the rest of the network to see if
+it's valid.  Sometimes after we propagate a guess, we discover a contradiction,
+and when that happens we have to backtrack and try another branch instead.
 
 State-of-the-art [SAT solvers](https://en.wikipedia.org/wiki/SAT_solver) use
 all sorts of sophisticated techniques for making logical inferences throughout
