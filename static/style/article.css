@@ -1,13 +1,13 @@
 :root {
-    --headline-face: 'Work Sans', sans-serif;
-    --body-face: 'Taviraj', serif;
-    --code-face: 'Iosevka Web', monospace;
+    --headline-face: '0xProto', sans-serif;
+    --body-face: 'Work Sans', serif;
+    --code-face: '0xProto', monospace;
 
-    --background-color: white;
-    --text-color: black;
+    --background-color: #fff;
+    --text-color: #222;
     --accent-color: #c59cff;
-    --heading-color: #3d4348;
-    --border-color: #cdcdcd;
+    --heading-color: #000;
+    --border-color: #535353;
     --date-color: #808080;
 }
 
@@ -18,7 +18,8 @@ html, body {
 body {
     background: black;
     font-family: var(--body-face);
-    font-size: 1rem;
+    color: var(--text-color);
+    font-size: 1em;
     margin: 0;
 }
 
@@ -35,13 +36,14 @@ body {
     font-family: var(--headline-face);
     color: var(--heading-color);
     padding-top: 1em;
+    font-weight: normal;
 }
 
 h1::before, 
 h2::before, 
 h3::before {
-    content: "§";
-    color: var(--border-color);
+    content: "§ ";
+    color: var(--date-color);
 }
 
 #article-body pre, code {
@@ -50,13 +52,14 @@ h3::before {
 
 code {
     padding: 0.2em 0.4em;
-    font-size: 0.85rem;
-    background-color: var(--border-color);
+    font-size: .85rem;
+    background-color: #c4c8d2;
     border-radius: 3px;
+    /*! border: 1px solid #8b9ab7; */
 }
 
 pre code {
-    font-size: 1rem;
+    font-size: 0.9rem;
 
     display: inline;
     margin: 0;
@@ -68,7 +71,7 @@ pre code {
     display: block;
     margin-left: auto;
     margin-right: auto;
-    border: 2px solid var(--border-color);
+    /* border: 2px solid var(--border-color); */
 }
 
 #article-body blockquote {
@@ -81,7 +84,6 @@ pre code {
 #date {
     font-family: var(--headline-face);
     color: var(--date-color);
-    padding-top: 1em;
 }
 
 #article-title {
@@ -102,57 +104,49 @@ pre code {
 
 #banner {
     margin: 0 auto;
+    display: flex;
+    position: sticky;
+    top: 0;
+    background: white;
+    width: 100%;
+    
+    border: 1px solid black;
+    border-width: 1px 0;
+    align-content: center;
 }
 
-#banner a {
-    color: var(--accent-color);
-
-    margin: 0 0.25em;
-
-    font-size: 1.25rem;
+.nav-button {
+    color: black;
     font-family: var(--headline-face);
-    vertical-align: middle;
+    font-size: 1.rem;
+    text-decoration: none;
+    
+    display: table-cell;
+    width: 8rem;
+    text-align: center;
+    padding: 0.25rem;
 }
 
-#banner a:hover {
-    animation: shimmer 0.25s linear infinite;
-}
-
-#banner a span {
-    vertical-align: middle;
+.nav-button:hover {
+    color: white;
+    background: black;
 }
 
 a:hover .arrow {
     animation: bg-shimmer 0.25s linear infinite;
 }
 
-@keyframes shimmer {
-    0%   { color: #bbf; }
-    20%  { color: #bfb; }
-    40%  { color: #bff; }
-    60%  { color: #fbb; }
-    80%  { color: #fbf; }
-    100% { color: #ffb; }
-}
-
-@keyframes bg-shimmer {
-    0%   { background-color: #bbf; }
-    20%  { background-color: #bfb; }
-    40%  { background-color: #bff; }
-    60%  { background-color: #fbb; }
-    80%  { background-color: #fbf; }
-    100% { background-color: #ffb; }
-}
-
 #article-body {
     display: block;
-    max-width: 50em;
+    max-width: 70ch;
     width: 100%;
     margin: 1.5em auto;
     padding: 0.5em 1.5em;
 
     background: var(--background-color);
-    border: 3px ridge #888;
+    border: 1px solid white;
+    font-size: 1.1rem;
+    line-height: 1.6rem;
 }
 
 #spacer {
@@ -169,8 +163,10 @@ a:hover .arrow {
     margin: 0;
     padding: 0.25em 0;
     
-    background: black;
-    border-top: 3px ridge #888;
+    background: white;
+    color: black;
+    font-family: var(--headline-face);
+    font-size: 1rem;
 }
 
 .marquee div {
@@ -178,7 +174,6 @@ a:hover .arrow {
     width: 200%;
     height: 1.5em;
     
-    color: white;
 
     position: absolute;
     overflow: hidden;
@@ -194,7 +189,7 @@ a:hover .arrow {
 }
 
 .marquee-item {
-    width: 14em;
+    width: 18em;
     height: 1.5em;
     line-height: 1.5em;
 
@@ -204,5 +199,7 @@ a:hover .arrow {
 
 @keyframes marquee {
     0% { transform: translateX(0); }
-  100% { transform: translateX(-28em); }
+  100% { transform: translateX(-36em); }
 }
+
+
