@@ -102,6 +102,13 @@ pre code {
 
 #banner {
     margin: 0 auto;
+    display: table;
+    position: sticky;
+    top: 0;
+    background: white;
+/*     width: 100%; */
+    
+    border: 1px solid black;
 }
 
 #banner a {
@@ -122,26 +129,23 @@ pre code {
     vertical-align: middle;
 }
 
+.nav-btn {
+    color: black;
+    font-family: var(--headline-face);
+    font-size: 1.rem;
+    display: table-cell;
+    width: 8rem;
+    text-align: center;
+    padding: 0.25rem;
+}
+
+.nav-btn:hover {
+    color: white;
+    background: black;
+}
+
 a:hover .arrow {
     animation: bg-shimmer 0.25s linear infinite;
-}
-
-@keyframes shimmer {
-    0%   { color: #bbf; }
-    20%  { color: #bfb; }
-    40%  { color: #bff; }
-    60%  { color: #fbb; }
-    80%  { color: #fbf; }
-    100% { color: #ffb; }
-}
-
-@keyframes bg-shimmer {
-    0%   { background-color: #bbf; }
-    20%  { background-color: #bfb; }
-    40%  { background-color: #bff; }
-    60%  { background-color: #fbb; }
-    80%  { background-color: #fbf; }
-    100% { background-color: #ffb; }
 }
 
 #article-body {
@@ -152,7 +156,7 @@ a:hover .arrow {
     padding: 0.5em 1.5em;
 
     background: var(--background-color);
-    border: 3px ridge #888;
+/*     border: 3px ridge #888; */
 }
 
 #spacer {
@@ -169,8 +173,9 @@ a:hover .arrow {
     margin: 0;
     padding: 0.25em 0;
     
-    background: black;
-    border-top: 3px ridge #888;
+    background: white;
+    color: black;
+    font-family: Work Sans;
 }
 
 .marquee div {
@@ -178,7 +183,6 @@ a:hover .arrow {
     width: 200%;
     height: 1.5em;
     
-    color: white;
 
     position: absolute;
     overflow: hidden;
@@ -206,3 +210,4 @@ a:hover .arrow {
     0% { transform: translateX(0); }
   100% { transform: translateX(-28em); }
 }
+
