@@ -51,8 +51,8 @@ h3::before {
 }
 
 code {
-    padding: 0.1em 0.4em;
-    font-size: .8rem;
+    padding: 0.2em 0.4em;
+    font-size: .85rem;
     background-color: #c4c8d2;
     border-radius: 3px;
     /*! border: 1px solid #8b9ab7; */
@@ -108,41 +108,26 @@ pre code {
     position: sticky;
     top: 0;
     background: white;
-width: 100%;
+    width: 100%;
     
     border: 1px solid black;
+    border-width: 1px 0;
     align-content: center;
 }
 
-#banner a {
-    color: var(--accent-color);
-
-    margin: 0 0.25em;
-
-    font-size: 1.25rem;
-    font-family: var(--headline-face);
-    vertical-align: middle;
-}
-
-#banner a:hover {
-    animation: shimmer 0.25s linear infinite;
-}
-
-#banner a span {
-    vertical-align: middle;
-}
-
-.nav-btn {
+.nav-button {
     color: black;
     font-family: var(--headline-face);
     font-size: 1.rem;
+    text-decoration: none;
+    
     display: table-cell;
     width: 8rem;
     text-align: center;
     padding: 0.25rem;
 }
 
-.nav-btn:hover {
+.nav-button:hover {
     color: white;
     background: black;
 }
@@ -153,13 +138,15 @@ a:hover .arrow {
 
 #article-body {
     display: block;
-    max-width: 50em;
+    max-width: 70ch;
     width: 100%;
     margin: 1.5em auto;
     padding: 0.5em 1.5em;
 
     background: var(--background-color);
     border: 1px solid white;
+    font-size: 1.1rem;
+    line-height: 1.6rem;
 }
 
 #spacer {
@@ -179,6 +166,7 @@ a:hover .arrow {
     background: white;
     color: black;
     font-family: var(--headline-face);
+    font-size: 1rem;
 }
 
 .marquee div {
@@ -213,4 +201,5 @@ a:hover .arrow {
     0% { transform: translateX(0); }
   100% { transform: translateX(-36em); }
 }
+
 
