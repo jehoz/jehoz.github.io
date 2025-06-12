@@ -1,13 +1,13 @@
 :root {
-    --headline-face: 'Work Sans', sans-serif;
-    --body-face: 'Taviraj', serif;
-    --code-face: 'Iosevka Web', monospace;
+    --headline-face: '0xProto', sans-serif;
+    --body-face: 'Work Sans', serif;
+    --code-face: '0xProto', monospace;
 
-    --background-color: white;
-    --text-color: black;
+    --background-color: #fff;
+    --text-color: #222;
     --accent-color: #c59cff;
-    --heading-color: #3d4348;
-    --border-color: #cdcdcd;
+    --heading-color: #000;
+    --border-color: #535353;
     --date-color: #808080;
 }
 
@@ -18,7 +18,8 @@ html, body {
 body {
     background: black;
     font-family: var(--body-face);
-    font-size: 1rem;
+    color: var(--text-color);
+    font-size: 1em;
     margin: 0;
 }
 
@@ -35,13 +36,14 @@ body {
     font-family: var(--headline-face);
     color: var(--heading-color);
     padding-top: 1em;
+    font-weight: normal;
 }
 
 h1::before, 
 h2::before, 
 h3::before {
-    content: "§";
-    color: var(--border-color);
+    content: "§ ";
+    color: var(--date-color);
 }
 
 #article-body pre, code {
@@ -49,14 +51,15 @@ h3::before {
 }
 
 code {
-    padding: 0.2em 0.4em;
-    font-size: 0.85rem;
-    background-color: var(--border-color);
+    padding: 0.1em 0.4em;
+    font-size: .8rem;
+    background-color: #c4c8d2;
     border-radius: 3px;
+    /*! border: 1px solid #8b9ab7; */
 }
 
 pre code {
-    font-size: 1rem;
+    font-size: 0.9rem;
 
     display: inline;
     margin: 0;
@@ -80,7 +83,7 @@ pre code {
 
 #date {
     font-family: var(--headline-face);
-    color: var(--date-color);
+    color: var(--text-color);
     padding-top: 1em;
 }
 
@@ -102,13 +105,14 @@ pre code {
 
 #banner {
     margin: 0 auto;
-    display: table;
+    display: flex;
     position: sticky;
     top: 0;
     background: white;
-/*     width: 100%; */
+width: 100%;
     
     border: 1px solid black;
+    align-content: center;
 }
 
 #banner a {
@@ -156,7 +160,7 @@ a:hover .arrow {
     padding: 0.5em 1.5em;
 
     background: var(--background-color);
-/*     border: 3px ridge #888; */
+    border: 1px solid white;
 }
 
 #spacer {
@@ -175,7 +179,7 @@ a:hover .arrow {
     
     background: white;
     color: black;
-    font-family: Work Sans;
+    font-family: var(--headline-face);
 }
 
 .marquee div {
@@ -198,7 +202,7 @@ a:hover .arrow {
 }
 
 .marquee-item {
-    width: 14em;
+    width: 18em;
     height: 1.5em;
     line-height: 1.5em;
 
@@ -208,6 +212,6 @@ a:hover .arrow {
 
 @keyframes marquee {
     0% { transform: translateX(0); }
-  100% { transform: translateX(-28em); }
+  100% { transform: translateX(-36em); }
 }
 
