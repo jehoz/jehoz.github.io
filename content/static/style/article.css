@@ -1,7 +1,7 @@
 :root {
-    --headline-face: '0xProto', sans-serif;
+    --headline-face: 'Iosevka', sans-serif;
     --body-face: 'Work Sans', serif;
-    --code-face: '0xProto', monospace;
+    --code-face: 'Iosevka', monospace;
 
     --background-color: #fff;
     --text-color: #222;
@@ -11,6 +11,15 @@
     --date-color: #808080;
 }
 
+* {
+    box-sizing: border-box;
+}
+
+html {
+    font-size: 16px;
+    line-break: 1.5;
+}
+ 
 html, body {
     height: 100%;
 }
@@ -37,6 +46,7 @@ body {
     color: var(--heading-color);
     padding-top: 1em;
     font-weight: normal;
+    line-height: 1.25;
 }
 
 h1::before, 
@@ -53,9 +63,8 @@ h3::before {
 code {
     padding: 0.2em 0.4em;
     font-size: .85rem;
-    background-color: #c4c8d2;
-    border-radius: 3px;
-    /*! border: 1px solid #8b9ab7; */
+    background-color: #ccc;
+    border-radius: 1px;
 }
 
 pre code {
@@ -71,7 +80,7 @@ pre code {
     display: block;
     margin-left: auto;
     margin-right: auto;
-    /* border: 2px solid var(--border-color); */
+    max-width: 100%;
 }
 
 #article-body blockquote {
@@ -92,6 +101,7 @@ pre code {
     width: fit-content;
     margin: 0.5em auto;
     text-align: center;
+    line-height: 1.25;
 
     color: var(--heading-color);
 }
@@ -118,11 +128,11 @@ pre code {
 .nav-button {
     color: black;
     font-family: var(--headline-face);
-    font-size: 1.rem;
+    font-size: 1rem;
     text-decoration: none;
     
     display: table-cell;
-    width: 8rem;
+    width: 6rem;
     text-align: center;
     padding: 0.25rem;
 }
@@ -130,10 +140,6 @@ pre code {
 .nav-button:hover {
     color: white;
     background: black;
-}
-
-a:hover .arrow {
-    animation: bg-shimmer 0.25s linear infinite;
 }
 
 #article-body {
@@ -145,8 +151,6 @@ a:hover .arrow {
 
     background: var(--background-color);
     border: 1px solid white;
-    font-size: 1.1rem;
-    line-height: 1.6rem;
 }
 
 #spacer {
@@ -154,25 +158,26 @@ a:hover .arrow {
 }
 
 .marquee {
-    height: 1.5em;
+    height: 1.5rem;
     width: 100%;
 
     overflow: hidden;
     position: relative;
 
     margin: 0;
+    
     padding: 0.25em 0;
+    box-sizing: content-box;
     
     background: white;
     color: black;
     font-family: var(--headline-face);
-    font-size: 1rem;
 }
 
 .marquee div {
     display: block;
     width: 200%;
-    height: 1.5em;
+    height: 1.5rem;
     
 
     position: absolute;
@@ -189,9 +194,9 @@ a:hover .arrow {
 }
 
 .marquee-item {
-    width: 18em;
-    height: 1.5em;
-    line-height: 1.5em;
+    width: 15em;
+    height: 1.5rem;
+    line-height: 1.5rem;
 
     display: flex;
     justify-content: space-between;
@@ -199,7 +204,7 @@ a:hover .arrow {
 
 @keyframes marquee {
     0% { transform: translateX(0); }
-  100% { transform: translateX(-36em); }
+  100% { transform: translateX(-30em); }
 }
 
 
