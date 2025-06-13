@@ -1,3 +1,8 @@
+@font-face {
+    font-family: "0xProto";
+    src: url("/static/fonts/0xProto/0xProto-Regular.woff2");
+}
+
 html {
     background: url("/static/img/templates/stars.gif");
 
@@ -7,6 +12,7 @@ html {
 body {
     margin: 0 auto;
     max-width: 600px;
+    font-family: "0xProto";
 }
 
 hr {
@@ -17,13 +23,11 @@ hr {
 #bio {
     margin: 1em;
 
-    font-family: Work Sans;
     font-size: 2rem;
 }
 
 #pages-list-wrapper {
     display: inline-block;
-    font-family: Taviraj;
 }
 
 .article-link {
@@ -35,13 +39,12 @@ hr {
     color: #fff;
     border-color: white;
 
-    font-family: Work Sans;
 }
 
 .article-link:hover {
     background: white;
     color: black;
-    
+
     border-color: black;
 }
 
@@ -59,10 +62,8 @@ hr {
 }
 
 .article-title {
-    font-size: 1.1rem;
     color: #000;
     background: white;
-    font-weight: bold;
 
     padding: 0.25rem 0.5rem;
 }
@@ -84,5 +85,5 @@ hr {
     font-size: 1rem;
     line-height: 1.25em;
     padding: 0.5rem;
+    min-height: 1rem;
 }
-

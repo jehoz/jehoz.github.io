@@ -1,11 +1,15 @@
+@font-face {
+    font-family: "0xProto";
+    src: url("/static/fonts/0xProto/0xProto-Regular.woff2");
+}
+
 :root {
-    --headline-face: 'Iosevka', sans-serif;
-    --body-face: 'Work Sans', serif;
-    --code-face: 'Iosevka', monospace;
+    --headline-face: '0xProto', monospace;
+    --body-face: 'Work Sans', sans-serif;
+    --code-face: '0xProto', monospace;
 
     --background-color: #fff;
     --text-color: #222;
-    --accent-color: #c59cff;
     --heading-color: #000;
     --border-color: #535353;
     --date-color: #808080;
@@ -17,19 +21,17 @@
 
 html {
     font-size: 16px;
-    line-break: 1.5;
+    line-height: 1.5;
 }
- 
-html, body {
+
+html,
+body {
     height: 100%;
 }
 
 body {
-    background: black;
     font-family: var(--body-face);
     color: var(--text-color);
-    font-size: 1em;
-    margin: 0;
 }
 
 .bg-image {
@@ -41,7 +43,12 @@ body {
     background-image: url(/static/img/templates/stars.gif);
 }
 
-#article-body h1, h2, h3, h4, h5, h6 {
+#article-body h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
     font-family: var(--headline-face);
     color: var(--heading-color);
     padding-top: 1em;
@@ -49,22 +56,24 @@ body {
     line-height: 1.25;
 }
 
-h1::before, 
-h2::before, 
+h1::before,
+h2::before,
 h3::before {
     content: "§ ";
     color: var(--date-color);
 }
 
-#article-body pre, code {
+#article-body pre,
+code {
     font-family: var(--code-face);
 }
 
 code {
-    padding: 0.2em 0.4em;
+    padding: 0.15em 0.3em;
     font-size: .85rem;
-    background-color: #ccc;
+    background-color: #eee;
     border-radius: 1px;
+    border: 1px solid #d5dbe3;
 }
 
 pre code {
@@ -76,7 +85,8 @@ pre code {
 
 }
 
-#article-body img, video {
+#article-body img,
+video {
     display: block;
     margin-left: auto;
     margin-right: auto;
@@ -119,9 +129,8 @@ pre code {
     top: 0;
     background: white;
     width: 100%;
-    
-    border: 1px solid black;
-    border-width: 1px 0;
+
+    border-bottom: 1px solid black;
     align-content: center;
 }
 
@@ -130,9 +139,9 @@ pre code {
     font-family: var(--headline-face);
     font-size: 1rem;
     text-decoration: none;
-    
+
     display: table-cell;
-    width: 6rem;
+    width: 8rem;
     text-align: center;
     padding: 0.25rem;
 }
@@ -144,13 +153,12 @@ pre code {
 
 #article-body {
     display: block;
-    max-width: 70ch;
+    max-width: 90ch;
     width: 100%;
     margin: 1.5em auto;
     padding: 0.5em 1.5em;
 
     background: var(--background-color);
-    border: 1px solid white;
 }
 
 #spacer {
@@ -165,20 +173,22 @@ pre code {
     position: relative;
 
     margin: 0;
-    
+
     padding: 0.25em 0;
     box-sizing: content-box;
-    
+
     background: white;
     color: black;
+
     font-family: var(--headline-face);
+    font-size: 0.85rem;
 }
 
 .marquee div {
     display: block;
     width: 200%;
     height: 1.5rem;
-    
+
 
     position: absolute;
     overflow: hidden;
@@ -194,7 +204,7 @@ pre code {
 }
 
 .marquee-item {
-    width: 15em;
+    width: 15rem;
     height: 1.5rem;
     line-height: 1.5rem;
 
@@ -203,8 +213,11 @@ pre code {
 }
 
 @keyframes marquee {
-    0% { transform: translateX(0); }
-  100% { transform: translateX(-30em); }
+    0% {
+        transform: translateX(0);
+    }
+
+    100% {
+        transform: translateX(-30rem);
+    }
 }
-
-
