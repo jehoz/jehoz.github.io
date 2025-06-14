@@ -1,12 +1,12 @@
-body {
-    margin: 0 auto;
-    max-width: 600px;
-    font-family: "0xProto";
-}
-
 hr {
     border: none;
     border-bottom: 1px solid #cdcdcd;
+}
+
+.content {
+    max-width: 600px;
+    margin: 0 auto;
+    font-family: "0xProto";
 }
 
 #bio {

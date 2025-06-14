@@ -44,9 +44,8 @@ p {
 .nav-bar {
     margin: 0 auto;
     display: flex;
-    position: fixed;
+    position: sticky;
     top: 0;
-    left: 0;
     background: white;
     width: 100%;
 
