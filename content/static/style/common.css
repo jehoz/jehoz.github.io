@@ -1,0 +1,73 @@
+@font-face {
+    font-family: "0xProto";
+    src: url("/static/fonts/0xProto/0xProto-Regular.woff2");
+}
+
+:root {
+    --header-font: '0xProto', monospace;
+    --body-font: 'Work Sans', sans-serif;
+    --code-font: '0xProto', monospace;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    font-size: 16px;
+    line-height: 1.5;
+    height: 100%;
+
+    background: url("/static/img/templates/stars.gif");
+    color: white;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: var(--header-font);
+    color: black;
+    font-weight: normal;
+    line-height: 1.25;
+    margin: 2.5rem 0 1.5rem 0;
+}
+
+p {
+    margin: 1em 0;
+}
+
+.nav-bar {
+    margin: 0 auto;
+    display: flex;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background: white;
+    width: 100%;
+
+    border-bottom: 1px solid black;
+    align-content: center;
+}
+
+.nav-button {
+    color: black;
+    font-family: var(--header-font);
+    font-size: 1rem;
+    text-decoration: none;
+
+    display: table-cell;
+    width: 8rem;
+    text-align: center;
+    padding: 0.25rem;
+}
+
+.nav-button:hover {
+    color: white;
+    background: black;
+    text-decoration: none;
+}

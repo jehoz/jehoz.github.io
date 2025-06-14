@@ -5,6 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
+    <link rel="stylesheet" type="text/css" href="/static/style/common.css">
     <link rel="stylesheet" type="text/css" href="/static/style/index.css">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -28,7 +29,7 @@
         ];
 
         function populatePageList() {
-            articles.sort((a, b) => (b.date.localeCompare(a.date)));
+            pages.sort((a, b) => (b.date.localeCompare(a.date)));
 
             let listWrapper = document.getElementById("pages-list-wrapper");
             listWrapper.innerHTML = "";
@@ -55,6 +56,20 @@
     </script>
 </head>
 <body>
+    <div class="nav-bar">
+        <a class="nav-button" href="/">
+            home
+        </a>
+        <a class="nav-button" href="/projects.html">
+            projects
+        </a>
+        <a class="nav-button" href="/blog.html">
+            blog
+        </a>
+        <a class="nav-button" href="/contact.html">
+            contact
+        </a>
+    </div>
     <div id="bio">
         Hi my name is Jesse.<br>
         This is where I write about the stuff I'm working on.

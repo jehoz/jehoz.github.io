@@ -1,47 +1,12 @@
-@font-face {
-    font-family: "0xProto";
-    src: url("/static/fonts/0xProto/0xProto-Regular.woff2");
-}
-
-:root {
-    --headline-face: '0xProto', monospace;
-    --body-face: 'Work Sans', sans-serif;
-    --code-face: '0xProto', monospace;
-
-    --background-color: #fff;
-    --text-color: #222;
-    --heading-color: #000;
-    --border-color: #535353;
-    --date-color: #808080;
-}
-
-* {
-    box-sizing: border-box;
-}
-
-html {
-    font-size: 16px;
-    line-height: 1.5;
-}
-
 html,
 body {
     height: 100%;
 }
 
 body {
-    font-family: var(--body-face);
-    color: var(--text-color);
+    font-family: var(--body-font);
+    color: black;
     margin: 0;
-}
-
-.bg-image {
-    position: fixed;
-    width: 100%;
-    height: 100%;
-    z-index: -1;
-
-    background-image: url(/static/img/templates/stars.gif);
 }
 
 #article-body {
@@ -53,32 +18,23 @@ body {
 
     font-size: 1.1rem;
 
-    background: var(--background-color);
+    background: white;
 }
 
-#article-body h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-    font-family: var(--headline-face);
-    color: var(--heading-color);
-    padding-top: 1em;
-    font-weight: normal;
-    line-height: 1.25;
+a {
+    color: #dd2c03;
+    text-decoration: none;
 }
 
-h1::before,
-h2::before,
-h3::before {
-    content: "§ ";
-    color: var(--date-color);
+a:hover,
+a:focus,
+a:active {
+    text-decoration: underline;
 }
 
-#article-body pre,
+pre,
 code {
-    font-family: var(--code-face);
+    font-family: var(--code-font);
 }
 
 code {
@@ -110,58 +66,31 @@ video {
     margin: 0;
     padding: 0 1em;
     color: #5f5f5f;
-    border-left: 0.25em solid var(--border-color);
+    border-left: 0.25em solid black;
 }
 
 #date {
-    font-family: var(--headline-face);
-    color: var(--date-color);
+    font-family: var(--header-font);
+    color: #777;
+    font-size: 1rem;
+    margin: 1rem 0;
 }
 
 #article-title {
-    font-family: var(--headline-face);
+    font-family: var(--header-font);
     font-size: 3rem;
     width: fit-content;
     margin: 0.5em auto;
     text-align: center;
     line-height: 1.25;
 
-    color: var(--heading-color);
+    color: black;
 }
 
 #page-wrapper {
     display: flex;
     flex-direction: column;
     min-height: 100%;
-}
-
-#banner {
-    margin: 0 auto;
-    display: flex;
-    position: sticky;
-    top: 0;
-    background: white;
-    width: 100%;
-
-    border-bottom: 1px solid black;
-    align-content: center;
-}
-
-.nav-button {
-    color: black;
-    font-family: var(--headline-face);
-    font-size: 1rem;
-    text-decoration: none;
-
-    display: table-cell;
-    width: 8rem;
-    text-align: center;
-    padding: 0.25rem;
-}
-
-.nav-button:hover {
-    color: white;
-    background: black;
 }
 
 #spacer {
@@ -183,7 +112,7 @@ video {
     background: white;
     color: black;
 
-    font-family: var(--headline-face);
+    font-family: var(--header-font);
     font-size: 0.85rem;
 }
 
