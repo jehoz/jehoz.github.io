@@ -13,7 +13,7 @@
 
 
     <script>
-        let articles = [
+        let pages = [
             {{#pages}}
             {
                 url: "{{_url}}",
@@ -22,6 +22,7 @@
                 thumbnail: "/static/img/thumbnails/{{thumbnail}}",
                 date: "{{date}}",
                 datePretty: "{{date-pretty}}",
+                template: "{{template}}",
             },
             {{/pages}}
         ];
@@ -31,7 +32,9 @@
 
             let listWrapper = document.getElementById("pages-list-wrapper");
             listWrapper.innerHTML = "";
-            for (const a of articles) {
+            for (const a of pages) {
+                if (a.template != "article.html") continue;
+
                 let articleHTML = `
                 <a class="article-link" href="${a.url}">
                     <div class="article-thumbnail">
