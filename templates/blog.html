@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" type="text/css" href="/static/style/common.css">
+    <link rel="stylesheet" type="text/css" href="/static/style/index.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Work+Sans&display=swap" rel="stylesheet">
+
+
+    <script>
+        let pages = [
+            {{#pages}}
+            {
+                url: "{{_url}}",
+                title: "{{title}}",
+                blurb: "{{blurb}}",
+                thumbnail: "/static/img/thumbnails/{{thumbnail}}",
+                date: "{{date}}",
+                datePretty: "{{date-pretty}}",
+                template: "{{template}}",
+            },
+            {{/pages}}
+        ];
+
+        function populatePageList() {
+            pages.sort((a, b) => (b.date.localeCompare(a.date)));
+
+            let listWrapper = document.getElementById("pages-list-wrapper");
+            listWrapper.innerHTML = "";
+            for (const a of pages) {
+                if (a.template != "article.html") continue;
+
+                let articleHTML = `
+                <a class="article-link" href="${a.url}">
+                    <div class="article-thumbnail">
+                        <img src="${a.thumbnail}" />
+                    </div>
+                    <div class="article-date">${a.datePretty}</div>
+                    <div class="article-details">
+                        <div class="article-title">${a.title}</div>
+                        <div class="article-blurb">${a.blurb}</div>
+                    </div>
+                </a>
+                `
+                listWrapper.innerHTML += articleHTML;
+            }
+        }
+
+        document.addEventListener("DOMContentLoaded", populatePageList);
+    </script>
+</head>
+<body>
+    <div class="nav-bar">
+        <a class="nav-button" href="/">
+            home
+        </a>
+        <a class="nav-button" href="/projects.html">
+            projects
+        </a>
+        <a class="nav-button" href="/blog.html">
+            blog
+        </a>
+        <a class="nav-button" href="/contact.html">
+            contact
+        </a>
+    </div>
+
+    <div class="content">
+        <div id="bio">
+            Hi my name is Jesse.<br>
+            This is where I write about the stuff I'm working on.
+        </div>
+
+        <div id="pages-list-wrapper">
+            <!-- Article links are dynamically generated and put here -->
+        </div>
+    </div>
+</body>
+
+</html>
