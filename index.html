@@ -13,7 +13,7 @@
 
 
     <script>
-        let articles = [
+        let pages = [
             {
                 url: "/contact.html",
                 title: "",
@@ -21,6 +21,7 @@
                 thumbnail: "/static/img/thumbnails/",
                 date: "",
                 datePretty: "",
+                template: "contact.html",
             },
             {
                 url: "/projects.html",
@@ -29,6 +30,7 @@
                 thumbnail: "/static/img/thumbnails/",
                 date: "",
                 datePretty: "",
+                template: "projects.html",
             },
             {
                 url: "/articles/2024/05/10/parametric_legs_and_gaits.html",
@@ -37,6 +39,7 @@
                 thumbnail: "/static/img/thumbnails/creature-walk.gif",
                 date: "2024-05-10",
                 datePretty: "May 10, 2024",
+                template: "article.html",
             },
             {
                 url: "/articles/2024/09/05/propagator_networks_pcg.html",
@@ -45,6 +48,7 @@
                 thumbnail: "/static/img/thumbnails/propnet-wfc.gif",
                 date: "2024-09-05",
                 datePretty: "Sep 5, 2024",
+                template: "article.html",
             },
             {
                 url: "/articles/2023/12/01/hydraulic_erosion.html",
@@ -53,6 +57,7 @@
                 thumbnail: "/static/img/thumbnails/erosion-terrain.png",
                 date: "2023-12-01",
                 datePretty: "Dec 1, 2023",
+                template: "article.html",
             },
             {
                 url: "/articles/2023/10/20/and_were_live.html",
@@ -61,6 +66,7 @@
                 thumbnail: "/static/img/thumbnails/naenae-cat.gif",
                 date: "2023-10-20",
                 datePretty: "Oct 20, 2023",
+                template: "article.html",
             },
         ];
 
@@ -69,7 +75,9 @@
 
             let listWrapper = document.getElementById("pages-list-wrapper");
             listWrapper.innerHTML = "";
-            for (const a of articles) {
+            for (const a of pages) {
+                if (a.template != "article.html") continue;
+
                 let articleHTML = `
                 <a class="article-link" href="${a.url}">
                     <div class="article-thumbnail">
