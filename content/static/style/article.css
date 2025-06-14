@@ -32,6 +32,7 @@ body {
 body {
     font-family: var(--body-face);
     color: var(--text-color);
+    margin: 0;
 }
 
 .bg-image {
@@ -41,6 +42,18 @@ body {
     z-index: -1;
 
     background-image: url(/static/img/templates/stars.gif);
+}
+
+#article-body {
+    display: block;
+    max-width: 75ch;
+    width: 100%;
+    margin: 1.5em auto;
+    padding: 0.5em 1.5em;
+
+    font-size: 1.1rem;
+
+    background: var(--background-color);
 }
 
 #article-body h1,
@@ -149,16 +162,6 @@ video {
 .nav-button:hover {
     color: white;
     background: black;
-}
-
-#article-body {
-    display: block;
-    max-width: 90ch;
-    width: 100%;
-    margin: 1.5em auto;
-    padding: 0.5em 1.5em;
-
-    background: var(--background-color);
 }
 
 #spacer {
