@@ -81,27 +81,18 @@ generateStaticSite :: Generator a -> IO ()
 generateStaticSite generator = do
   (_, website) <- runWriterT generator
 
+  -- include list of pages in attributes when rendering
+  let globalAttrs = M.fromList [("pages", PAList (PAMap . attrs <$> website.pages))]
+
   -- render html pages
   putStrLn "Generating HTML pages"
   forM_ website.pages $ \p -> do
-    let pageHtml = renderPage website.templateMap p
+    let pageHtml = renderPage website.templateMap (addAttributes globalAttrs p)
     forM_ website.outputDirectories $ \odir -> do
       let writePath = odir </> relativePath (p.sourcePath) -<.> "html"
       createDirectoryIfMissing True (takeDirectory writePath)
       putStrLn ("\t" <> writePath)
       TIO.writeFile writePath pageHtml
-
-  -- make index page(s)
-  let indexAttrs =
-        PAMap $
-          M.fromList [("pages", PAList (PAMap . attrs <$> website.pages))]
-      indexHtml = case M.lookup "index.html" website.templateMap of
-        Just t -> substitute t indexAttrs
-        Nothing -> ""
-  forM_ website.outputDirectories $ \odir -> do
-    let writePath = odir </> "index.html"
-    putStrLn ("Generating index page " <> writePath)
-    TIO.writeFile writePath indexHtml
 
   -- copy static files
   putStrLn "Copying static files"

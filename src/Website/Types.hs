@@ -10,6 +10,7 @@ module Website.Types where
 import CMark (ListAttributes (..), ListType (..), Node (Node), NodeType (..))
 import Control.Applicative (asum)
 import Data.Map (Map)
+import qualified Data.Map as M
 import Data.Text (Text)
 import Data.YAML (FromYAML (parseYAML))
 import System.FilePath ((</>))
@@ -50,6 +51,10 @@ data Page = Page
     -- | Markdown AST parsed from source file
     content :: Markdown
   }
+
+-- | Incorporate a map of attributes to the page's existing attribute map
+addAttributes :: Map Text PageAttr -> Page -> Page
+addAttributes newAttrs page = page { attrs = M.union page.attrs newAttrs }
 
 -- | Supported types of attributes that can be defined in a page's front matter
 data PageAttr
