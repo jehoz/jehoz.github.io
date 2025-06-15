@@ -26,6 +26,12 @@ h1 {
     width: 16rem;
 }
 
+.project-link:hover,
+.project-link:focus,
+.project-link:active {
+    filter: invert(1);
+}
+
 .project-name {
     background: white;
     color: black;
