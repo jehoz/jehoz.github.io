@@ -20,6 +20,12 @@
                 name: "{{name}}",
                 link: "{{link}}",
                 blurb: "{{blurb}}",
+                image: "{{image}}",
+                tags: [
+                    {{#tags}}
+                        "{{.}}",
+                    {{/tags}}
+                    ],
             },
             {{/projects}}
         ];
@@ -31,6 +37,9 @@
                 let projectHTML = `
                 <a class="project-link" href="${p.link}">
                     <div class="project-name">${p.name}</div>
+                    <div class="project-thumbnail">
+                    <img src="${p.image}" />
+                    </div>
                     <div class="project-blurb">${p.blurb}</div>
                 </a>
                 `;
@@ -58,7 +67,7 @@
         </a>
     </div>
     <div class="content">
-        <h1>my cool projects :)</h1>
+        <h1>PROJECTS</h1>
         <div id="projects-wrapper">
             <!-- Project cards are dynamically generated and put here -->
         </div>
