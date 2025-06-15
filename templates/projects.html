@@ -12,6 +12,34 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Work+Sans&display=swap" rel="stylesheet">
+
+    <script>
+        let projects = [
+            {{#projects}}
+            {
+                name: "{{name}}",
+                link: "{{link}}",
+                blurb: "{{blurb}}",
+            },
+            {{/projects}}
+        ];
+
+        function populateProjects() {
+            let wrapper = document.getElementById("projects-wrapper");
+            wrapper.innerHTML = "";
+            for (const p of projects) {
+                let projectHTML = `
+                <a class="project-link" href="${p.link}">
+                    <div class="project-name">${p.name}</div>
+                    <div class="project-blurb">${p.blurb}</div>
+                </a>
+                `;
+                wrapper.innerHTML += projectHTML;
+            }
+        }
+
+        document.addEventListener("DOMContentLoaded", populateProjects);
+    </script>
 </head>
 
 <body>
@@ -30,7 +58,11 @@
         </a>
     </div>
     <div class="content">
-        <h1>UNDER CONSTRUCTION</h1>
+        <h1>my cool projects :)</h1>
+        <div id="projects-wrapper">
+            <!-- Project cards are dynamically generated and put here -->
+        </div>
+
     </div>
 </body>
 
