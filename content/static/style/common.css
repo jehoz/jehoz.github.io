@@ -42,15 +42,20 @@ p {
     margin: 1em 0;
 }
 
-ol, ul {
+ol,
+ul {
     margin: 1em;
 }
 
-ol li ol, ol li ul, ul li ol, ul li ul {
+ol li ol,
+ol li ul,
+ul li ol,
+ul li ul {
     margin: 0 2em;
 }
 
-ol li p, ul li p {
+ol li p,
+ul li p {
     margin: 0;
 }
 
