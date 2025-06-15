@@ -11,110 +11,6 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Work+Sans&display=swap" rel="stylesheet">
-
-
-    <script>
-        let pages = [
-            {
-                url: "/contact.html",
-                title: "",
-                blurb: "",
-                thumbnail: "/static/img/thumbnails/",
-                date: "",
-                datePretty: "",
-                template: "contact.html",
-            },
-            {
-                url: "/projects.html",
-                title: "",
-                blurb: "",
-                thumbnail: "/static/img/thumbnails/",
-                date: "",
-                datePretty: "",
-                template: "projects.html",
-            },
-            {
-                url: "/index.html",
-                title: "",
-                blurb: "",
-                thumbnail: "/static/img/thumbnails/",
-                date: "",
-                datePretty: "",
-                template: "index.html",
-            },
-            {
-                url: "/blog.html",
-                title: "",
-                blurb: "",
-                thumbnail: "/static/img/thumbnails/",
-                date: "",
-                datePretty: "",
-                template: "blog.html",
-            },
-            {
-                url: "/articles/2024/05/10/parametric_legs_and_gaits.html",
-                title: "Parametric Legs and Gaits",
-                blurb: "Making natural-looking walking animations with a bunch of trigonometry.",
-                thumbnail: "/static/img/thumbnails/creature-walk.gif",
-                date: "2024-05-10",
-                datePretty: "May 10, 2024",
-                template: "article.html",
-            },
-            {
-                url: "/articles/2024/09/05/propagator_networks_pcg.html",
-                title: "Propagator networks",
-                blurb: "A computational model for constraint satisfaction problems and procedural generation.",
-                thumbnail: "/static/img/thumbnails/propnet-wfc.gif",
-                date: "2024-09-05",
-                datePretty: "Sep 5, 2024",
-                template: "article.html",
-            },
-            {
-                url: "/articles/2023/12/01/hydraulic_erosion.html",
-                title: "Hydraulic Erosion",
-                blurb: "Simulating erosive rainfall on virtual terrain. Also trying out Zig.",
-                thumbnail: "/static/img/thumbnails/erosion-terrain.png",
-                date: "2023-12-01",
-                datePretty: "Dec 1, 2023",
-                template: "article.html",
-            },
-            {
-                url: "/articles/2023/10/20/and_were_live.html",
-                title: "And we&#39;re live",
-                blurb: "",
-                thumbnail: "/static/img/thumbnails/naenae-cat.gif",
-                date: "2023-10-20",
-                datePretty: "Oct 20, 2023",
-                template: "article.html",
-            },
-        ];
-
-        function populatePageList() {
-            pages.sort((a, b) => (b.date.localeCompare(a.date)));
-
-            let listWrapper = document.getElementById("pages-list-wrapper");
-            listWrapper.innerHTML = "";
-            for (const a of pages) {
-                if (a.template != "article.html") continue;
-
-                let articleHTML = `
-                <a class="article-link" href="${a.url}">
-                    <div class="article-thumbnail">
-                        <img src="${a.thumbnail}" />
-                    </div>
-                    <div class="article-date">${a.datePretty}</div>
-                    <div class="article-details">
-                        <div class="article-title">${a.title}</div>
-                        <div class="article-blurb">${a.blurb}</div>
-                    </div>
-                </a>
-                `
-                listWrapper.innerHTML += articleHTML;
-            }
-        }
-
-        document.addEventListener("DOMContentLoaded", populatePageList);
-    </script>
 </head>
 <body>
     <div class="nav-bar">
@@ -132,16 +28,7 @@
         </a>
     </div>
 
-    <div class="content">
-        <div id="bio">
-            Hi my name is Jesse.<br>
-            This is where I write about the stuff I'm working on.
-        </div>
-
-        <div id="pages-list-wrapper">
-            <!-- Article links are dynamically generated and put here -->
-        </div>
-    </div>
+    <div class="under-construction"></div>
 </body>
 
 </html>

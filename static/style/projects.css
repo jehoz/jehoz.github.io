@@ -1,0 +1,64 @@
+h1 {
+    color: white;
+    text-align: center;
+}
+
+.content {
+    max-width: 900px;
+    margin: auto;
+}
+
+#projects-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.project-link {
+    text-decoration: none;
+    font-family: var(--header-font);
+    
+    border: 1px solid white;
+    display: flex;
+    flex-flow: column;
+    
+    margin: 1em;
+    width: 16rem;
+}
+
+.project-link:hover,
+.project-link:focus,
+.project-link:active {
+    filter: invert(1);
+}
+
+.project-name {
+    background: white;
+    color: black;
+    padding: 0.25rem 0.5rem;
+}
+
+.project-blurb {
+    background: white;
+    color: black;
+    font-size: 0.8rem;
+    
+    padding: 0.25rem 0.5rem;
+    flex-grow: 1;
+}
+
+.project-thumbnail {
+    width: 100%;
+    height: 10rem;
+    background: repeating-radial-gradient(black 0, #444, black 20px);
+    align-content: center;
+}
+
+
+img {
+    display: block;
+    max-width: 100%;
+    max-height: 100%;
+    margin: auto;
+}
+
