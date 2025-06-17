@@ -1,18 +1,17 @@
-hr {
-    border: none;
-    border-bottom: 1px solid #cdcdcd;
-}
-
 .content {
-    max-width: 600px;
-    margin: 0 auto;
+    max-width: 900px;
+    margin: 4rem auto;
+    padding: 1rem;
     font-family: "0xProto";
+    background: var(--light);
+    color: var(--dark);
 }
 
-#bio {
-    margin: 1em;
+.content-header {
+    margin: 1rem;
 
-    font-size: 2rem;
+    font-size: 1rem;
+    text-align: center;
 }
 
 #pages-list-wrapper {
@@ -23,18 +22,16 @@ hr {
     text-decoration: none;
     display: flex;
 
-    margin: 20px;
+    margin: 0.5rem;
+    padding: 0.5rem;
 
-    color: #fff;
-    border-color: white;
+    color: var(--dark);
 
 }
 
 .article-link:hover {
-    background: white;
-    color: black;
-
-    border-color: black;
+    background: var(--dark);
+    color: var(--light);
 }
 
 
@@ -47,32 +44,20 @@ hr {
 
 .article-details {
     width: 100%;
-    border: 1px solid;
+    border-left: 1px solid;
+    padding: 0 0.5rem;
 }
 
 .article-title {
-    color: #000;
-    background: white;
-
-    padding: 0.25rem 0.5rem;
-}
-
-.article-link:hover .article-title {
-    color: white;
-    background: black;
+    text-decoration: underline;
 }
 
 .article-date {
-    width: 5rem;
+    width: 11rem;
     text-align: center;
-    border: 1px solid;
-    align-content: center;
     border-right: none;
 }
 
 .article-blurb {
-    font-size: 1rem;
     line-height: 1.25em;
-    padding: 0.5rem;
-    min-height: 1rem;
 }
