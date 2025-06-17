@@ -1,10 +1,5 @@
 .content {
-    max-width: 900px;
-    margin: 4rem auto;
-    padding: 1rem;
     font-family: "0xProto";
-    background: var(--light);
-    color: var(--dark);
 }
 
 .content-header {
@@ -23,10 +18,11 @@
     display: flex;
 
     margin: 0.5rem;
-    padding: 0.5rem;
+    padding: 0.5rem 1rem;
 
     color: var(--dark);
 
+    flex-direction: column;
 }
 
 .article-link:hover {
@@ -43,21 +39,37 @@
 }
 
 .article-details {
-    width: 100%;
-    border-left: 1px solid;
-    padding: 0 0.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-content: center;
 }
 
 .article-title {
-    text-decoration: underline;
+/*     text-decoration: underline; */
 }
 
 .article-date {
-    width: 11rem;
-    text-align: center;
-    border-right: none;
+/*     font-size: 0.9rem; */
+/*     color: #777; */
+}
+
+.date-spacer {
+    word-wrap: break-word;
+    overflow: hidden;
+    height: 1.5em;
+    text-align: end;
+    color: #bbb;
+    flex: 1;
+    letter-spacing: 0.25rem;
+}
+
+.date-spacer::after {
+    content: "****************************************************";
 }
 
 .article-blurb {
+/*     color: #777; */
+    font-size: 0.9rem;
     line-height: 1.25em;
 }
+

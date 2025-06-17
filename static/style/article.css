@@ -1,24 +1,10 @@
-html,
-body {
-    height: 100%;
-}
-
 body {
     font-family: var(--body-font);
-    color: black;
-    margin: 0;
+    color: var(--dark);
 }
 
-#article-body {
-    display: block;
-    max-width: 75ch;
-    width: 100%;
-    margin: 1.5em auto;
-    padding: 0.5em 1.5em;
-
-    font-size: 1.1rem;
-
-    background: white;
+.content {
+    padding: 1rem 4rem;
 }
 
 a {
@@ -54,15 +40,15 @@ pre code {
 
 }
 
-#article-body img,
-video {
+.content img,
+.content video {
     display: block;
     margin-left: auto;
     margin-right: auto;
     max-width: 100%;
 }
 
-#article-body blockquote {
+.content blockquote {
     margin: 0;
     padding: 0 1em;
     color: #5f5f5f;
@@ -71,20 +57,18 @@ video {
 
 #date {
     font-family: var(--header-font);
-    color: #777;
+    color: #888;
     font-size: 1rem;
     margin: 1rem 0;
 }
 
 #article-title {
     font-family: var(--header-font);
-    font-size: 3rem;
+    font-size: 2rem;
     width: fit-content;
     margin: 0.5em auto;
     text-align: center;
     line-height: 1.25;
-
-    color: black;
 }
 
 #page-wrapper {
@@ -153,3 +137,4 @@ video {
         transform: translateX(-30rem);
     }
 }
+

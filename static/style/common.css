@@ -9,7 +9,7 @@
     --code-font: '0xProto', monospace;
     
     --dark: #222323;
-    --light: #f0f6f0;
+    --light: #fff;
 }
 
 * {
@@ -24,7 +24,7 @@ html {
     line-height: 1.5;
     height: 100%;
 
-    background: url("/static/img/templates/stars.gif");
+    background: url("/static/img/templates/stars_desat.gif");
     color: var(--light);
 }
 
@@ -39,6 +39,26 @@ h6 {
     font-weight: normal;
     line-height: 1.25;
     margin: 2.5rem 0 1.5rem 0;
+}
+
+h1 {
+    font-size: 1.8rem;
+}
+
+h2 {
+    font-size: 1.6rem;
+}
+
+h2 {
+    font-size: 1.4rem;
+}
+
+h3 {
+    font-size: 1.2rem;
+}
+
+h4, h5, h6 {
+    font-size: 1rem;
 }
 
 p {
@@ -90,6 +110,14 @@ ul li p {
     color: var(--light);
     background: var(--dark);
     text-decoration: none;
+}
+
+.content {
+    max-width: 900px;
+    margin: 2rem auto;
+    padding: 1rem;
+    background: var(--light);
+    color: var(--dark);
 }
 
 .under-construction {
