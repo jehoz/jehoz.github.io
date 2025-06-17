@@ -112,6 +112,14 @@ ul li p {
     text-decoration: none;
 }
 
+.content {
+    max-width: 900px;
+    margin: 2rem auto;
+    padding: 1rem;
+    background: var(--light);
+    color: var(--dark);
+}
+
 .under-construction {
     width: 100%;
     height: 100%;

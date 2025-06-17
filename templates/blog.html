@@ -38,11 +38,12 @@
 
                 let articleHTML = `
                 <a class="article-link" href="${a.url}">
-                    <div class="article-date">${a.datePretty}</div>
                     <div class="article-details">
                         <div class="article-title">${a.title}</div>
-                        <div class="article-blurb">${a.blurb}</div>
+                        <div class="date-spacer"></div>
+                        <div class="article-date">${a.date}</div>
                     </div>
+                    <div class="article-blurb">${a.blurb}</div>
                 </a>
                 `
                 listWrapper.innerHTML += articleHTML;
