@@ -9,7 +9,7 @@
     --code-font: '0xProto', monospace;
     
     --dark: #222323;
-    --light: #f0f6f0;
+    --light: #fff;
 }
 
 * {
@@ -24,7 +24,7 @@ html {
     line-height: 1.5;
     height: 100%;
 
-    background: url("/static/img/templates/stars.gif");
+    background: url("/static/img/templates/stars_desat.gif");
     color: var(--light);
 }
 
