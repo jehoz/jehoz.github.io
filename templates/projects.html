@@ -56,35 +56,35 @@
         <div class="content-header">
             PROJECTS
         </div>
-        <div id="projects-wrapper">
-            {{#projects}}
-            <div class="project-link" href="https://github.com/jehoz/{{repo_name}}">
+        {{#projects}}
+        <div class="project-wrapper">
+            <div class="project-header">
                 <div class="project-name">{{repo_name}}</div>
-                <div class="project-body">
-                    <table class="project-stats">
-                        <tr>
-                            <td class="stat-name">created</td>
-                            <td id="{{repo_name}}-created"  class="stat-value">...</div>
-                        </tr>
-                        <tr>
-                            <td class="stat-name">updated</td>
-                            <td id="{{repo_name}}-updated"  class="stat-value">...</div>
-                        </tr>
-                        <tr>
-                            <td class="stat-name">built in</td>
-                            <td class="stat-value">{{built-in}}</div>
-                        </tr>
-                        <tr>
-                            <td class="stat-name">category</td>
-                            <td class="stat-value">{{category}}</div>
-                        </tr>
-                    </table>
-                    <div class="project-blurb">{{blurb}}</div>
-                </div>
+                <a class="project-link" href="https://github.com/jehoz/{{repo_name}}">[source code]</a>
             </div>
-            {{/projects}}
+            <div class="project-body">
+                <table class="project-stats">
+                    <tr>
+                        <td class="stat-name">created</td>
+                        <td id="{{repo_name}}-created"  class="stat-value">...</div>
+                    </tr>
+                    <tr>
+                        <td class="stat-name">updated</td>
+                        <td id="{{repo_name}}-updated"  class="stat-value">...</div>
+                    </tr>
+                    <tr>
+                        <td class="stat-name">built in</td>
+                        <td class="stat-value">{{built-in}}</div>
+                    </tr>
+                    <tr>
+                        <td class="stat-name">category</td>
+                        <td class="stat-value">{{category}}</div>
+                    </tr>
+                </table>
+                <div class="project-blurb">{{blurb}}</div>
+            </div>
         </div>
-
+        {{/projects}}
     </div>
 </body>
 
