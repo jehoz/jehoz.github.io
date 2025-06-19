@@ -8,15 +8,15 @@ projects:
     blurb: >
       An embedded domain sepcific language for relational programming and solving 
       constraint satisfaction problems.
-      The underlying mechanism is a novel implementation of propagator networks
-      as proposed by Gerald Sussman and Alexey Radul in "The Art of the Propagator" (2009).
+      Under the hood this is powered by propagator networks, a model for computation
+      laid out by Gerald Sussman and Alexey Radul in "The Art of the Propagator" (2009).
 
   - repo_name: nebulizer
     image: /static/img/thumbnails/naenae-cat.gif
     built-in: rust
     category: music
     blurb: >
-      A featureful granular synthesizer for playing music on your computer.
+      A standalone granular synthesizer for playing music on your computer.
       Takes any audio sample and turns it into a fully-playable instrument.
       Ready to use with a MIDI device or incorporate into your music livecoding setup.
 
@@ -25,22 +25,22 @@ projects:
     built-in: zig
     category: graphics/simulation
     blurb: >
-      An experimental terrain generation program that simulates hydraulic erosion.  
+      A program that generates realistic terrain through simulated hydraulic erosion.  
       Uses different types of 2D-noise to generate an initial heightmap and then 
-      transforms the terrain via a large number of simulated water droplets, each
-      of which transfers a small amount of "sediment" as it moves along the terrain.
+      simulates a large number of water droplets, each of which makes small modifications
+      to the terrain.
 
   - repo_name: legs-and-gaits
     image: /static/img/thumbnails/creature-walk.gif
     built-in: godot
     category: procedural animation
     blurb: >
-      Proof-of-concept for a novel procedural animation technique for quadruped locomotion.
+      An experimental technique for procedurally animating quadruped locomotion.
       Introduces a parametric leg structure that can model plantigrade, digitigrade, 
       and ungiligrade legs.
       Uses analytic IK for bone transformations (instead of the usual numerical 
       IK techniques used in procedural animation) and coordinates foot movement 
-      with special parametric wave functions.
+      with specially tuned wave functions.
 
   - repo_name: psyn
     image: /static/img/thumbnails/naenae-cat.gif
@@ -48,14 +48,17 @@ projects:
     category: music
     blurb: >
       An audio sampler that is controlled with UDP messages.
-      Each UDP message plays a slice of an audio file and can specify effects for that slice.
-      I made this to use with the Orca sequencer, but anything that can send UDP
-      messages could work just as well.
+      Each message plays a slice of an audio file and can specify effects for that slice.
+      I made this to use with the Orca sequencer, but anything that can send strings 
+      over UDP should work just as well.
 
   - repo_name: shove
     image: /static/img/thumbnails/naenae-cat.gif
     built-in: haskell
     category: programming language
     blurb: >
-      Scripting language designed around composing pipelines
+      An interpreter for a scripting language that I created.  The language was
+      designed with an emphasis on composing functions into intuitively readable pipelines.
+      Not especially practical in its current state, but contains some interesting
+      design features that I'd like to expand on.
 ---
