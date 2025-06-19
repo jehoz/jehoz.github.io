@@ -7,6 +7,8 @@
     
     --dark: #222323;
     --light: #fff;
+    
+    --content-width: 900px;
 }
 
 * {
@@ -85,10 +87,11 @@ ul li p {
     position: sticky;
     top: 0;
     background: var(--light);
-    width: 100%;
+    max-width: var(--content-width);
 
     border-bottom: 1px solid var(--dark);
     align-content: center;
+    justify-content: center;
 }
 
 .nav-button {
@@ -110,7 +113,7 @@ ul li p {
 }
 
 .content {
-    max-width: 900px;
+    max-width: var(--content-width);
     margin: 2rem auto;
     padding: 1rem;
     background: var(--light);
