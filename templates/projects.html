@@ -15,39 +15,25 @@
 
     <script>
         let projects = [
-            {{#projects}}
-            {
-                name: "{{name}}",
-                link: "{{link}}",
-                blurb: "{{blurb}}",
-                image: "{{image}}",
-                tags: [
-                    {{#tags}}
-                        "{{.}}",
-                    {{/tags}}
-                    ],
-            },
-            {{/projects}}
+            {{#projects}}"{{repo_name}}",{{/projects}}
         ];
 
-        function populateProjects() {
-            let wrapper = document.getElementById("projects-wrapper");
-            wrapper.innerHTML = "";
-            for (const p of projects) {
-                let projectHTML = `
-                <a class="project-link" href="${p.link}">
-                    <div class="project-name">${p.name}</div>
-                    <div class="project-thumbnail">
-                    <img src="${p.image}" />
-                    </div>
-                    <div class="project-blurb">${p.blurb}</div>
-                </a>
-                `;
-                wrapper.innerHTML += projectHTML;
-            }
+        function populateDateFields() {
+            for (const repoName of projects) {
+                fetch(`https://api.github.com/repos/jehoz/${repoName}/commits`)
+                    .then(res => res.json())
+                    .then(data => {
+                        let created = data[data.length - 1]["commit"]["committer"]["date"].split("T")[0];
+                        document.getElementById(`${repoName}-created`).innerHTML = created;
+
+                        let updated = data[0]["commit"]["committer"]["date"].split("T")[0];
+                        document.getElementById(`${repoName}-updated`).innerHTML = updated;
+                    })
+                    .catch(error => console.error(error));
+                }
         }
 
-        document.addEventListener("DOMContentLoaded", populateProjects);
+        document.addEventListener("DOMContentLoaded", populateDateFields);
     </script>
 </head>
 
@@ -71,7 +57,32 @@
             PROJECTS
         </div>
         <div id="projects-wrapper">
-            <!-- Project cards are dynamically generated and put here -->
+            {{#projects}}
+            <div class="project-link" href="https://github.com/jehoz/{{repo_name}}">
+                <div class="project-name">{{repo_name}}</div>
+                <div class="project-body">
+                    <table class="project-stats">
+                        <tr>
+                            <td class="stat-name">created</td>
+                            <td id="{{repo_name}}-created"  class="stat-value">...</div>
+                        </tr>
+                        <tr>
+                            <td class="stat-name">updated</td>
+                            <td id="{{repo_name}}-updated"  class="stat-value">...</div>
+                        </tr>
+                        <tr>
+                            <td class="stat-name">built in</td>
+                            <td class="stat-value">{{built-in}}</div>
+                        </tr>
+                        <tr>
+                            <td class="stat-name">category</td>
+                            <td class="stat-value">{{category}}</div>
+                        </tr>
+                    </table>
+                    <div class="project-blurb">{{blurb}}</div>
+                </div>
+            </div>
+            {{/projects}}
         </div>
 
     </div>

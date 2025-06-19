@@ -1,9 +1,17 @@
 .content {
-    font-family: "0xProto";
+/*     background: #eee; */
+/*     background: none; */
+    
+    /*! padding: 0; */
+    text-transform: uppercase;
 }
 
 .content-header {
+    font-family: var(--header-font);
+    background: white;
+    
     margin: 1rem;
+    padding: 1rem;
 
     font-size: 1rem;
     text-align: center;
@@ -19,65 +27,70 @@
     text-decoration: none;
     font-family: var(--header-font);
     
-    border: 1px solid white;
-    display: flex;
-    flex-flow: column;
-    
-    margin: 1em;
-    width: 16rem;
+    margin: 0.25rem 1em;
+    width: 100%;
     
     background: var(--light);
     color: var(--dark);
     
-    padding: 0.5rem;
+    padding: 1rem;
 }
 
-.project-link:hover,
-.project-link:focus,
-.project-link:active {
-    background: var(--dark);
-    color: var(--light);
+@media only screen and (max-width: 700px) {
+    .project-body {
+        flex-direction: column;
+    }
 }
 
 .project-name {
-    text-decoration: underline;
+    text-transform: uppercase;
+    
+    width: fit-content;
 }
 
 .project-blurb {
-    /*! font-size: 0.9rem; */
+}
+
+.project-body {
+    display: flex;
+}
+
+.project-stats {
     
-    flex-grow: 1;
-}
-
-.project-thumbnail {
-    width: 100%;
-    height: 10rem;
-    background: var(--dark);
-    align-content: center;
+    min-width: fit-content;
+    height: fit-content;
     
-    display: none;
-}
-
-.project-link:hover .project-thumbnail,
-.project-link:focus .project-thumbnail,
-.project-link:active .project-thumbnail {
-    background: var(--light);
-}
-
-
-img {
-    display: block;
-    max-width: 100%;
-    max-height: 100%;
-    margin: auto;
+    /*! border: 1px solid var(--dark); */
+/*     background: #eee; */
     
-    filter: grayscale(1);
+    border-collapse: collapse;
 }
 
-.project-link:hover img,
-.project-link:focus img,
-.project-link:active img {
-    filter: none;
-} 
+tr {
+    /*! padding: 0 0.25rem; */
+}
+
+td {
+}
+
+.project-stats .stat-name {
+    /*! background: #eee; */
+    /*! padding: 0 0.25rem; */
+    vertical-align: top;
+    
+    /*! background: #eee; */
+    width: 8rem;
+    
+    /*! text-transform: capitalize; */
+}
+
+.stat-name::after {
+    content: ":";
+}
+
+.project-stats .stat-value {
+    width: 9em;
+}
+
 
 
