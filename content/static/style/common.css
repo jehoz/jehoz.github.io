@@ -1,12 +1,9 @@
-@font-face {
-    font-family: "0xProto";
-    src: url("/static/fonts/0xProto/0xProto-Regular.woff2");
-}
+@import url('https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400;1,700&display=swap');
 
 :root {
-    --header-font: '0xProto', monospace;
-    --body-font: 'Work Sans', sans-serif;
-    --code-font: '0xProto', monospace;
+    --header-font: 'Courier Prime', monospace;
+    --body-font: 'Courier Prime', sans-serif;
+    --code-font: 'Courier Prime', monospace;
     
     --dark: #222323;
     --light: #fff;

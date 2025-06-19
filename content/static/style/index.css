@@ -1,5 +1,5 @@
 .content {
-    font-family: "0xProto";
+    font-family: var(--header-font);
 }
 
 .content-header {
