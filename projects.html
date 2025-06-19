@@ -15,86 +15,25 @@
 
     <script>
         let projects = [
-            {
-                name: "propnet",
-                link: "https://github.com/jehoz/propnet",
-                blurb: "Framework for relational programming using propagator networks",
-                image: "/static/img/thumbnails/propnet-wfc.gif",
-                tags: [
-                        "haskell",
-                    ],
-            },
-            {
-                name: "nebulizer",
-                link: "https://github.com/jehoz/nebulizer",
-                blurb: "A granular synthesizer",
-                image: "/static/img/thumbnails/naenae-cat.gif",
-                tags: [
-                        "rust",
-                        "music",
-                    ],
-            },
-            {
-                name: "terrain-erosion",
-                link: "https://github.com/jehoz/terrain-erosion",
-                blurb: "A hydraulic erosion simulator for virtual terrain",
-                image: "/static/img/thumbnails/erosion-terrain.png",
-                tags: [
-                        "zig",
-                        "graphics",
-                        "simulation",
-                    ],
-            },
-            {
-                name: "legs-and-gaits",
-                link: "https://github.com/jehoz/legs-and-gaits",
-                blurb: "Procedural quadruped leg anatomy and gait animations",
-                image: "/static/img/thumbnails/creature-walk.gif",
-                tags: [
-                        "godot",
-                        "graphics",
-                        "simulation",
-                    ],
-            },
-            {
-                name: "psyn",
-                link: "https://github.com/jehoz/psyn",
-                blurb: "UDP-controlled sampler for livecoding setups",
-                image: "/static/img/thumbnails/naenae-cat.gif",
-                tags: [
-                        "go",
-                        "music",
-                    ],
-            },
-            {
-                name: "shove",
-                link: "https://github.com/jehoz/shove",
-                blurb: "Scripting language designed around composing pipelines",
-                image: "/static/img/thumbnails/naenae-cat.gif",
-                tags: [
-                        "haskell",
-                    ],
-            },
+            "propnet","nebulizer","terrain-erosion","legs-and-gaits","psyn","shove",
         ];
 
-        function populateProjects() {
-            let wrapper = document.getElementById("projects-wrapper");
-            wrapper.innerHTML = "";
-            for (const p of projects) {
-                let projectHTML = `
-                <a class="project-link" href="${p.link}">
-                    <div class="project-name">${p.name}</div>
-                    <div class="project-thumbnail">
-                    <img src="${p.image}" />
-                    </div>
-                    <div class="project-blurb">${p.blurb}</div>
-                </a>
-                `;
-                wrapper.innerHTML += projectHTML;
-            }
+        function populateDateFields() {
+            for (const repoName of projects) {
+                fetch(`https://api.github.com/repos/jehoz/${repoName}/commits`)
+                    .then(res => res.json())
+                    .then(data => {
+                        let created = data[data.length - 1]["commit"]["committer"]["date"].split("T")[0];
+                        document.getElementById(`${repoName}-created`).innerHTML = created;
+
+                        let updated = data[0]["commit"]["committer"]["date"].split("T")[0];
+                        document.getElementById(`${repoName}-updated`).innerHTML = updated;
+                    })
+                    .catch(error => console.error(error));
+                }
         }
 
-        document.addEventListener("DOMContentLoaded", populateProjects);
+        document.addEventListener("DOMContentLoaded", populateDateFields);
     </script>
 </head>
 
@@ -118,7 +57,156 @@
             PROJECTS
         </div>
         <div id="projects-wrapper">
-            <!-- Project cards are dynamically generated and put here -->
+            <div class="project-link" href="https://github.com/jehoz/propnet">
+                <div class="project-name">propnet</div>
+                <div class="project-body">
+                    <table class="project-stats">
+                        <tr>
+                            <td class="stat-name">created</td>
+                            <td id="propnet-created"  class="stat-value">...</div>
+                        </tr>
+                        <tr>
+                            <td class="stat-name">updated</td>
+                            <td id="propnet-updated"  class="stat-value">...</div>
+                        </tr>
+                        <tr>
+                            <td class="stat-name">built in</td>
+                            <td class="stat-value">haskell</div>
+                        </tr>
+                        <tr>
+                            <td class="stat-name">category</td>
+                            <td class="stat-value">DSL</div>
+                        </tr>
+                    </table>
+                    <div class="project-blurb">An embedded domain sepcific language for relational programming and solving  constraint satisfaction problems. The underlying mechanism is a novel implementation of propagator networks as proposed by Gerald Sussman and Alexey Radul in &quot;The Art of the Propagator&quot; (2009).
+</div>
+                </div>
+            </div>
+            <div class="project-link" href="https://github.com/jehoz/nebulizer">
+                <div class="project-name">nebulizer</div>
+                <div class="project-body">
+                    <table class="project-stats">
+                        <tr>
+                            <td class="stat-name">created</td>
+                            <td id="nebulizer-created"  class="stat-value">...</div>
+                        </tr>
+                        <tr>
+                            <td class="stat-name">updated</td>
+                            <td id="nebulizer-updated"  class="stat-value">...</div>
+                        </tr>
+                        <tr>
+                            <td class="stat-name">built in</td>
+                            <td class="stat-value">rust</div>
+                        </tr>
+                        <tr>
+                            <td class="stat-name">category</td>
+                            <td class="stat-value">music</div>
+                        </tr>
+                    </table>
+                    <div class="project-blurb">A featureful granular synthesizer for playing music on your computer. Takes any audio sample and turns it into a fully-playable instrument. Ready to use with a MIDI device or incorporate into your music livecoding setup.
+</div>
+                </div>
+            </div>
+            <div class="project-link" href="https://github.com/jehoz/terrain-erosion">
+                <div class="project-name">terrain-erosion</div>
+                <div class="project-body">
+                    <table class="project-stats">
+                        <tr>
+                            <td class="stat-name">created</td>
+                            <td id="terrain-erosion-created"  class="stat-value">...</div>
+                        </tr>
+                        <tr>
+                            <td class="stat-name">updated</td>
+                            <td id="terrain-erosion-updated"  class="stat-value">...</div>
+                        </tr>
+                        <tr>
+                            <td class="stat-name">built in</td>
+                            <td class="stat-value">zig</div>
+                        </tr>
+                        <tr>
+                            <td class="stat-name">category</td>
+                            <td class="stat-value">graphics/simulation</div>
+                        </tr>
+                    </table>
+                    <div class="project-blurb">An experimental terrain generation program that simulates hydraulic erosion.   Uses different types of 2D-noise to generate an initial heightmap and then  transforms the terrain via a large number of simulated water droplets, each of which transfers a small amount of &quot;sediment&quot; as it moves along the terrain.
+</div>
+                </div>
+            </div>
+            <div class="project-link" href="https://github.com/jehoz/legs-and-gaits">
+                <div class="project-name">legs-and-gaits</div>
+                <div class="project-body">
+                    <table class="project-stats">
+                        <tr>
+                            <td class="stat-name">created</td>
+                            <td id="legs-and-gaits-created"  class="stat-value">...</div>
+                        </tr>
+                        <tr>
+                            <td class="stat-name">updated</td>
+                            <td id="legs-and-gaits-updated"  class="stat-value">...</div>
+                        </tr>
+                        <tr>
+                            <td class="stat-name">built in</td>
+                            <td class="stat-value">godot</div>
+                        </tr>
+                        <tr>
+                            <td class="stat-name">category</td>
+                            <td class="stat-value">procedural animation</div>
+                        </tr>
+                    </table>
+                    <div class="project-blurb">Proof-of-concept for a novel procedural animation technique for quadruped locomotion. Introduces a parametric leg structure that can model plantigrade, digitigrade,  and ungiligrade legs. Uses analytic IK for bone transformations (instead of the usual numerical  IK techniques used in procedural animation) and coordinates foot movement  with special parametric wave functions.
+</div>
+                </div>
+            </div>
+            <div class="project-link" href="https://github.com/jehoz/psyn">
+                <div class="project-name">psyn</div>
+                <div class="project-body">
+                    <table class="project-stats">
+                        <tr>
+                            <td class="stat-name">created</td>
+                            <td id="psyn-created"  class="stat-value">...</div>
+                        </tr>
+                        <tr>
+                            <td class="stat-name">updated</td>
+                            <td id="psyn-updated"  class="stat-value">...</div>
+                        </tr>
+                        <tr>
+                            <td class="stat-name">built in</td>
+                            <td class="stat-value">golang</div>
+                        </tr>
+                        <tr>
+                            <td class="stat-name">category</td>
+                            <td class="stat-value">music</div>
+                        </tr>
+                    </table>
+                    <div class="project-blurb">An audio sampler that is controlled with UDP messages. Each UDP message plays a slice of an audio file and can specify effects for that slice. I made this to use with the Orca sequencer, but anything that can send UDP messages could work just as well.
+</div>
+                </div>
+            </div>
+            <div class="project-link" href="https://github.com/jehoz/shove">
+                <div class="project-name">shove</div>
+                <div class="project-body">
+                    <table class="project-stats">
+                        <tr>
+                            <td class="stat-name">created</td>
+                            <td id="shove-created"  class="stat-value">...</div>
+                        </tr>
+                        <tr>
+                            <td class="stat-name">updated</td>
+                            <td id="shove-updated"  class="stat-value">...</div>
+                        </tr>
+                        <tr>
+                            <td class="stat-name">built in</td>
+                            <td class="stat-value">haskell</div>
+                        </tr>
+                        <tr>
+                            <td class="stat-name">category</td>
+                            <td class="stat-value">programming language</div>
+                        </tr>
+                    </table>
+                    <div class="project-blurb">Scripting language designed around composing pipelines
+</div>
+                </div>
+            </div>
         </div>
 
     </div>
