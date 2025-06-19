@@ -71,12 +71,6 @@ pre code {
     line-height: 1.25;
 }
 
-#page-wrapper {
-    display: flex;
-    flex-direction: column;
-    min-height: 100%;
-}
-
 #spacer {
     flex: 1;
 }

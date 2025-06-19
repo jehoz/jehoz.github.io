@@ -37,18 +37,13 @@
 }
 
 .project-name {
-    text-transform: none;
-    
     width: fit-content;
-    font-weight: bold;
-}
 
-.project-link {
     text-decoration: none;
     color: var(--dark);
 }
 
-.project-link:hover {
+.project-name:hover {
     color: var(--light);
     background: var(--dark);
 }
