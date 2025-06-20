@@ -81,6 +81,26 @@ ul li p {
     margin: 0;
 }
 
+.bracket-link {
+    color: var(--dark);
+    font-family: var(--header-font);
+    text-decoration: none;
+}
+
+.bracket-link::before {
+    content: "[";
+}
+
+.bracket-link::after {
+    content: "]";
+}
+
+.bracket-link:hover {
+    color: var(--light);
+    background: var(--dark);
+    text-decoration: none;
+}
+
 .nav-bar {
     margin: 0 auto;
     display: flex;
@@ -94,22 +114,9 @@ ul li p {
     justify-content: center;
 }
 
-.nav-button {
-    color: var(--dark);
-    font-family: var(--header-font);
-    font-size: 1rem;
-    text-decoration: none;
-
-    display: table-cell;
-    width: 8rem;
+.nav-bar .bracket-link {
     text-align: center;
-    padding: 0.25rem;
-}
-
-.nav-button:hover {
-    color: var(--light);
-    background: var(--dark);
-    text-decoration: none;
+    padding: 0.25rem 1rem;
 }
 
 .content {
