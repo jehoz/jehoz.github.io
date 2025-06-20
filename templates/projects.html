@@ -35,13 +35,13 @@
 
 <body>
     <div class="nav-bar">
-        <a class="nav-button" href="/">
+        <a class="bracket-link" href="/">
             about
         </a>
-        <a class="nav-button" href="/projects.html">
+        <a class="bracket-link" href="/projects.html">
             projects
         </a>
-        <a class="nav-button" href="/blog.html">
+        <a class="bracket-link" href="/blog.html">
             blog
         </a>
     </div>
@@ -52,7 +52,9 @@
         {{#projects}}
         <div class="project-wrapper">
             <div class="project-header">
-                <a class="project-name" href="https://github.com/jehoz/{{repo_name}}">[{{repo_name}}]</a>
+                <a class="project-name bracket-link" href="https://github.com/jehoz/{{repo_name}}">
+                    {{repo_name}}
+                </a>
             </div>
             <div class="project-body">
                 <table class="project-stats">

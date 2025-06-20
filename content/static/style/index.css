@@ -50,13 +50,3 @@
     margin: 1rem;
     flex-wrap: wrap;
 }
-
-.social-link {
-    color: var(--dark);
-    text-decoration: none;
-}
-
-.social-link:hover {
-    color: var(--light);
-    background: var(--dark);
-}

@@ -38,14 +38,6 @@
 
 .project-name {
     width: fit-content;
-
-    text-decoration: none;
-    color: var(--dark);
-}
-
-.project-name:hover {
-    color: var(--light);
-    background: var(--dark);
 }
 
 .project-blurb {
