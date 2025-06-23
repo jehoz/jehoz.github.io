@@ -1,3 +1,4 @@
+
 .content {
     font-family: var(--header-font);
 }
@@ -42,6 +43,7 @@
     display: flex;
     justify-content: space-between;
     align-content: center;
+    flex-wrap: wrap;
 }
 
 .article-title {
@@ -49,27 +51,18 @@
 }
 
 .article-date {
-/*     font-size: 0.9rem; */
-/*     color: #777; */
+    min-width: fit-content;
 }
 
-.date-spacer {
+.spacer {
     word-wrap: break-word;
     overflow: hidden;
     height: 1.5em;
     text-align: end;
-    color: #bbb;
     flex: 1;
-    letter-spacing: 0.25rem;
 }
 
-.date-spacer::after {
-    content: "****************************************************";
-}
-
-.article-blurb {
-/*     color: #777; */
-    font-size: 0.9rem;
-    line-height: 1.25em;
+.spacer::after {
+    content: ".....................................................................";
 }
 
