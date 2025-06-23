@@ -1,9 +1,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400;1,700&display=swap');
 
 :root {
-    --header-font: 'Courier Prime', monospace;
-    --body-font: 'Courier Prime', sans-serif;
-    --code-font: 'Courier Prime', monospace;
+    --header-font: 'Iosevka Web', monospace;
+    --body-font: 'Iosevka Aile Web', sans-serif;
+    --code-font: 'Iosevka Web', monospace;
     
     --dark: #222323;
     --light: #fff;
@@ -35,7 +35,7 @@ h5,
 h6 {
     font-family: var(--header-font);
     color: var(--dark);
-    font-weight: normal;
+    font-weight: heavy;
     line-height: 1.25;
     margin: 2.5rem 0 1.5rem 0;
 }

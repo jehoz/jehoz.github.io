@@ -1,3 +1,4 @@
+
 .content {
     font-family: var(--header-font);
 }
@@ -42,48 +43,26 @@
     display: flex;
     justify-content: space-between;
     align-content: center;
+    flex-wrap: wrap;
 }
 
 .article-title {
 /*     text-decoration: underline; */
 }
 
-.article-title::before {
-    content: "[ ";
-    color: #777;
-}
-
-.article-title::after {
-    content: " ]";
-    color: #777;
-}
-
 .article-date {
     min-width: fit-content;
 }
 
-.date-spacer {
+.spacer {
     word-wrap: break-word;
     overflow: hidden;
     height: 1.5em;
     text-align: end;
-    color: #eee;
     flex: 1;
-    letter-spacing: 0.25rem;
 }
 
-.date-spacer::after {
-    content: "......................................";
-}
-
-.article-link:hover .date-spacer {
-    display: none;
-}
-
-.article-blurb {
-    font-size: 0.9rem;
-    line-height: 1.25em;
-    
-    display: none;
+.spacer::after {
+    content: ".....................................................................";
 }
 
