@@ -132,6 +132,10 @@ ul li p {
         margin: 0;
         padding: 0.5rem 0;
     }
+
+    .nav-bar .bracket-link {
+        padding: 0.25rem;
+    }
 }
 
 .under-construction {

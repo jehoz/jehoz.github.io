@@ -48,9 +48,18 @@
 /*     text-decoration: underline; */
 }
 
+.article-title::before {
+    content: "[ ";
+    color: #777;
+}
+
+.article-title::after {
+    content: " ]";
+    color: #777;
+}
+
 .article-date {
-/*     font-size: 0.9rem; */
-/*     color: #777; */
+    min-width: fit-content;
 }
 
 .date-spacer {
@@ -58,18 +67,23 @@
     overflow: hidden;
     height: 1.5em;
     text-align: end;
-    color: #bbb;
+    color: #eee;
     flex: 1;
     letter-spacing: 0.25rem;
 }
 
 .date-spacer::after {
-    content: "****************************************************";
+    content: "......................................";
+}
+
+.article-link:hover .date-spacer {
+    display: none;
 }
 
 .article-blurb {
-/*     color: #777; */
     font-size: 0.9rem;
     line-height: 1.25em;
+    
+    display: none;
 }
 
