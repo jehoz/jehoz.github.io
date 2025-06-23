@@ -12,14 +12,15 @@
 
 #pages-list-wrapper {
     display: inline-block;
+    
+    margin: 1rem 2rem;
 }
 
 .article-link {
     text-decoration: none;
     display: flex;
 
-    margin: 0.5rem;
-    padding: 0.5rem 1rem;
+    margin: 0.5rem 0;
 
     color: var(--dark);
 
@@ -54,6 +55,14 @@
     min-width: fit-content;
 }
 
+.article-date::before {
+    content: "[";
+}
+
+.article-date::after {
+    content: "]";
+}
+
 .spacer {
     word-wrap: break-word;
     overflow: hidden;
@@ -63,6 +72,6 @@
 }
 
 .spacer::after {
-    content: ".....................................................................";
+    content: "....................................................................................";
 }
 
