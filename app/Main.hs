@@ -8,7 +8,8 @@ import Website
 data Options = Options
   { optContentDir :: FilePath,
     optTemplatesDir :: FilePath,
-    optOutputDir :: FilePath
+    optOutputDir :: FilePath,
+    optSymlinkMode :: Bool
   }
 
 options :: Parser Options
@@ -35,15 +36,22 @@ options =
           <> value "output"
           <> help "Directory into which all the final static site is written"
       )
+    <*> switch
+      ( long "symlink-mode"
+          <> short 's'
+          <> help "Symlink static files in output directory instead of copying them"
+      )
 
 optInfo :: ParserInfo Options
 optInfo = info (helper <*> options) fullDesc
 
 main :: IO ()
 main = do
-  Options contentDir templatesDir outputDir <- execParser optInfo
+  Options contentDir templatesDir outputDir symlinkMode <- execParser optInfo
 
   generateStaticSite $ do
     loadContent contentDir
     loadTemplates templatesDir
-    renderTo outputDir
+    if symlinkMode
+      then renderToWithSymlinks outputDir
+      else renderTo outputDir

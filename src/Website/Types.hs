@@ -28,7 +28,7 @@ data Website = Website
     -- | Map of compiled Mustache templates found in templates directory
     templateMap :: Map Text Template,
     -- | List of directories where static site files will be written
-    outputDirectories :: [FilePath]
+    outputDirectories :: [OutputDir]
   }
 
 instance Semigroup Website where
@@ -42,6 +42,11 @@ instance Semigroup Website where
 instance Monoid Website where
   mempty = Website mempty mempty mempty mempty
 
+data OutputDir = OutputDir FilePath StaticFileMode
+
+-- | Specifies whether static files should be copied or symlinked in output directory
+data StaticFileMode = CopyStaticFiles | SymlinkStaticFiles
+
 -- | A page of content on the website
 data Page = Page
   { -- | Path to the original markdown file
@@ -54,7 +59,7 @@ data Page = Page
 
 -- | Incorporate a map of attributes to the page's existing attribute map
 addAttributes :: Map Text PageAttr -> Page -> Page
-addAttributes newAttrs page = page { attrs = M.union page.attrs newAttrs }
+addAttributes newAttrs page = page {attrs = M.union page.attrs newAttrs}
 
 -- | Supported types of attributes that can be defined in a page's front matter
 data PageAttr

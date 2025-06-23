@@ -17,7 +17,7 @@ import Data.Maybe (fromMaybe)
 import qualified Data.Text as T
 import qualified Data.Text.IO as TIO
 import qualified Data.Text.Lazy as TL
-import System.Directory (copyFile, createDirectoryIfMissing, doesDirectoryExist, doesFileExist, listDirectory)
+import System.Directory (copyFile, createDirectoryIfMissing, createDirectoryLink, createFileLink, doesDirectoryExist, doesFileExist, listDirectory, makeAbsolute)
 import System.Exit (die)
 import System.FilePath (isExtensionOf, takeDirectory, (-<.>), (</>))
 import Text.Blaze.Html (toHtml)
@@ -71,7 +71,12 @@ loadTemplates dir = do
 -- | Set a directory as an output location where the generated website will be
 -- written
 renderTo :: FilePath -> Generator ()
-renderTo dir = tell mempty {outputDirectories = [dir]}
+renderTo dir = tell mempty {outputDirectories = [OutputDir dir CopyStaticFiles]}
+
+-- | Same as `renderTo` but static files are symlinked in output directory
+-- instead of copied
+renderToWithSymlinks :: FilePath -> Generator ()
+renderToWithSymlinks dir = tell mempty {outputDirectories = [OutputDir dir SymlinkStaticFiles]}
 
 -- | Generate all of the files for a static site in the given directory.
 -- This involves rendering each page as an html file, and simply copying the
@@ -88,8 +93,8 @@ generateStaticSite generator = do
   putStrLn "Generating HTML pages"
   forM_ website.pages $ \p -> do
     let pageHtml = renderPage website.templateMap (addAttributes globalAttrs p)
-    forM_ website.outputDirectories $ \odir -> do
-      let writePath = odir </> relativePath (p.sourcePath) -<.> "html"
+    forM_ website.outputDirectories $ \(OutputDir odir _) -> do
+      let writePath = odir </> relativePath p.sourcePath -<.> "html"
       createDirectoryIfMissing True (takeDirectory writePath)
       putStrLn ("\t" <> writePath)
       TIO.writeFile writePath pageHtml
@@ -97,11 +102,15 @@ generateStaticSite generator = do
   -- copy static files
   putStrLn "Copying static files"
   forM_ website.staticFiles $ \spath -> do
-    forM_ website.outputDirectories $ \odir -> do
+    forM_ website.outputDirectories $ \(OutputDir odir mode) -> do
       let toPath = odir </> relativePath spath
       createDirectoryIfMissing True (takeDirectory toPath)
       putStrLn ("\t" <> toPath)
-      copyFile (fullPath spath) toPath
+      case mode of
+        CopyStaticFiles -> copyFile (fullPath spath) toPath
+        SymlinkStaticFiles -> do
+          absPath <- makeAbsolute (fullPath spath)
+          createFileLink absPath toPath
   where
     renderDoc = TL.toStrict . renderHtml . toHtml . content
     renderNoDoc = TL.toStrict . renderHtml . toHtml . stripDocTag . content
