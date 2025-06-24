@@ -5,16 +5,17 @@ projects:
     image: /static/img/thumbnails/propnet-wfc.gif
     built-in: haskell
     category: DSL
+    blog-posts:
+      - /articles/2024/09/05/propagator_networks_pcg.html
     blurb: >
-      An embedded domain sepcific language for relational programming and solving 
-      constraint satisfaction problems.
+      An embedded domain sepcific language for relational programming and constraint 
+      satisfaction problems.
       Under the hood this is powered by propagator networks, a model for computation
       laid out by Gerald Sussman and Alexey Radul in "The Art of the Propagator" (2009).
 
   - repo_name: nebulizer
     image: /static/img/thumbnails/naenae-cat.gif
     built-in: rust
-    category: music
     blurb: >
       A standalone granular synthesizer for playing music on your computer.
       Takes any audio sample and turns it into a fully-playable instrument.
@@ -23,7 +24,8 @@ projects:
   - repo_name: terrain-erosion
     image: /static/img/thumbnails/erosion-terrain.png
     built-in: zig
-    category: graphics/simulation
+    blog-posts:
+      - /articles/2023/12/01/hydraulic_erosion.html
     blurb: >
       A program that generates realistic terrain through simulated hydraulic erosion.  
       Uses different types of 2D-noise to generate an initial heightmap and then 
@@ -33,7 +35,8 @@ projects:
   - repo_name: legs-and-gaits
     image: /static/img/thumbnails/creature-walk.gif
     built-in: godot
-    category: procedural animation
+    blog-posts:
+      - /articles/2024/05/10/parametric_legs_and_gaits.html
     blurb: >
       An experimental technique for procedurally animating quadruped locomotion.
       Introduces a parametric leg structure that can model plantigrade, digitigrade, 
@@ -45,7 +48,6 @@ projects:
   - repo_name: psyn
     image: /static/img/thumbnails/naenae-cat.gif
     built-in: golang
-    category: music
     blurb: >
       An audio sampler that is controlled with UDP messages.
       Each message plays a slice of an audio file and can specify effects for that slice.
@@ -55,7 +57,6 @@ projects:
   - repo_name: shove
     image: /static/img/thumbnails/naenae-cat.gif
     built-in: haskell
-    category: programming language
     blurb: >
       An interpreter for a scripting language that I created.  The language was
       designed with an emphasis on composing functions into intuitively readable pipelines.

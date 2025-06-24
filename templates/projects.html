@@ -71,8 +71,12 @@
                         <td class="stat-value">{{built-in}}</div>
                     </tr>
                     <tr>
-                        <td class="stat-name">category</td>
-                        <td class="stat-value">{{category}}</div>
+                        <td class="stat-name">blog posts</td>
+                        <td class="stat-value">
+                            {{#blog-posts}}
+                            <a class="bracket-link" href="{{.}}">1</a>
+                            {{/blog-posts}}
+                        </td>
                     </tr>
                 </table>
                 <div class="project-blurb">{{blurb}}</div>
