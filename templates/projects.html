@@ -59,25 +59,34 @@
             <div class="project-body">
                 <table class="project-stats">
                     <tr>
-                        <td class="stat-name">created</td>
-                        <td id="{{repo_name}}-created"  class="stat-value">...</div>
+                        <td class="stat-name">created
+                            <div class="dot-spacer"></div>
+                        </td>
+                        <td id="{{repo_name}}-created"  class="stat-value">XXXX-XX-XX</div>
                     </tr>
                     <tr>
-                        <td class="stat-name">updated</td>
-                        <td id="{{repo_name}}-updated"  class="stat-value">...</div>
+                        <td class="stat-name">last update
+                            <div class="dot-spacer"></div>
+                        </td>
+                        <td id="{{repo_name}}-updated"  class="stat-value">XXXX-XX-XX</div>
                     </tr>
                     <tr>
-                        <td class="stat-name">built in</td>
+                        <td class="stat-name">built in
+                            <div class="dot-spacer"></div>
+                        </td>
                         <td class="stat-value">{{built-in}}</div>
                     </tr>
+                    {{! This is a lazy hack and must be fixed if we ever have more than one blog post!!!}}
+                    {{#blog-posts}}
                     <tr>
-                        <td class="stat-name">blog posts</td>
+                        <td class="stat-name">blog posts
+                            <div class="dot-spacer"></div>
+                        </td>
                         <td class="stat-value">
-                            {{#blog-posts}}
                             <a class="bracket-link" href="{{.}}">1</a>
-                            {{/blog-posts}}
                         </td>
                     </tr>
+                    {{/blog-posts}}
                 </table>
                 <div class="project-blurb">{{blurb}}</div>
             </div>

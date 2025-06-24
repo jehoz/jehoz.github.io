@@ -36,10 +36,11 @@
 
 .project-name {
     width: fit-content;
+    font-weight: 600;
 }
 
 .project-blurb {
-    text-transform: none;
+    font-style: italic;
 }
 
 .project-body {
@@ -55,16 +56,26 @@
 
 .project-stats .stat-name {
     vertical-align: top;
-    width: 8rem;
-    text-transform: capitalize;
+    width: 7.5rem;
+    
+    display: flex;
 }
 
-.stat-name::after {
-    content: ":";
+.dot-spacer {
+    word-wrap: break-word;
+    overflow: hidden;
+    height: 1.5em;
+    text-align: end;
+    flex: 1;
+}
+
+.dot-spacer::after {
+    content: "............................";
+    font-weight: 200;
 }
 
 .project-stats .stat-value {
-    width: 9em;
+    width: 7.5em;
     text-transform: uppercase;
 }
 

@@ -86,6 +86,9 @@ ul li p {
     color: var(--dark);
     font-family: var(--header-font);
     text-decoration: none;
+    
+    display: flex;
+    width: fit-content;
 }
 
 .bracket-link::before {
