@@ -1,9 +1,7 @@
 ---
-title: Hydraulic Erosion
-blurb: Simulating erosive rainfall on virtual terrain. Also trying out Zig.
+title: Generating Realistic Terrain with Hydraulic Erosion
 date: 2023-12-01
 template: article.html
-thumbnail: erosion-terrain.png
 include-script:
   - /static/scripts/zig.min.js
 ---

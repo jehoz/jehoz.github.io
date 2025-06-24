@@ -1,9 +1,7 @@
 ---
-title: Propagator networks
-blurb: A computational model for constraint satisfaction problems and procedural generation.
+title: Propagator Networks and Constraint Satisfaction Problems
 date: 2024-09-05
 template: article.html
-thumbnail: propnet-wfc.gif
 syntax: haskell
 ---
 
@@ -13,17 +11,16 @@ something called propagators, and after a bit of digging I found [the paper
 that introduced these
 things](https://dspace.mit.edu/bitstream/handle/1721.1/44215/MIT-CSAIL-TR-2009-002.pdf),
 (which I would highly recommend checking out) written by Alexey Radul and the
-venerable Gerald Sussman. It's an extremely well-written paper and Radul's [PhD
-dissertation from the same
+venerable Gerald Sussman. Radul's [PhD dissertation from the same
 year](https://dspace.mit.edu/bitstream/handle/1721.1/54635/603543210-MIT.pdf)
-is effectively an extended version which explores the concept much more
-thoroughly. 
+is basically an extended version of the paper which explores propagators in
+much more depth. 
 
-Despite the fact that these are both really well-written papers and propagators
-are neat and seemingly useful, they've only really stuck around as a niche thing
-that [guys who are into functional
+Despite the fact that these are both well-written papers describing an
+interesting and seemingly useful approach to computing, propagators have only
+really stuck around as a niche thing that [guys who are into functional
 programming](https://www.youtube.com/watch?v=nY1BCv3xn24) keep rediscovering.
-And guess what — now it's my turn to be one of those guys.
+And I guess now it's my turn to be one of those guys.
 
 ![](res/propagators.png)
 
@@ -61,36 +58,36 @@ keep propagating stuff around forever. And since we'd probably like our
 programs to terminate, we need to carefully decide how to represent this
 "information", and what it means for cells to accumulate it.
 
-## Time for some math
+# Partial information?
 
-Before we come up with a concrete implementation for our "partial information",
-we need to decide what kind of laws it should follow. When a cell gets some new
-information, we intuitively expect the result to be a logical combination of
-the information coming in and whatever the cell already knew.  And if the
-incoming information isn't just redundant, we want that combination to be
-"greater than" either of the inputs on their own, in the sense that it holds
-*more information*.
+In situations like these, it's often easier to talk about *how* something
+behaves than it is to say *what* it is. So let's take that approach:
 
-Whenever we need a way to talk about a class of things that follow some abstract 
-rules, it's a safe bet that
-mathematicians already have an entire field dedicated to what we're looking for.
-And, lo and behold, this is the case for us here.
-A set where we can compare elements using the `<=` relation is called a 
-[partial order](https://en.wikipedia.org/wiki/Partially_ordered_set).
-And better yet, there's a special type of partial order called a 
-[semilattice](https://en.wikipedia.org/wiki/Semilattice) 
-which includes an operation we can use to combine elements.
+When a cell gets some new information, we intuitively expect the result to be a
+synthesis of the information coming in and whatever the cell already
+knew.  And if the incoming information isn't just redundant, we want that
+combination to be "greater than" either of the inputs on its own, in the
+sense that it holds *more information*.
 
-Before I start throwing more jargon around let's get a little example going.
-Say we have a network where we want each cell to settle on one of three values:
-`A`, `B`, or `C`. The information inside a cell in this case is simple: at any
-point in time, a cell stores the set of values it *could* be. We'll initialize
-the cells with the universal set `{A,B,C}` and the idea is that some of these
-elements will get discarded over time until we're down to a singleton, which we
-can interpret as the final definite value for the cell. There's a neat little
-thing called a [Hasse diagram](https://en.wikipedia.org/wiki/Hasse_diagram)
-which lets us visually represent partial orders.  Let's make one for the
-information in our cells.
+Whenever we need a way to talk about a class of things that follow some
+abstract rules, it's a safe bet that mathematicians already have an entire
+field dedicated to what we're looking for. And, surprise surprise, this is the
+case for us here. A set where we can compare elements using the `<=` relation
+is called a [partial
+order](https://en.wikipedia.org/wiki/Partially_ordered_set). And better yet,
+there's a special type of partial order called a
+[semilattice](https://en.wikipedia.org/wiki/Semilattice) which includes an
+operation we can use to combine elements.
+
+Let's get a little example going. Say we have a network where we want each cell
+to settle on one of three values: `A`, `B`, or `C`. The information inside a
+cell in this case is simple: at any point in time, a cell stores the set of
+values it *could* be. We'll initialize the cells with the universal set
+`{A,B,C}` and the idea is that some of these elements will get eliminated over
+time until we're down to a singleton, which we can interpret as the final
+definite value for the cell. There's a neat little thing called a [Hasse
+diagram](https://en.wikipedia.org/wiki/Hasse_diagram) which lets us visually
+represent partial orders.  Let's make one for the information in our cells.
 
 ![](res/hasse.png)
 
@@ -104,12 +101,13 @@ information theory, you should be able to see how the elements contain more
 information (i.e. less entropy) as we move up the graph.
 
 The semilattice operation I mentioned that lets us combine elements is called
-"join" (here we are specifically dealing with join-semilattices; there's a dual
-operation called "meet" for, you guessed it, meet-semilattices). What join
-actually does is gives us the "least upper bound" for two elements of the
-semilattice, which is the lowest element on the Hasse diagram that is greater
-than or equal to both of the operands.  For example, the least upper bound of
-`{A,B}` and `{B,C}` in the diagram above is `{B}` so `{A,B} ∧ {B,C} == {B}`.
+"join" and is written with the `∧` symbol (here we are specifically dealing
+with join-semilattices; there's a dual operation called "meet" for, you guessed
+it, meet-semilattices). What join actually does is gives us the "least upper
+bound" for two elements of the semilattice, which is the lowest element on the
+Hasse diagram that is greater than or equal to both of the operands.  For
+example, the least upper bound of `{A,B}` and `{B,C}` in the diagram above is
+`{B}` so `{A,B} ∧ {B,C} == {B}`.
 
 You might have noticed by now that the top of the Hasse diagram has an empty
 set element `{}`, which doesn't really correspond to a value.  In practice, if

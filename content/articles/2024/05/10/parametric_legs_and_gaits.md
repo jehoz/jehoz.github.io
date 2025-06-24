@@ -1,15 +1,13 @@
 ---
-title: Parametric Legs and Gaits
-blurb: Making natural-looking walking animations with a bunch of trigonometry.
+title: Modeling Tetrapod Legs and Gait Animations
 date: 2024-05-10
 template: article.html
-thumbnail: creature-walk.gif
 ---
 
-Today we're going to look at legs and the way that they move.
-This is in service of a larger "creature generator" project that may or may not
-pan out, so (hopefully) this write-up will be the first of more to come where I
-model and implement some anatomical system.
+Today we're going to look at legs and the way that they move. This is in
+service of a larger project that may or may not pan out, but I think the system
+I came up with is pretty interesting and quite unlike any existing procedural
+animation techniques I've seen.
 
 # What is a leg even really?
 
@@ -20,7 +18,7 @@ things *tetrapods*.  There are also *arthropods* which have a different kind of
 bone-less leg, but we're going to ignore them for now.
 
 Tetrapods are cool because if you compare the limb bones across different
-species, you will find that they are structurally very similar since they all
+species, you will find that they are structurally very similar because they all
 descend from the same nubby proto-legs that those ancient fish developed.
 
 ![](res/tetrapod_homology.png)
@@ -49,7 +47,6 @@ the toe length to zero.
 
 ![](res/leg_parts.png)
 
-Let's think about how we actually want to implement these legs.
 
 # Implementing legs
 
@@ -63,9 +60,9 @@ have the rest of the arm or leg figure out how it needs to bend to make that
 work.  This process where a limb "figures out" how to pose itself is called
 *inverse kinematics* (IK).
 
-It turns out that to make something walk or run, we also only really care about
-how its *feet* move, and so our legs will be completely driven by inverse
-kinematics.  Let's start with a simple example.
+To make something walk or run, we also only really care about how its *feet*
+move, and so our legs will be completely driven by inverse kinematics.  Let's
+start with a simple example.
 
 ## A quick primer on IK
 
