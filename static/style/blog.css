@@ -46,7 +46,6 @@
     }
 }
 
-
 .article-thumbnail img {
     height: var(--thumbnail-size);
     width: var(--thumbnail-size);
@@ -80,5 +79,6 @@
 
 .spacer::after {
     content: "....................................................................................";
+    font-weight: 200;
 }
 
