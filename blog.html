@@ -39,27 +39,27 @@
             },
             {
                 url: "/articles/2024/05/10/parametric_legs_and_gaits.html",
-                title: "Parametric Legs and Gaits",
-                blurb: "Making natural-looking walking animations with a bunch of trigonometry.",
-                thumbnail: "/static/img/thumbnails/creature-walk.gif",
+                title: "Modeling Tetrapod Legs and Gait Animations",
+                blurb: "",
+                thumbnail: "/static/img/thumbnails/",
                 date: "2024-05-10",
                 datePretty: "May 10, 2024",
                 template: "article.html",
             },
             {
                 url: "/articles/2024/09/05/propagator_networks_pcg.html",
-                title: "Propagator networks",
-                blurb: "A computational model for constraint satisfaction problems and procedural generation.",
-                thumbnail: "/static/img/thumbnails/propnet-wfc.gif",
+                title: "Propagator Networks and Constraint Satisfaction Problems",
+                blurb: "",
+                thumbnail: "/static/img/thumbnails/",
                 date: "2024-09-05",
                 datePretty: "Sep 5, 2024",
                 template: "article.html",
             },
             {
                 url: "/articles/2023/12/01/hydraulic_erosion.html",
-                title: "Hydraulic Erosion",
-                blurb: "Simulating erosive rainfall on virtual terrain. Also trying out Zig.",
-                thumbnail: "/static/img/thumbnails/erosion-terrain.png",
+                title: "Generating Realistic Terrain with Hydraulic Erosion",
+                blurb: "",
+                thumbnail: "/static/img/thumbnails/",
                 date: "2023-12-01",
                 datePretty: "Dec 1, 2023",
                 template: "article.html",
@@ -85,11 +85,9 @@
 
                 let articleHTML = `
                 <a class="article-link" href="${a.url}">
-                    <div class="article-details">
-                        <div class="article-date">${a.date}</div>
-                        <div class="spacer"></div>
-                        <div class="article-title">${a.title}</div>
-                    </div>
+                    <div class="article-date">${a.date}</div>
+                    <div class="spacer"></div>
+                    <div class="article-title">${a.title}</div>
                 </a>
                 `
                 listWrapper.innerHTML += articleHTML;

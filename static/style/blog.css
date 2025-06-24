@@ -19,17 +19,31 @@
 .article-link {
     text-decoration: none;
     display: flex;
+    justify-content: space-between;
+    align-content: center;
+    flex-wrap: wrap;
 
     margin: 0.5rem 0;
 
     color: var(--dark);
-
-    flex-direction: column;
 }
 
 .article-link:hover {
     background: var(--dark);
     color: var(--light);
+}
+
+@media only screen and (max-width: 700px) {
+    .article-link {
+        flex-direction: column;
+        align-content: flex-start;
+        
+        margin-bottom: 1rem;
+    }
+    
+    .spacer {
+        display: none;
+    }
 }
 
 
@@ -38,13 +52,6 @@
     width: var(--thumbnail-size);
     object-fit: contain;
     display: none;
-}
-
-.article-details {
-    display: flex;
-    justify-content: space-between;
-    align-content: center;
-    flex-wrap: wrap;
 }
 
 .article-title {
