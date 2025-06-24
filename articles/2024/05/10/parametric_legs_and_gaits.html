@@ -11,8 +11,6 @@
 
     <link rel="stylesheet" type="text/css" href="/static/style/common.css">
     <link rel="stylesheet" type="text/css" href="/static/style/article.css">
-    <link rel="stylesheet" type="text/css" href="/static/fonts/Iosevka/Iosevka.css">
-    <link rel="stylesheet" type="text/css" href="/static/fonts/IosevkaAile/IosevkaAile.css">
 
     <link rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/base16/gigavolt.min.css">
@@ -87,6 +85,8 @@
 <h1>Wrapping up for now</h1><p>That pretty much covers everything I&#39;ve done so far.  I&#39;ve got more ideas that I want to incorporate, but I&#39;m trying to get better at finishing one thing at a time so that I can document my progress with these write-ups.</p><p>The next thing I&#39;d like to tinker with is combining our current gait animation with a more &quot;traditional&quot; kind of procedural walk animation, where the foot stays planted at some position while the body moves forward in space, and then quickly steps forward when the body gets too far away.  Currently our creature is kind of just moonwalking in place, but we obviously want him to be able to move around in some environment.  We could slide the whole creature forward as he&#39;s walking, but this starts to look really bad if the movement speed and animation aren&#39;t perfectly synced up.  And what if the ground is uneven or he&#39;s going up a flight of stairs?</p><p>Also tetrapods obviously aren&#39;t the only animals with legs.  There are all sorts of arthropods like bugs and crabs that have different kinds of legs.  And legs aren&#39;t even the only type of limb!  How would we implement wings, arms, and flippers?</p><p>Anyway, you can check out the source code of the final Godot project <a href="https://github.com/jehoz/legs-and-gaits" title="">here</a>.</p><p>(I&#39;ll try to get a web build of this up and running soon)</p>
         </div>
         <div id="spacer"></div>
+
+        <!--
         <div class="marquee">
             <div id="footer-inner">
                 <span class="marquee-item">
@@ -108,6 +108,7 @@
                 footer.innerHTML = footer.innerHTML.repeat(8);
             </script>
         </div>
+        -->
     </div>
 </body>
 

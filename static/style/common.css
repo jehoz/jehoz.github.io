@@ -1,4 +1,5 @@
-@import url('https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+@import url('/static/fonts/Iosevka/Iosevka.css');
+@import url('/static/fonts/IosevkaAile/IosevkaAile.css');
 
 :root {
     --header-font: 'Iosevka Web', monospace;
@@ -8,7 +9,7 @@
     --dark: #222323;
     --light: #fff;
     
-    --content-width: 900px;
+    --content-width: 800px;
 }
 
 * {
@@ -121,7 +122,7 @@ ul li p {
 
 .content {
     max-width: var(--content-width);
-    margin: 2rem auto;
+    margin: 0 auto;
     padding: 1rem;
     background: var(--light);
     color: var(--dark);

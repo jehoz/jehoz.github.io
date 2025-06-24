@@ -11,8 +11,6 @@
 
     <link rel="stylesheet" type="text/css" href="/static/style/common.css">
     <link rel="stylesheet" type="text/css" href="/static/style/article.css">
-    <link rel="stylesheet" type="text/css" href="/static/fonts/Iosevka/Iosevka.css">
-    <link rel="stylesheet" type="text/css" href="/static/fonts/IosevkaAile/IosevkaAile.css">
 
     <link rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/base16/gigavolt.min.css">
@@ -144,6 +142,8 @@ self.moisture.modify(drop.position, delta_moisture);
 <p>I even got a little crazy at the end and added some <s>trees</s> ambiguous foliage to the wet parts of the terrain with the magic of shell texturing (although it&#39;s a little hard to see unless you zoom in a bit).</p><p><img src="res/05.png" title=""> <img src="res/06.png" title=""></p><p>I&#39;m omitting all of my shader code from this write-up but feel free to check out the source if you&#39;re interested in how it all works.</p><h1>Gallery</h1><p>Here are a few examples I generated to show off the variety you can get by just tweaking parameters and the type of noise used for the initial heightmap.</p><p><img src="res/09.png" title=""> <img src="res/07.png" title=""> <img src="res/08.png" title=""> <img src="res/10.png" title=""> <img src="res/11.png" title=""></p><h1>Appendix: Thoughts on Zig</h1><p>Like I mentioned, part of why I started this entire thing was to play around with Zig.  I&#39;ve been casually keeping my eye on the language since around the time it popped up, but this is the first time I&#39;ve ever used it.</p><p>From what I can tell, Zig is trying to do something unique by specifically competing with C, <em>not</em> C++.  To this end, Zig is a rather minimalist language (kind of like Go) but one that seems to respect your competency as a computer programmer (unlike Go).  It feels a lot like writing C, but without several of the reoccurring headaches you get from writing in C. The downside, though, is that in its current state it adds plenty of its own headaches that kind of ruin the experience.</p><p>I have nitpicks with some of the language design choices, but these are easy to cope with. The real problem is that Zig is still so young (version 0.11.0 as of writing this) and there is a severe lack of good documentation.  Significant parts of the language, standard library, and build system are still in flux, with new versions often breaking backwards compatibility.  A handful of times I found an example of code that did what I wanted, but wouldn&#39;t compile.  Then I had to dig around and find the relevant discussion on a GitHub issue that explained why that API changed and what it was changed to.</p><p>That all being said, I actually like Zig and its design philosophy for the most part.  It&#39;s just currently in a state where using it to any serious capacity means you have to stay up to date with the bleeding edge of the language&#39;s development.</p><p>I imagine most of the sharp edges will get smoothed out come 1.0, and I&#39;m very excited to see what the language looks like at that point.  But until then, I will probably just watch from afar.</p>
         </div>
         <div id="spacer"></div>
+
+        <!--
         <div class="marquee">
             <div id="footer-inner">
                 <span class="marquee-item">
@@ -165,6 +165,7 @@ self.moisture.modify(drop.position, delta_moisture);
                 footer.innerHTML = footer.innerHTML.repeat(8);
             </script>
         </div>
+        -->
     </div>
 </body>
 
