@@ -8,6 +8,12 @@ body {
     margin-bottom: 2rem;
 }
 
+@media only screen and (max-width: 700px) {
+    .content {
+        padding: 1rem 2rem;
+    }
+}
+
 
 a {
     color: #dd2c03;
@@ -74,6 +80,7 @@ pre code {
     flex: 1;
 }
 
+/* 
 .marquee {
     height: 1.5rem;
     width: 100%;
@@ -129,5 +136,6 @@ pre code {
     100% {
         transform: translateX(-30rem);
     }
-}
+} 
+*/
 
