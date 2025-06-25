@@ -27,6 +27,10 @@
     .project-blurb {
         padding-top: 1rem;
     }
+    
+    .project-stats {
+        width: fit-content;
+    }
 }
 
 .project-header {
