@@ -28,7 +28,11 @@ quarantined my thoughts about the language to a brief section at the end.
 
 A lot of the code in this write-up has been pared down for readability, but if 
 you want to read through the full source code, it's available on my GitHub 
-[here](https://github.com/jehoz/TerrainGen).
+[here](https://github.com/jehoz/terrain-erosion).
+
+> **UPDATE:** I've since rewritten this project in C++ with a handful of improvements.  
+> You can find the newer version [here](https://github.com/jehoz/hydraulic-erosion).
+> The erosion technique is effectively the same as the one I describe here, though.
 
 # Before we start
 
