@@ -11,7 +11,7 @@
 
     <script>
         let projects = [
-            "propnet","nebulizer","terrain-erosion","legs-and-gaits","psyn","shove",
+            "propnet","nebulizer","hydraulic-erosion","legs-and-gaits","psyn","shove",
         ];
 
         function populateDateFields() {
@@ -41,13 +41,13 @@
         <a class="bracket-link" href="/projects.html">
             projects
         </a>
-        <a class="bracket-link" href="/blog.html">
-            blog
-        </a>
+        <!-- <a class="bracket-link" href="/blog.html"> -->
+        <!--     blog -->
+        <!-- </a> -->
     </div>
     <div class="content">
         <div class="content-header">
-            PROJECTS
+            SOFTWARE
         </div>
         <div class="project-wrapper">
             <div class="project-header">
@@ -75,17 +75,12 @@
                         </td>
                         <td class="stat-value">haskell</div>
                     </tr>
-                    <tr>
-                        <td class="stat-name">blog posts
-                            <div class="dot-spacer"></div>
-                        </td>
-                        <td class="stat-value">
-                            <a class="bracket-link" href="/articles/2024/09/05/propagator_networks_pcg.html">1</a>
-                        </td>
-                    </tr>
                 </table>
-                <div class="project-blurb">An embedded domain sepcific language for relational programming and constraint  satisfaction problems. Under the hood this is powered by propagator networks, a model for computation laid out by Gerald Sussman and Alexey Radul in &quot;The Art of the Propagator&quot; (2009).
-</div>
+                <div class="project-blurb">
+                    An embedded domain sepcific language for relational programming and constraint  satisfaction problems. Under the hood this is powered by propagator networks, a model for computation laid out by Gerald Sussman and Alexey Radul in &quot;The Art of the Propagator&quot; (2009).
+
+                        <a class="bracket-link read-more-link" href="/articles/2024/09/05/propagator_networks_pcg.html">read more</a> </td>
+                </div>
             </div>
         </div>
         <div class="project-wrapper">
@@ -115,14 +110,16 @@
                         <td class="stat-value">rust</div>
                     </tr>
                 </table>
-                <div class="project-blurb">A standalone granular synthesizer for playing music on your computer. Takes any audio sample and turns it into a fully-playable instrument. Ready to use with a MIDI device or incorporate into your music livecoding setup.
-</div>
+                <div class="project-blurb">
+                    A standalone granular synthesizer for playing music on your computer. Takes any audio sample and turns it into a fully-playable instrument. Ready to use with a MIDI device or incorporate into your music livecoding setup.
+
+                </div>
             </div>
         </div>
         <div class="project-wrapper">
             <div class="project-header">
-                <a class="project-name bracket-link" href="https://github.com/jehoz/terrain-erosion">
-                    terrain-erosion
+                <a class="project-name bracket-link" href="https://github.com/jehoz/hydraulic-erosion">
+                    hydraulic-erosion
                 </a>
             </div>
             <div class="project-body">
@@ -131,31 +128,26 @@
                         <td class="stat-name">created
                             <div class="dot-spacer"></div>
                         </td>
-                        <td id="terrain-erosion-created"  class="stat-value">XXXX-XX-XX</div>
+                        <td id="hydraulic-erosion-created"  class="stat-value">XXXX-XX-XX</div>
                     </tr>
                     <tr>
                         <td class="stat-name">last update
                             <div class="dot-spacer"></div>
                         </td>
-                        <td id="terrain-erosion-updated"  class="stat-value">XXXX-XX-XX</div>
+                        <td id="hydraulic-erosion-updated"  class="stat-value">XXXX-XX-XX</div>
                     </tr>
                     <tr>
                         <td class="stat-name">built in
                             <div class="dot-spacer"></div>
                         </td>
-                        <td class="stat-value">zig</div>
-                    </tr>
-                    <tr>
-                        <td class="stat-name">blog posts
-                            <div class="dot-spacer"></div>
-                        </td>
-                        <td class="stat-value">
-                            <a class="bracket-link" href="/articles/2023/12/01/hydraulic_erosion.html">1</a>
-                        </td>
+                        <td class="stat-value">c++</div>
                     </tr>
                 </table>
-                <div class="project-blurb">A program that generates realistic terrain through simulated hydraulic erosion.   Uses different types of 2D-noise to generate an initial heightmap and then  simulates a large number of water droplets, each of which makes small modifications to the terrain.
-</div>
+                <div class="project-blurb">
+                    A program that creates realistic looking terrain through simulated hydraulic erosion.   Allows you to generate an initial heighmap with different types of 2D noise and then  simulate rainfall over time, where each droplet of water makes small modifications to the terrain.
+
+                        <a class="bracket-link read-more-link" href="/articles/2023/12/01/hydraulic_erosion.html">read more</a> </td>
+                </div>
             </div>
         </div>
         <div class="project-wrapper">
@@ -184,17 +176,12 @@
                         </td>
                         <td class="stat-value">godot</div>
                     </tr>
-                    <tr>
-                        <td class="stat-name">blog posts
-                            <div class="dot-spacer"></div>
-                        </td>
-                        <td class="stat-value">
-                            <a class="bracket-link" href="/articles/2024/05/10/parametric_legs_and_gaits.html">1</a>
-                        </td>
-                    </tr>
                 </table>
-                <div class="project-blurb">An experimental technique for procedurally animating quadruped locomotion. Introduces a parametric leg structure that can model plantigrade, digitigrade,  and ungiligrade legs. Uses analytic IK for bone transformations (instead of the usual numerical  IK techniques used in procedural animation) and coordinates foot movement  with specially tuned wave functions.
-</div>
+                <div class="project-blurb">
+                    Proof-of-concept implementation of technique that I developed for procedurally animating  quadruped locomotion. Introduces a parametric leg structure that can model plantigrade,  digitigrade, and ungiligrade legs. Uses analytic IK for bone transformations (instead of the usual numerical  IK techniques used in procedural animation) and coordinates foot movement  with specially tuned wave functions and phase offsets between the legs.
+
+                        <a class="bracket-link read-more-link" href="/articles/2024/05/10/parametric_legs_and_gaits.html">read more</a> </td>
+                </div>
             </div>
         </div>
         <div class="project-wrapper">
@@ -224,8 +211,10 @@
                         <td class="stat-value">golang</div>
                     </tr>
                 </table>
-                <div class="project-blurb">An audio sampler that is controlled with UDP messages. Each message plays a slice of an audio file and can specify effects for that slice. I made this to use with the Orca sequencer, but anything that can send strings  over UDP should work just as well.
-</div>
+                <div class="project-blurb">
+                    An audio sampler that is controlled with UDP messages. Each message plays a slice of an audio file and can specify effects for that slice. I made this to use with the Orca sequencer, but anything that can send strings  over UDP should work just as well.
+
+                </div>
             </div>
         </div>
         <div class="project-wrapper">
@@ -255,8 +244,10 @@
                         <td class="stat-value">haskell</div>
                     </tr>
                 </table>
-                <div class="project-blurb">An interpreter for a scripting language that I created.  The language was designed with an emphasis on composing functions into intuitively readable pipelines. Not especially practical in its current state, but contains some interesting design features that I&#39;d like to expand on.
-</div>
+                <div class="project-blurb">
+                    A scripting language designed with an emphasis on composing functions into pipelines  in an intuitive and readable way. Not very practical in its current state, but contains some interesting design features that I&#39;d like to take further at some point.
+
+                </div>
             </div>
         </div>
     </div>
