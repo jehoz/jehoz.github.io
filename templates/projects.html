@@ -41,13 +41,13 @@
         <a class="bracket-link" href="/projects.html">
             projects
         </a>
-        <a class="bracket-link" href="/blog.html">
-            blog
-        </a>
+        <!-- <a class="bracket-link" href="/blog.html"> -->
+        <!--     blog -->
+        <!-- </a> -->
     </div>
     <div class="content">
         <div class="content-header">
-            PROJECTS
+            SOFTWARE
         </div>
         {{#projects}}
         <div class="project-wrapper">
@@ -76,19 +76,13 @@
                         </td>
                         <td class="stat-value">{{built-in}}</div>
                     </tr>
-                    {{! This is a lazy hack and must be fixed if we ever have more than one blog post!!!}}
-                    {{#blog-posts}}
-                    <tr>
-                        <td class="stat-name">blog posts
-                            <div class="dot-spacer"></div>
-                        </td>
-                        <td class="stat-value">
-                            <a class="bracket-link" href="{{.}}">1</a>
-                        </td>
-                    </tr>
-                    {{/blog-posts}}
                 </table>
-                <div class="project-blurb">{{blurb}}</div>
+                <div class="project-blurb">
+                    {{blurb}}
+                    {{#article}}
+                        <a class="bracket-link read-more-link" href="{{.}}">read more</a> </td>
+                    {{/article}}
+                </div>
             </div>
         </div>
         {{/projects}}
