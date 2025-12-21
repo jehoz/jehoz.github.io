@@ -1,0 +1,36 @@
+.content-header {
+    font-family: var(--header-font);
+    
+    margin: 1rem;
+
+    font-size: 1rem;
+    text-align: center;
+}
+
+.module-wrapper {
+    font-family: var(--header-font);
+    
+/*     border: 1px solid black; */
+    
+    display: flex;
+    
+    padding: 1em;
+/*     max-width: 20em; */
+}
+
+.module-thumbnail {
+    height: 160px;
+    border: 1px solid var(--dark);
+    
+    margin-right: 1em;
+}
+
+.module-name {
+    width: fit-content;
+    font-weight: 600;
+}
+
+.module-blurb {
+    margin-top: 1em;
+    font-style: italic;
+}
