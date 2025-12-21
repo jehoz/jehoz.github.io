@@ -1,0 +1,8 @@
+<div class="nav-bar">
+    <a class="bracket-link" href="/">
+        about
+    </a>
+    <a class="bracket-link" href="/projects.html">
+        software
+    </a>
+</div>
