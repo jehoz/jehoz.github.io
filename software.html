@@ -4,14 +4,14 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>projects</title>
+    <title>SOFTWARE</title>
 
     <link rel="stylesheet" type="text/css" href="/static/style/common.css">
-    <link rel="stylesheet" type="text/css" href="/static/style/projects.css">
+    <link rel="stylesheet" type="text/css" href="/static/style/software.css">
 
     <script>
         let projects = [
-            "propnet","nebulizer","hydraulic-erosion","legs-and-gaits","psyn","shove",
+            "propnet","nebulizer","hydraulic-erosion","legs-and-gaits","shove",
         ];
 
         function populateDateFields() {
@@ -38,17 +38,14 @@
         <a class="bracket-link" href="/">
             about
         </a>
-        <a class="bracket-link" href="/projects.html">
-            projects
+        <a class="bracket-link" href="/software.html">
+            software
         </a>
-        <!-- <a class="bracket-link" href="/blog.html"> -->
-        <!--     blog -->
-        <!-- </a> -->
+        <a class="bracket-link" href="/synth.html">
+            synth
+        </a>
     </div>
     <div class="content">
-        <div class="content-header">
-            SOFTWARE
-        </div>
         <div class="project-wrapper">
             <div class="project-header">
                 <a class="project-name bracket-link" href="https://github.com/jehoz/propnet">
@@ -77,7 +74,7 @@
                     </tr>
                 </table>
                 <div class="project-blurb">
-                    An embedded domain sepcific language for relational programming and constraint  satisfaction problems. Under the hood this is powered by propagator networks, a model for computation laid out by Gerald Sussman and Alexey Radul in &quot;The Art of the Propagator&quot; (2009).
+                    An embedded domain specific language for relational programming and constraint  satisfaction problems. Under the hood this is powered by propagator networks, a model for computation laid out by Gerald Sussman and Alexey Radul in &quot;The Art of the Propagator&quot; (2009).
 
                         <a class="bracket-link read-more-link" href="/articles/2024/09/05/propagator_networks_pcg.html">read more</a> </td>
                 </div>
@@ -181,39 +178,6 @@
                     Proof-of-concept implementation of technique that I developed for procedurally animating  quadruped locomotion. Introduces a parametric leg structure that can model plantigrade,  digitigrade, and ungiligrade legs. Uses analytic IK for bone transformations (instead of the usual numerical  IK techniques used in procedural animation) and coordinates foot movement  with specially tuned wave functions and phase offsets between the legs.
 
                         <a class="bracket-link read-more-link" href="/articles/2024/05/10/parametric_legs_and_gaits.html">read more</a> </td>
-                </div>
-            </div>
-        </div>
-        <div class="project-wrapper">
-            <div class="project-header">
-                <a class="project-name bracket-link" href="https://github.com/jehoz/psyn">
-                    psyn
-                </a>
-            </div>
-            <div class="project-body">
-                <table class="project-stats">
-                    <tr>
-                        <td class="stat-name">created
-                            <div class="dot-spacer"></div>
-                        </td>
-                        <td id="psyn-created"  class="stat-value">XXXX-XX-XX</div>
-                    </tr>
-                    <tr>
-                        <td class="stat-name">last update
-                            <div class="dot-spacer"></div>
-                        </td>
-                        <td id="psyn-updated"  class="stat-value">XXXX-XX-XX</div>
-                    </tr>
-                    <tr>
-                        <td class="stat-name">built in
-                            <div class="dot-spacer"></div>
-                        </td>
-                        <td class="stat-value">golang</div>
-                    </tr>
-                </table>
-                <div class="project-blurb">
-                    An audio sampler that is controlled with UDP messages. Each message plays a slice of an audio file and can specify effects for that slice. I made this to use with the Orca sequencer, but anything that can send strings  over UDP should work just as well.
-
                 </div>
             </div>
         </div>
