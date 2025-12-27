@@ -3,6 +3,7 @@ template: software.html
 projects:
   - repo_name: graf
     built-in: rust
+    youtube-link: https://www.youtube.com/embed/QiUZdrTPDJc
     blurb: >
       An experimental music sequencer where you create musical patterns using boolean circuits.
       Still in development.
@@ -35,6 +36,7 @@ projects:
   - repo_name: legs-and-gaits
     built-in: godot
     article: /articles/2024/05/10/parametric_legs_and_gaits.html
+    youtube-link: https://www.youtube.com/embed/a7657wGcEPI
     blurb: >
       Proof-of-concept implementation of technique that I developed for procedurally animating 
       quadruped locomotion. Introduces a parametric leg structure that can model plantigrade, 

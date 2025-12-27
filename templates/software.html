@@ -71,6 +71,16 @@
                     {{/article}}
                 </div>
             </div>
+            <div class="project-media">
+                {{#youtube-link}}
+                <iframe src="{{.}}" 
+                    title="YouTube video player" 
+                    frameborder="0" 
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                    referrerpolicy="strict-origin-when-cross-origin" allowfullscreen="" width="480" height="270">
+                </iframe>
+                {{/youtube-link}}
+            </div>
         </div>
         {{/projects}}
     </div>
