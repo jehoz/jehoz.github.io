@@ -55,6 +55,12 @@
     display: flex;
 }
 
+.project-media {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 1em;
+}
+
 .project-stats {
     min-width: fit-content;
     height: fit-content;
