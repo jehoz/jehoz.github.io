@@ -1,6 +1,19 @@
 ---
 template: software.html
 projects:
+  - repo_name: graf
+    built-in: rust
+    blurb: >
+      An experimental music sequencer where you create musical patterns using boolean circuits.
+      Still in development.
+ 
+  - repo_name: nebulizer
+    built-in: rust
+    blurb: >
+      A standalone granular synthesizer for playing music on your computer.
+      Takes any audio sample and turns it into a fully-playable instrument.
+      Ready to use with a MIDI device or incorporate into your music livecoding setup.
+
   - repo_name: propnet
     built-in: haskell
     article: /articles/2024/09/05/propagator_networks_pcg.html
@@ -9,13 +22,6 @@ projects:
       satisfaction problems.
       Under the hood this is powered by propagator networks, a model for computation
       laid out by Gerald Sussman and Alexey Radul in "The Art of the Propagator" (2009).
-
-  - repo_name: nebulizer
-    built-in: rust
-    blurb: >
-      A standalone granular synthesizer for playing music on your computer.
-      Takes any audio sample and turns it into a fully-playable instrument.
-      Ready to use with a MIDI device or incorporate into your music livecoding setup.
 
   - repo_name: hydraulic-erosion
     built-in: c++
