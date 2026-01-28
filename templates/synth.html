@@ -15,11 +15,9 @@
     {{> partials/navbar }}
     <div class="content">
         <div class="content-header">
-            In an effort to learn more about electronics, I'm building a modular synthesizer 
-            totally from scratch.
+            I am building a modular synthesizer totally from scratch!
             <br>
-            I forsee this being a pretty long-term project and I'm still in the very early stages right now,
-            so expect to see more here very soon!
+            I'm still in the very early stages of this long-term project, so expect to see more here very soon...
         </div>
         {{#modules}}
         <div class="module-wrapper">
@@ -27,7 +25,11 @@
             <div class="module-info">
                 <div class="module-name">{{name}}</div>
                 <div class="module-size">{{size}}</div>
-                <div class="module-blurb">{{blurb}}</div>
+                <div class="module-blurb">{{blurb}}
+                    {{#link}}
+                    <a class="bracket-link read-more-link" href="{{.}}">details</a> </td>
+                    {{/link}}
+                </div>
             </div>
         </div>
         {{/modules}}
