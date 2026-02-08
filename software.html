@@ -16,13 +16,13 @@
 
         function populateDateFields() {
             for (const repoName of projects) {
-                fetch(`https://api.github.com/repos/jehoz/${repoName}/commits`)
+                fetch(`https://api.github.com/repos/jehoz/${repoName}`)
                     .then(res => res.json())
                     .then(data => {
-                        let created = data[data.length - 1]["commit"]["committer"]["date"].split("T")[0];
+                        let created = data["created_at"].split("T")[0];
                         document.getElementById(`${repoName}-created`).innerHTML = created;
 
-                        let updated = data[0]["commit"]["committer"]["date"].split("T")[0];
+                        let updated = data["updated_at"].split("T")[0];
                         document.getElementById(`${repoName}-updated`).innerHTML = updated;
                     })
                     .catch(error => console.error(error));
